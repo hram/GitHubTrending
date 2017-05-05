@@ -8,7 +8,7 @@ import com.github.florent37.retrojsoup.annotations.JsoupText;
 /**
  * @author hram on 05.03.2017.
  */
-public class Repository {
+public class RepositoryModel {
 
     @JsoupText(".text-normal")
     String mUser;

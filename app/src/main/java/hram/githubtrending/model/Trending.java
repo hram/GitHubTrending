@@ -2,7 +2,7 @@ package hram.githubtrending.model;
 
 import com.github.florent37.retrojsoup.annotations.Select;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * @author hram on 05.03.2017.
@@ -10,5 +10,5 @@ import rx.Observable;
 public interface Trending {
 
     @Select(".repo-list .col-12")
-    Observable<Repository> getJava();
+    Observable<RepositoryModel> getJava();
 }
