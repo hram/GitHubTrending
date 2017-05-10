@@ -6,7 +6,7 @@ import com.github.florent37.retrojsoup.annotations.JsoupHref;
 import com.github.florent37.retrojsoup.annotations.JsoupText;
 
 /**
- * @author hram on 05.03.2017.
+ * @author Evgeny Khramov
  */
 public class RepositoryModel {
 
@@ -28,7 +28,7 @@ public class RepositoryModel {
     @JsoupText(".f6 :eq(3)")
     String mForks;
 
-    @JsoupText(".f6 :eq(4)")
+    @JsoupText(".f6 :eq(5)")
     String mStarsToday;
 
     @NonNull
@@ -63,5 +63,18 @@ public class RepositoryModel {
 
     public String getStarsToday() {
         return mStarsToday;
+    }
+
+    @Override
+    public String toString() {
+        return "RepositoryModel{" +
+                "mUser='" + mUser + '\'' +
+                ", mTitle='" + mTitle + '\'' +
+                ", href='" + href + '\'' +
+                ", mDescription='" + mDescription + '\'' +
+                ", mAllStars='" + mAllStars + '\'' +
+                ", mForks='" + mForks + '\'' +
+                ", mStarsToday='" + mStarsToday + '\'' +
+                '}';
     }
 }

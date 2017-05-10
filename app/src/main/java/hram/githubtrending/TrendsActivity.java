@@ -23,8 +23,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class TrendsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    private List<RepositoryModel> mRepositories;
-
     RepositoriesViewModel mRepositoriesViewModel;
 
     ActivityMainBinding mBinding;
@@ -49,7 +47,7 @@ public class TrendsActivity extends AppCompatActivity implements SwipeRefreshLay
     private SingleSource<List<RepositoryViewModel>> mapToViewModel(List<RepositoryModel> list) {
         final List<RepositoryViewModel> items = new ArrayList<>(list.size());
         for (RepositoryModel model : list) {
-            items.add(new RepositoryViewModel(model.getTitle()));
+            items.add(RepositoryViewModel.create(model));
         }
         return Single.just(items);
     }

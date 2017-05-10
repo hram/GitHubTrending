@@ -40,7 +40,7 @@ public class ExampleUnitTest {
 //        assertThat(first.getUser(), is("alibaba /"));
 //        assertThat(first.getTitle(), is("alibaba / vlayout"));
 //        assertThat(first.getHref(), is("/alibaba/vlayout"));
-//        assertThat(first.getDescription(), is("Project vlayout is a powerfull LayoutManager extension for RecyclerView, it provides a group of layouts for RecyclerView. Make it able to handle a complicate situation when grid, list and other layouts in the same recyclerview."));
+//        assertThat(first.getDescription(), is("Project vlayout... "));
 //        assertThat(first.getAllStars(), is("737"));
 //        assertThat(first.getForks(), is("82"));
 //        assertThat(first.getStarsToday(), is("190 stars today"));
