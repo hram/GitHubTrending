@@ -3,8 +3,9 @@ package hram.githubtrending.trends;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
+
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
 
@@ -13,13 +14,14 @@ import hram.githubtrending.databinding.ActivityMainBinding;
 import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
 
-public class TrendsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, TrendsView {
+public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
 
     RepositoriesViewModel mRepositoriesViewModel;
 
     ActivityMainBinding mBinding;
 
-    private TrendsPresenter mPresenter;
+    @InjectPresenter
+    TrendsPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,30 +33,11 @@ public class TrendsActivity extends AppCompatActivity implements SwipeRefreshLay
         mBinding.setViewModel(mRepositoriesViewModel);
         mBinding.executePendingBindings();
 
-        mBinding.refreshLayout.setOnRefreshListener(this);
+        mBinding.refreshLayout.setOnRefreshListener(() -> mPresenter.refresh());
         mBinding.refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
-        mPresenter = new TrendsPresenter();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mPresenter.attachView(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mPresenter.detachView();
-    }
-
-    @Override
-    public void onRefresh() {
-        mPresenter.refresh();
     }
 
     @Override

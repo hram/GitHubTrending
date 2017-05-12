@@ -10,5 +10,8 @@ import io.reactivex.Observable;
 public interface Trending {
 
     @Select(".repo-list .col-12")
-    Observable<RepositoryModel> getJava();
+    Observable<RepositoryModel> getRepositories();
+
+    @Select(".column.one-fourth .select-menu-item")
+    Observable<LanguageModel> getLanguages();
 }

@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Contract;
 
 import hram.githubtrending.BR;
 import hram.githubtrending.model.RepositoryModel;
-import hugo.weaving.DebugLog;
 
 /**
  * @author Evgeny Khramov
@@ -39,7 +38,6 @@ public class RepositoryViewModel extends BaseObservable {
     @Bindable
     private String mForks;
 
-    @DebugLog
     @Contract("_ -> !null")
     public static RepositoryViewModel create(@NonNull RepositoryModel model) {
         return new RepositoryViewModel(model);

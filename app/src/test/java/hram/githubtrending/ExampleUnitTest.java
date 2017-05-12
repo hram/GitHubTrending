@@ -24,7 +24,7 @@ public class ExampleUnitTest {
 //                .build()
 //                .create(Trending.class);
 //
-//        trending.getJava()
+//        trending.getRepositories()
 //                .toList()
 //                .subscribeOn(Schedulers.newThread())
 //                .observeOn(AndroidSchedulers.mainThread())
