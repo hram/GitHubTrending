@@ -24,4 +24,8 @@ public class RepositoriesViewModel {
         items.clear();
         items.addAll(list);
     }
+
+    public void removeItem(int position) {
+        items.remove(position);
+    }
 }

@@ -1,6 +1,8 @@
 package hram.githubtrending.trends;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -22,6 +24,21 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class TrendsPresenter extends MvpPresenter<TrendsView> {
 
+    private ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            getViewState().removeItem(viewHolder.getAdapterPosition());
+        }
+    };
+
+    private ItemTouchHelper mTouchHelper;
+
     public void getRepositories() {
     }
 
@@ -29,6 +46,19 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         loadRepositories(true);
+    }
+
+    @Override
+    public void attachView(TrendsView view) {
+        super.attachView(view);
+        mTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        getViewState().attachToRecyclerView(mTouchHelper);
+    }
+
+    @Override
+    public void detachView(TrendsView view) {
+        super.detachView(view);
+        mTouchHelper.attachToRecyclerView(null);
     }
 
     public void loadRepositories(boolean isRefreshing) {
@@ -53,7 +83,6 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
                 .subscribe(this::handleLanguages, this::handleError);
     }
 
-    //@DebugLog
     private void handleLanguages(@NonNull List<LanguageViewModel> list) {
 
     }

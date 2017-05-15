@@ -1,14 +1,18 @@
 package hram.githubtrending.viewmodel;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.View;
 
 import org.jetbrains.annotations.Contract;
 
 import hram.githubtrending.BR;
+import hram.githubtrending.BuildConfig;
 import hram.githubtrending.model.RepositoryModel;
+import hugo.weaving.DebugLog;
 
 /**
  * @author Evgeny Khramov
@@ -38,12 +42,16 @@ public class RepositoryViewModel extends BaseObservable {
     @Bindable
     private String mForks;
 
+    RepositoryModel mModel;
+
     @Contract("_ -> !null")
     public static RepositoryViewModel create(@NonNull RepositoryModel model) {
         return new RepositoryViewModel(model);
     }
 
+    @DebugLog
     private RepositoryViewModel(@NonNull RepositoryModel model) {
+        mModel = model;
         mTitle = model.getTitle();
         mDescription = model.getDescription();
         mStarsToday = model.getStarsToday();
@@ -91,5 +99,15 @@ public class RepositoryViewModel extends BaseObservable {
         mChecked = !mChecked;
         notifyPropertyChanged(BR.checked);
         return true;
+    }
+
+    @DebugLog
+    public void onClick(View view) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.URL_BASE + mModel.getHref()));
+            view.getContext().startActivity(intent);
+        } catch (Exception e) {
+            // do nothing
+        }
     }
 }

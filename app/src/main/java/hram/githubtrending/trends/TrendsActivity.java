@@ -3,6 +3,7 @@ package hram.githubtrending.trends;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -48,5 +49,15 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
     @Override
     public void setRefreshing(boolean refreshing) {
         mBinding.refreshLayout.setRefreshing(refreshing);
+    }
+
+    @Override
+    public void attachToRecyclerView(@NonNull ItemTouchHelper itemTouchHelper) {
+        itemTouchHelper.attachToRecyclerView(mBinding.recyclerview);
+    }
+
+    @Override
+    public void removeItem(int position) {
+        mRepositoriesViewModel.removeItem(position);
     }
 }
