@@ -2,7 +2,8 @@ package hram.githubtrending;
 
 import java.util.List;
 
-import hram.githubtrending.model.RepositoryModel;
+import hram.githubtrending.data.model.Repository;
+
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -11,7 +12,7 @@ import hram.githubtrending.model.RepositoryModel;
  */
 public class ExampleUnitTest {
 
-    private List<RepositoryModel> mRepositories;
+    private List<Repository> mRepositories;
 
 //    @Test
 //    public void testRequest() throws InterruptedException {
@@ -35,7 +36,7 @@ public class ExampleUnitTest {
 //
 //        assertThat(mRepositoriesViewModel.size(), is(25));
 //
-//        RepositoryModel first = mRepositoriesViewModel.get(0);
+//        Repository first = mRepositoriesViewModel.get(0);
 //
 //        assertThat(first.getUser(), is("alibaba /"));
 //        assertThat(first.getTitle(), is("alibaba / vlayout"));

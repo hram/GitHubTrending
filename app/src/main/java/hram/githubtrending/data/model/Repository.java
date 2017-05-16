@@ -1,14 +1,18 @@
-package hram.githubtrending.model;
+package hram.githubtrending.data.model;
 
 import android.support.annotation.NonNull;
 
 import com.github.florent37.retrojsoup.annotations.JsoupHref;
 import com.github.florent37.retrojsoup.annotations.JsoupText;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * @author Evgeny Khramov
  */
-public class RepositoryModel {
+
+public class Repository extends RealmObject {
 
     @JsoupText(".text-normal")
     String mUser;
@@ -16,6 +20,7 @@ public class RepositoryModel {
     @JsoupText(".d-inline-block a")
     String mTitle;
 
+    @PrimaryKey
     @JsoupHref(".d-inline-block a")
     String href;
 
@@ -31,43 +36,85 @@ public class RepositoryModel {
     @JsoupText(".f6 :eq(5)")
     String mStarsToday;
 
-    @NonNull
+    String mLanguage;
+
+    String mTimeSpan;
+
     public String getUser() {
         return mUser;
     }
 
-    @NonNull
+    public void setUser(@NonNull String user) {
+        mUser = user;
+    }
+
     public String getTitle() {
         return mTitle;
     }
 
-    @NonNull
+    public void setTitle(@NonNull String title) {
+        mTitle = title;
+    }
+
     public String getHref() {
         return href;
     }
 
-    @NonNull
+    public void setHref(@NonNull String href) {
+        this.href = href;
+    }
+
     public String getDescription() {
         return mDescription;
     }
 
-    @NonNull
+    public void setDescription(@NonNull String description) {
+        mDescription = description;
+    }
+
     public String getAllStars() {
         return mAllStars;
     }
 
-    @NonNull
+    public void setAllStars(@NonNull String allStars) {
+        mAllStars = allStars;
+    }
+
     public String getForks() {
         return mForks;
+    }
+
+    public void setForks(@NonNull String forks) {
+        mForks = forks;
     }
 
     public String getStarsToday() {
         return mStarsToday;
     }
 
+    public void setStarsToday(@NonNull String starsToday) {
+        mStarsToday = starsToday;
+    }
+
+    public String getLanguage() {
+        return mLanguage;
+    }
+
+    public void setLanguage(@NonNull String language) {
+        mLanguage = language;
+    }
+
+    public String getTimeSpan() {
+        return mTimeSpan;
+    }
+
+    public void setTimeSpan(@NonNull String timeSpan) {
+        mTimeSpan = timeSpan;
+    }
+
     @Override
     public String toString() {
-        return "RepositoryModel{" +
+        return "Repository{" +
                 "mUser='" + mUser + '\'' +
                 ", mTitle='" + mTitle + '\'' +
                 ", href='" + href + '\'' +

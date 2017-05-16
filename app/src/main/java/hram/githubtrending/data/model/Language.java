@@ -1,4 +1,4 @@
-package hram.githubtrending.model;
+package hram.githubtrending.data.model;
 
 import android.support.annotation.NonNull;
 
@@ -9,7 +9,7 @@ import com.github.florent37.retrojsoup.annotations.JsoupText;
  * @author Evgeny Khramov
  */
 
-public class LanguageModel {
+public class Language {
 
     @JsoupHref("a")
     String href;
@@ -29,7 +29,7 @@ public class LanguageModel {
 
     @Override
     public String toString() {
-        return "LanguageModel{" +
+        return "Language{" +
                 "mName='" + mName + '\'' +
                 '}';
     }

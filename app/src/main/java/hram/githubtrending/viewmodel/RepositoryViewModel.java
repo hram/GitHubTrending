@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Contract;
 
 import hram.githubtrending.BR;
 import hram.githubtrending.BuildConfig;
-import hram.githubtrending.model.RepositoryModel;
+import hram.githubtrending.data.model.Repository;
 import hugo.weaving.DebugLog;
 
 /**
@@ -19,6 +19,7 @@ import hugo.weaving.DebugLog;
  */
 
 public class RepositoryViewModel extends BaseObservable {
+
     public boolean checkable;
 
     @Bindable
@@ -42,15 +43,14 @@ public class RepositoryViewModel extends BaseObservable {
     @Bindable
     private String mForks;
 
-    RepositoryModel mModel;
+    Repository mModel;
 
     @Contract("_ -> !null")
-    public static RepositoryViewModel create(@NonNull RepositoryModel model) {
+    public static RepositoryViewModel create(@NonNull Repository model) {
         return new RepositoryViewModel(model);
     }
 
-    @DebugLog
-    private RepositoryViewModel(@NonNull RepositoryModel model) {
+    private RepositoryViewModel(@NonNull Repository model) {
         mModel = model;
         mTitle = model.getTitle();
         mDescription = model.getDescription();

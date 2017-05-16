@@ -11,8 +11,6 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.util.List;
 
 import hram.githubtrending.data.DataManager;
-import hram.githubtrending.model.Language;
-import hram.githubtrending.model.TimeSpan;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -63,7 +61,8 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
 
     public void loadRepositories(boolean isRefreshing) {
         getViewState().setRefreshing(isRefreshing);
-        DataManager.getInstance().getRepositories(Language.JAVA, TimeSpan.DAILY)
+        // TODO
+        DataManager.getInstance().getRepositories("java", "daily")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleRepositories, this::handleError);

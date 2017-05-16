@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.Contract;
 
-import hram.githubtrending.model.LanguageModel;
+import hram.githubtrending.data.model.Language;
 
 /**
  * @author Evgeny Khramov
@@ -20,11 +20,11 @@ public class LanguageViewModel extends BaseObservable {
     private String mHref;
 
     @Contract("_ -> !null")
-    public static LanguageViewModel create(@NonNull LanguageModel model) {
+    public static LanguageViewModel create(@NonNull Language model) {
         return new LanguageViewModel(model);
     }
 
-    private LanguageViewModel(@NonNull LanguageModel model) {
+    private LanguageViewModel(@NonNull Language model) {
         mName = model.getName();
         mHref = model.getHref();
     }

@@ -1,7 +1,9 @@
-package hram.githubtrending.model;
+package hram.githubtrending.data.network;
 
 import com.github.florent37.retrojsoup.annotations.Select;
 
+import hram.githubtrending.data.model.Language;
+import hram.githubtrending.data.model.Repository;
 import io.reactivex.Observable;
 
 /**
@@ -10,8 +12,8 @@ import io.reactivex.Observable;
 public interface Trending {
 
     @Select(".repo-list .col-12")
-    Observable<RepositoryModel> getRepositories();
+    Observable<Repository> getRepositories();
 
     @Select(".column.one-fourth .select-menu-item")
-    Observable<LanguageModel> getLanguages();
+    Observable<Language> getLanguages();
 }

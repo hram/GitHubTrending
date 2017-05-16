@@ -7,13 +7,14 @@ import com.github.florent37.retrojsoup.RetroJsoup;
 import java.util.ArrayList;
 import java.util.List;
 
-import hram.githubtrending.model.Language;
-import hram.githubtrending.model.LanguageModel;
-import hram.githubtrending.model.RepositoryModel;
-import hram.githubtrending.model.TimeSpan;
-import hram.githubtrending.model.Trending;
+import hram.githubtrending.data.db.DatabaseHelper;
+import hram.githubtrending.data.model.Language;
+import hram.githubtrending.data.model.Repository;
+import hram.githubtrending.data.network.NetworkHelper;
+import hram.githubtrending.data.network.Trending;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
+import hugo.weaving.DebugLog;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -27,20 +28,25 @@ public class DataManager {
 
     private final DatabaseHelper mDatabaseHelper;
 
+    private final NetworkHelper mNetworkHelper;
+
+    @NonNull
     public static DataManager getInstance() {
         if (sDataManager == null) {
-            sDataManager = new DataManager(new DatabaseHelper());
+            sDataManager = new DataManager(new DatabaseHelper(), new NetworkHelper());
         }
         return sDataManager;
     }
 
-    private DataManager(DatabaseHelper databaseHelper) {
+    private DataManager(@NonNull DatabaseHelper databaseHelper, @NonNull NetworkHelper networkHelper) {
         mDatabaseHelper = databaseHelper;
+        mNetworkHelper = networkHelper;
     }
 
     // TODO add loading from DB and only if DB empty load from network
+    @DebugLog
     @NonNull
-    public Single<List<RepositoryViewModel>> getRepositories(@Language String language, @TimeSpan String timeSpan) {
+    public Single<List<RepositoryViewModel>> getRepositories(@NonNull String language, @NonNull String timeSpan) {
         final Trending trending = new RetroJsoup.Builder()
                 .url(String.format("https://github.com/trending/%s?since=%s", language, timeSpan))
                 //.client(okHttpClient)
@@ -48,6 +54,8 @@ public class DataManager {
                 .create(Trending.class);
 
         return trending.getRepositories()
+                .flatMap(item -> setLanguageAndTimeSpan(item, language, timeSpan))
+                .flatMap(this::saveToDataBase)
                 .flatMap(this::mapToViewModel)
                 .toList();
     }
@@ -67,19 +75,36 @@ public class DataManager {
     }
 
     @NonNull
-    private Observable<List<RepositoryViewModel>> mapToViewModel(List<RepositoryModel> list) {
+    private Observable<List<RepositoryViewModel>> mapToViewModel(List<Repository> list) {
         final List<RepositoryViewModel> items = new ArrayList<>(list.size());
-        for (RepositoryModel model : list) {
+        for (Repository model : list) {
             items.add(RepositoryViewModel.create(model));
         }
         return Observable.just(items);
     }
 
-    private Observable<RepositoryViewModel> mapToViewModel(RepositoryModel item) {
+    @DebugLog
+    @NonNull
+    private Observable<RepositoryViewModel> mapToViewModel(@NonNull Repository item) {
         return Observable.just(RepositoryViewModel.create(item));
     }
 
-    private Observable<LanguageViewModel> mapToViewModel(LanguageModel item) {
+    @DebugLog
+    @NonNull
+    private Observable<Repository> saveToDataBase(@NonNull Repository item) {
+        mDatabaseHelper.saveRepository(item);
+        return Observable.just(item);
+    }
+
+    @DebugLog
+    @NonNull
+    private Observable<Repository> setLanguageAndTimeSpan(@NonNull Repository item, @NonNull String language, @NonNull String timeSpan) {
+        item.setLanguage(language);
+        item.setTimeSpan(timeSpan);
+        return Observable.just(item);
+    }
+
+    private Observable<LanguageViewModel> mapToViewModel(Language item) {
         return Observable.just(LanguageViewModel.create(item));
     }
 }
