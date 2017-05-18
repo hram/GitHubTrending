@@ -53,7 +53,7 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
         mRepositoriesViewModel = new RepositoriesViewModel();
         getViewState().setViewModel(mRepositoriesViewModel);
         DataManager.getInstance().setParams(new SearchParams("java", "daily"));
-        loadRepositories(true);
+        loadRepositories();
     }
 
     @Override
@@ -69,8 +69,9 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
         mTouchHelper.attachToRecyclerView(null);
     }
 
-    private void loadRepositories(boolean isRefreshing) {
-        getViewState().setRefreshing(isRefreshing);
+    private void loadRepositories() {
+        mRepositoriesViewModel.hasError.set(false);
+        getViewState().setRefreshing(true);
         DataManager.getInstance().getRepositories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -78,6 +79,7 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
     }
 
     void refresh() {
+        mRepositoriesViewModel.hasError.set(false);
         getViewState().setRefreshing(true);
         DataManager.getInstance().refreshRepositories()
                 .subscribeOn(Schedulers.io())
@@ -101,6 +103,7 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
 
     @DebugLog
     private void handleError(@NonNull Throwable throwable) {
+        getViewState().setRefreshing(false);
         mRepositoriesViewModel.error.set(throwable.getMessage());
         mRepositoriesViewModel.hasError.set(true);
     }
@@ -120,6 +123,7 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
 
     @DebugLog
     private void handleHideError(@NonNull Throwable throwable) {
+        getViewState().setRefreshing(false);
         mRepositoriesViewModel.error.set(throwable.getMessage());
         mRepositoriesViewModel.hasError.set(true);
     }

@@ -35,7 +35,7 @@ public class NetworkHelper {
     private Observable<Repository> setLanguageAndTimeSpan(@NonNull Repository item, @NonNull String language, @NonNull String timeSpan) {
         item.setLanguage(language);
         item.setTimeSpan(timeSpan);
-        item.setOrder(Integer.parseInt(item.getStarsToday().split("\\s+")[0]));
+        item.setOrder(Integer.parseInt(item.getStarsToday().split("\\s+")[0].replaceAll(",", "")));
         return Observable.just(item);
     }
 }
