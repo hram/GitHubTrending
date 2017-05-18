@@ -12,88 +12,100 @@
         <import type="android.view.View"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?selectableItemBackground"
-        android:onClick="@{(view) -> item.onClick(view)}"
-        android:padding="8dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text='@{item.title}'
-            android:textColor="#0366d6"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="title"/>
+            android:background="?selectableItemBackground"
+            android:onClick="@{(view) -> item.onClick(view)}"
+            android:padding="8dp">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text='@{item.description}'
-            android:textColor="#24292e"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:text="description"/>
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{item.title}'
+                android:textColor="#0366d6"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="title"/>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:srcCompat="@drawable/ic_star"/>
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text='@{item.description}'
+                android:textColor="#24292e"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:text="description"/>
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text='@{item.allStars}'
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintLeft_toRightOf="@+id/imageView"
-            tools:text="all starrs"/>
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                app:srcCompat="@drawable/ic_star"/>
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintLeft_toRightOf="@+id/textView3"
-            app:srcCompat="@drawable/ic_forked"/>
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text='@{item.allStars}'
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintLeft_toRightOf="@+id/imageView"
+                tools:text="all starrs"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text='@{item.forks}'
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintLeft_toRightOf="@+id/imageView2"
-            tools:text="forks"/>
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintLeft_toRightOf="@+id/textView3"
+                app:srcCompat="@drawable/ic_forked"/>
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text='@{item.starsToday}'
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:text="stars today"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text='@{item.forks}'
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintLeft_toRightOf="@+id/imageView2"
+                tools:text="forks"/>
 
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintRight_toLeftOf="@+id/textView4"
-            app:srcCompat="@drawable/ic_star"/>
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{item.starsToday}'
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="stars today"/>
 
-    </android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintRight_toLeftOf="@+id/textView4"
+                app:srcCompat="@drawable/ic_star"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E8E1E4"/>
+
+    </LinearLayout>
 
 </layout>
