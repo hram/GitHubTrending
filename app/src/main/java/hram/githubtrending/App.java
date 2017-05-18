@@ -11,7 +11,7 @@ import io.realm.Realm;
 
 public class App extends Application {
 
-    private boolean sIsTestMode;
+    private static boolean sIsTestMode;
 
     @Override
     public void onCreate() {

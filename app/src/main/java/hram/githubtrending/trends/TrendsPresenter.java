@@ -26,7 +26,7 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
 
     private RepositoriesViewModel mRepositoriesViewModel;
 
-    private ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+    private ItemTouchHelper.SimpleCallback mSimpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
 
         @Override
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -59,7 +59,7 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
     @Override
     public void attachView(TrendsView view) {
         super.attachView(view);
-        mTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        mTouchHelper = new ItemTouchHelper(mSimpleItemTouchCallback);
         getViewState().attachToRecyclerView(mTouchHelper);
     }
 
