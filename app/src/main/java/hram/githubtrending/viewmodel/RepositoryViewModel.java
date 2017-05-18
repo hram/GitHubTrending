@@ -22,6 +22,8 @@ public class RepositoryViewModel extends BaseObservable {
 
     public boolean checkable;
 
+    private String mId;
+
     @Bindable
     private int mIndex;
 
@@ -52,6 +54,7 @@ public class RepositoryViewModel extends BaseObservable {
 
     private RepositoryViewModel(@NonNull Repository model) {
         mModel = model;
+        mId = model.getHref();
         mTitle = model.getTitle();
         mDescription = model.getDescription();
         mStarsToday = model.getStarsToday();
@@ -65,6 +68,11 @@ public class RepositoryViewModel extends BaseObservable {
 
     public boolean isChecked() {
         return mChecked;
+    }
+
+    @NonNull
+    public String getId() {
+        return mId;
     }
 
     @NonNull

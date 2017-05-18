@@ -3,12 +3,11 @@ package hram.githubtrending.trends;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-
-import java.util.List;
 
 import hram.githubtrending.R;
 import hram.githubtrending.databinding.ActivityMainBinding;
@@ -16,8 +15,6 @@ import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
 
 public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
-
-    RepositoriesViewModel mRepositoriesViewModel;
 
     ActivityMainBinding mBinding;
 
@@ -30,20 +27,18 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
         setContentView(R.layout.activity_main);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        mRepositoriesViewModel = new RepositoriesViewModel();
-        mBinding.setViewModel(mRepositoriesViewModel);
-        mBinding.executePendingBindings();
-
         mBinding.refreshLayout.setOnRefreshListener(() -> mPresenter.refresh());
         mBinding.refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+        mBinding.buttonRefresh.setOnClickListener(v -> mPresenter.refresh());
     }
 
     @Override
-    public void setRepositories(@NonNull List<RepositoryViewModel> list) {
-        mRepositoriesViewModel.setItems(list);
+    public void setViewModel(RepositoriesViewModel viewModel) {
+        mBinding.setViewModel(viewModel);
+        mBinding.executePendingBindings();
     }
 
     @Override
@@ -57,7 +52,9 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
     }
 
     @Override
-    public void removeItem(int position) {
-        mRepositoriesViewModel.removeItem(position);
+    public void sowRemoveUndo(@NonNull RepositoryViewModel viewModel, int position, @NonNull String text) {
+        Snackbar.make(mBinding.recyclerview, text, Snackbar.LENGTH_LONG)
+                .setAction("отменить", view -> mPresenter.onUndoRemove(viewModel, position))
+                .show();
     }
 }

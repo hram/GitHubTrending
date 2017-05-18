@@ -1,6 +1,7 @@
 package hram.githubtrending.data;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.github.florent37.retrojsoup.RetroJsoup;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import hram.githubtrending.data.db.DatabaseHelper;
 import hram.githubtrending.data.model.Language;
 import hram.githubtrending.data.model.Repository;
+import hram.githubtrending.data.model.SearchParams;
 import hram.githubtrending.data.network.NetworkHelper;
 import hram.githubtrending.data.network.Trending;
 import hram.githubtrending.viewmodel.LanguageViewModel;
@@ -30,34 +32,52 @@ public class DataManager {
 
     private final NetworkHelper mNetworkHelper;
 
+    private SearchParams mParams;
+
     @NonNull
     public static DataManager getInstance() {
         if (sDataManager == null) {
-            sDataManager = new DataManager(new DatabaseHelper(), new NetworkHelper());
+            sDataManager = new DataManager(new DatabaseHelper(), new NetworkHelper(), new SearchParams("java", "daily"));
         }
         return sDataManager;
     }
 
-    private DataManager(@NonNull DatabaseHelper databaseHelper, @NonNull NetworkHelper networkHelper) {
+    private DataManager(@NonNull DatabaseHelper databaseHelper, @NonNull NetworkHelper networkHelper, SearchParams params) {
         mDatabaseHelper = databaseHelper;
         mNetworkHelper = networkHelper;
+        mParams = params;
+    }
+
+    public SearchParams getParams() {
+        return mParams;
+    }
+
+    public void setParams(SearchParams params) {
+        mParams = params;
     }
 
     // TODO add loading from DB and only if DB empty load from network
     @DebugLog
     @NonNull
-    public Single<List<RepositoryViewModel>> getRepositories(@NonNull String language, @NonNull String timeSpan) {
-        final Trending trending = new RetroJsoup.Builder()
-                .url(String.format("https://github.com/trending/%s?since=%s", language, timeSpan))
-                //.client(okHttpClient)
-                .build()
-                .create(Trending.class);
+    public Observable<List<RepositoryViewModel>> getRepositories() {
+        return mDatabaseHelper.getRepositoriesObservable(mParams.getLanguage(), mParams.getTimeSpan())
+                .flatMap(this::ifEmptyThenFromNetwork)
+                .flatMap(this::mapToViewModel);
+    }
 
-        return trending.getRepositories()
-                .flatMap(item -> setLanguageAndTimeSpan(item, language, timeSpan))
-                .flatMap(this::saveToDataBase)
-                .flatMap(this::mapToViewModel)
-                .toList();
+    @DebugLog
+    @NonNull
+    public Observable<List<RepositoryViewModel>> refreshRepositories() {
+        return mNetworkHelper.getRepositories(mParams.getLanguage(), mParams.getTimeSpan())
+                .flatMap(repositories -> mDatabaseHelper.saveRepositories(repositories, mParams.getLanguage(), mParams.getTimeSpan()))
+                .flatMap(this::mapToViewModel);
+    }
+
+    @DebugLog
+    @NonNull
+    public Observable<RepositoryViewModel> getRepository(@NonNull String id) {
+        return mDatabaseHelper.getRepositoryObservable(id)
+                .flatMap(this::mapToViewModel);
     }
 
     // TODO add loading from DB and only if DB empty load from network
@@ -83,28 +103,53 @@ public class DataManager {
         return Observable.just(items);
     }
 
-    @DebugLog
-    @NonNull
-    private Observable<RepositoryViewModel> mapToViewModel(@NonNull Repository item) {
+    private Observable<RepositoryViewModel> mapToViewModel(Repository item) {
         return Observable.just(RepositoryViewModel.create(item));
     }
 
+//    @DebugLog
+//    @NonNull
+//    private Observable<RepositoryViewModel> mapToViewModel(@NonNull Repository item) {
+//        return Observable.just(RepositoryViewModel.create(item));
+//    }
+
     @DebugLog
     @NonNull
-    private Observable<Repository> saveToDataBase(@NonNull Repository item) {
+    public Observable<Repository> saveToDataBase(@NonNull Repository item) {
         mDatabaseHelper.saveRepository(item);
         return Observable.just(item);
     }
 
     @DebugLog
     @NonNull
-    private Observable<Repository> setLanguageAndTimeSpan(@NonNull Repository item, @NonNull String language, @NonNull String timeSpan) {
-        item.setLanguage(language);
-        item.setTimeSpan(timeSpan);
-        return Observable.just(item);
+    public Observable<Boolean> setHided(@NonNull String id, boolean hided) {
+        return mDatabaseHelper.getRepositoryObservable(id)
+                .flatMap(repository -> setHidedAndSave(repository, hided));
     }
 
     private Observable<LanguageViewModel> mapToViewModel(Language item) {
         return Observable.just(LanguageViewModel.create(item));
+    }
+
+    @DebugLog
+    private Observable<List<Repository>> ifEmptyThenFromNetwork(@NonNull List<Repository> list) {
+        if (list.isEmpty()) {
+            return mNetworkHelper.getRepositories(mParams.getLanguage(), mParams.getTimeSpan())
+                    .flatMap(repositories -> mDatabaseHelper.saveRepositories(repositories, mParams.getLanguage(), mParams.getTimeSpan()));
+        } else {
+            return Observable.just(list);
+        }
+    }
+
+    @DebugLog
+    @NonNull
+    private Observable<Boolean> setHidedAndSave(@Nullable Repository repository, boolean hided) {
+        if (repository == null) {
+            return Observable.just(false);
+        }
+
+        repository.setHided(hided);
+        saveToDataBase(repository);
+        return Observable.just(true);
     }
 }

@@ -4,9 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.arellomobile.mvp.MvpView;
+import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
-import java.util.List;
-
+import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
 
 /**
@@ -14,11 +15,12 @@ import hram.githubtrending.viewmodel.RepositoryViewModel;
  */
 public interface TrendsView extends MvpView {
 
-    void setRepositories(@NonNull List<RepositoryViewModel> list);
+    void setViewModel(RepositoriesViewModel viewModel);
 
     void setRefreshing(boolean refreshing);
 
     void attachToRecyclerView(@NonNull ItemTouchHelper itemTouchHelper);
 
-    void removeItem(int position);
+    @StateStrategyType(SkipStrategy.class)
+    void sowRemoveUndo(@NonNull RepositoryViewModel viewModel, int position, @NonNull String text);
 }

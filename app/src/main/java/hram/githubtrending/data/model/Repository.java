@@ -14,6 +14,16 @@ import io.realm.annotations.PrimaryKey;
 
 public class Repository extends RealmObject {
 
+    public static final String COLUMN_ID = "mHref";
+
+    public static final String COLUMN_LANGUAGE = "mLanguage";
+
+    public static final String COLUMN_TIME_SPAN = "mTimeSpan";
+
+    public static final String COLUMN_HIDED = "mIsHided";
+
+    public static final String COLUMN_ORDER = "mOrder";
+
     @JsoupText(".text-normal")
     String mUser;
 
@@ -22,7 +32,7 @@ public class Repository extends RealmObject {
 
     @PrimaryKey
     @JsoupHref(".d-inline-block a")
-    String href;
+    String mHref;
 
     @JsoupText(".py-1 p")
     String mDescription;
@@ -36,9 +46,13 @@ public class Repository extends RealmObject {
     @JsoupText(".f6 :eq(5)")
     String mStarsToday;
 
-    String mLanguage;
+    private String mLanguage;
 
-    String mTimeSpan;
+    private String mTimeSpan;
+
+    private boolean mIsHided;
+
+    private int mOrder;
 
     public String getUser() {
         return mUser;
@@ -57,11 +71,11 @@ public class Repository extends RealmObject {
     }
 
     public String getHref() {
-        return href;
+        return mHref;
     }
 
     public void setHref(@NonNull String href) {
-        this.href = href;
+        this.mHref = href;
     }
 
     public String getDescription() {
@@ -112,16 +126,36 @@ public class Repository extends RealmObject {
         mTimeSpan = timeSpan;
     }
 
+    public boolean isHided() {
+        return mIsHided;
+    }
+
+    public void setHided(boolean hided) {
+        mIsHided = hided;
+    }
+
+    public int getOrder() {
+        return mOrder;
+    }
+
+    public void setOrder(int order) {
+        mOrder = order;
+    }
+
     @Override
     public String toString() {
         return "Repository{" +
                 "mUser='" + mUser + '\'' +
                 ", mTitle='" + mTitle + '\'' +
-                ", href='" + href + '\'' +
+                ", mHref='" + mHref + '\'' +
                 ", mDescription='" + mDescription + '\'' +
                 ", mAllStars='" + mAllStars + '\'' +
                 ", mForks='" + mForks + '\'' +
                 ", mStarsToday='" + mStarsToday + '\'' +
+                ", mLanguage='" + mLanguage + '\'' +
+                ", mTimeSpan='" + mTimeSpan + '\'' +
+                ", mIsHided=" + mIsHided +
+                ", mOrder=" + mOrder +
                 '}';
     }
 }

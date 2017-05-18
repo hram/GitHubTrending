@@ -1,6 +1,8 @@
 package hram.githubtrending.viewmodel;
 
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
 
@@ -19,6 +21,14 @@ public class RepositoriesViewModel {
     public final ObservableList<RepositoryViewModel> items = new ObservableArrayList<>();
 
     public final ItemBinding<RepositoryViewModel> itemBinding = ItemBinding.of(BR.item, R.layout.item);
+
+    public final ObservableBoolean refreshing = new ObservableBoolean(false);
+
+    public final ObservableBoolean hasError = new ObservableBoolean(false);
+
+    public final ObservableField<String> error = new ObservableField<>();
+
+    public final ObservableBoolean sowRemoveUndo = new ObservableBoolean(false);
 
     public void setItems(@NonNull List<RepositoryViewModel> list) {
         items.clear();
