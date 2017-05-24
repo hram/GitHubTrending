@@ -12,13 +12,14 @@ import hram.githubtrending.data.db.DatabaseHelper;
 import hram.githubtrending.data.model.Language;
 import hram.githubtrending.data.model.Repository;
 import hram.githubtrending.data.model.SearchParams;
+import hram.githubtrending.data.model.TimeSpan;
 import hram.githubtrending.data.network.NetworkHelper;
 import hram.githubtrending.data.network.Trending;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
+import hram.githubtrending.viewmodel.TimeSpanViewModel;
 import hugo.weaving.DebugLog;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 
 /**
  * @author Evgeny Khramov
@@ -82,7 +83,7 @@ public class DataManager {
 
     // TODO add loading from DB and only if DB empty load from network
     @NonNull
-    public Single<List<LanguageViewModel>> getLanguages() {
+    public Observable<List<LanguageViewModel>> getLanguages() {
         final Trending trending = new RetroJsoup.Builder()
                 .url("https://github.com/trending/")
                 //.client(okHttpClient)
@@ -91,7 +92,21 @@ public class DataManager {
 
         return trending.getLanguages()
                 .flatMap(this::mapToViewModel)
-                .toList();
+                .toList().toObservable();
+    }
+
+    // TODO add loading from DB and only if DB empty load from network
+    @NonNull
+    public Observable<List<TimeSpanViewModel>> getTimeSpans() {
+        final Trending trending = new RetroJsoup.Builder()
+                .url("https://github.com/trending/")
+                //.client(okHttpClient)
+                .build()
+                .create(Trending.class);
+
+        return trending.getTimeSpans()
+                .flatMap(this::mapToViewModel)
+                .toList().toObservable();
     }
 
     @NonNull
@@ -127,8 +142,14 @@ public class DataManager {
                 .flatMap(repository -> setHidedAndSave(repository, hided));
     }
 
-    private Observable<LanguageViewModel> mapToViewModel(Language item) {
+    @NonNull
+    private Observable<LanguageViewModel> mapToViewModel(@NonNull Language item) {
         return Observable.just(LanguageViewModel.create(item));
+    }
+
+    @NonNull
+    private Observable<TimeSpanViewModel> mapToViewModel(@NonNull TimeSpan item) {
+        return Observable.just(TimeSpanViewModel.create(item));
     }
 
     @DebugLog

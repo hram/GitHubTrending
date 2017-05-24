@@ -33,6 +33,13 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         mBinding.buttonRefresh.setOnClickListener(v -> mPresenter.refresh());
+        setSupportActionBar(mBinding.toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    @Override
+    public void setTitle(@NonNull String title) {
+        //mBinding.toolbar.setTitle(title);
     }
 
     @Override

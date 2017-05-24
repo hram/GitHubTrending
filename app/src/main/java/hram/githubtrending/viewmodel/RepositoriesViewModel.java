@@ -22,13 +22,9 @@ public class RepositoriesViewModel {
 
     public final ItemBinding<RepositoryViewModel> itemBinding = ItemBinding.of(BR.item, R.layout.item);
 
-    public final ObservableBoolean refreshing = new ObservableBoolean(false);
-
     public final ObservableBoolean hasError = new ObservableBoolean(false);
 
     public final ObservableField<String> error = new ObservableField<>();
-
-    public final ObservableBoolean sowRemoveUndo = new ObservableBoolean(false);
 
     public void setItems(@NonNull List<RepositoryViewModel> list) {
         items.clear();

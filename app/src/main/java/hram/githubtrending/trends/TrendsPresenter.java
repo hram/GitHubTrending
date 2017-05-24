@@ -14,7 +14,9 @@ import hram.githubtrending.data.model.SearchParams;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
+import hram.githubtrending.viewmodel.TimeSpanViewModel;
 import hugo.weaving.DebugLog;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -53,6 +55,7 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
         mRepositoriesViewModel = new RepositoriesViewModel();
         getViewState().setViewModel(mRepositoriesViewModel);
         DataManager.getInstance().setParams(new SearchParams("java", "daily"));
+        getViewState().setTitle(String.format("%s %s trends", DataManager.getInstance().getParams().getLanguage(), DataManager.getInstance().getParams().getTimeSpan()));
         loadRepositories();
     }
 
@@ -91,13 +94,17 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
         mRepositoriesViewModel.setItems(list);
         getViewState().setRefreshing(false);
 
-        DataManager.getInstance().getLanguages()
+        Observable.zip(DataManager.getInstance().getLanguages(), DataManager.getInstance().getTimeSpans(), this::mapToLanguagesAndTimeSpan)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::handleLanguages, this::handleError);
+                .subscribe(this::handleLanguagesAndTimeSpan, this::handleError);
     }
 
-    private void handleLanguages(@NonNull List<LanguageViewModel> list) {
+    private LanguagesAndTimeSpan mapToLanguagesAndTimeSpan(List<LanguageViewModel> languages, List<TimeSpanViewModel> timeSpans) {
+        return new LanguagesAndTimeSpan(languages, timeSpans);
+    }
+
+    private void handleLanguagesAndTimeSpan(@NonNull LanguagesAndTimeSpan item) {
 
     }
 
@@ -134,5 +141,17 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(res -> TrendsPresenter.this.handleHideResult(viewModel, position, false, res), this::handleHideError);
 
+    }
+
+    private class LanguagesAndTimeSpan {
+
+        private List<LanguageViewModel> mLanguages;
+
+        private List<TimeSpanViewModel> mTimeSpans;
+
+        public LanguagesAndTimeSpan(List<LanguageViewModel> languages, List<TimeSpanViewModel> timeSpans) {
+            mLanguages = languages;
+            mTimeSpans = timeSpans;
+        }
     }
 }
