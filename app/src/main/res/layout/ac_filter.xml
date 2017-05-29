@@ -7,13 +7,13 @@
 
         <import type="android.view.View"/>
 
-        <import type="hram.githubtrending.viewmodel.RepositoryViewModel"/>
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers"/>
+
+        <import type="hram.githubtrending.viewmodel.FilterViewModel"/>
 
         <variable
             name="viewModel"
-            type="hram.githubtrending.viewmodel.RepositoriesViewModel"/>
-
-        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers"/>
+            type="hram.githubtrending.viewmodel.FilterViewModel"/>
     </data>
 
     <LinearLayout
@@ -24,39 +24,49 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:background="@color/colorDivider">
 
             <TextView
+                style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
+                android:padding="16dp"
+                android:text="Период"
                 tools:text="Период"/>
 
         </FrameLayout>
 
-        <android.support.v7.app.AlertController.RecycleListView
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:itemBinding="@{viewModel.timeSpanItemBinding}"
+            app:items="@{viewModel.timeSpanItems}"
+            app:layoutManager="@{LayoutManagers.linear()}"/>
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:background="@color/colorDivider">
 
             <TextView
+                style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
+                android:padding="16dp"
+                android:text="Язык"
                 tools:text="Язык"/>
 
         </FrameLayout>
 
-        <android.support.v7.app.AlertController.RecycleListView
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:itemBinding="@{viewModel.languageItemBinding}"
+            app:items="@{viewModel.languageItems}"
+            app:layoutManager="@{LayoutManagers.linear()}"/>
 
     </LinearLayout>
 

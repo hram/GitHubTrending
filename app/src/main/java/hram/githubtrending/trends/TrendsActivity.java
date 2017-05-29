@@ -1,20 +1,27 @@
 package hram.githubtrending.trends;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import hram.githubtrending.R;
 import hram.githubtrending.databinding.ActivityMainBinding;
+import hram.githubtrending.filter.FilterActivity;
 import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
 
 public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
+
+    private static final int CHANGE_FILTER = 405;
 
     ActivityMainBinding mBinding;
 
@@ -35,6 +42,30 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
         mBinding.buttonRefresh.setOnClickListener(v -> mPresenter.refresh());
         setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.trends, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_open_filter:
+                startActivityForResult(new Intent(this, FilterActivity.class), CHANGE_FILTER);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CHANGE_FILTER && resultCode == Activity.RESULT_OK) {
+            mPresenter.refresh();
+        }
     }
 
     @Override

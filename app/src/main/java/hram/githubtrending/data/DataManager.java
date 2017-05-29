@@ -144,7 +144,7 @@ public class DataManager {
 
     @NonNull
     private Observable<LanguageViewModel> mapToViewModel(@NonNull Language item) {
-        return Observable.just(LanguageViewModel.create(item));
+        return Observable.just(LanguageViewModel.create(item, true));
     }
 
     @NonNull

@@ -20,7 +20,7 @@ public class RepositoriesViewModel {
 
     public final ObservableList<RepositoryViewModel> items = new ObservableArrayList<>();
 
-    public final ItemBinding<RepositoryViewModel> itemBinding = ItemBinding.of(BR.item, R.layout.item);
+    public final ItemBinding<RepositoryViewModel> itemBinding = ItemBinding.of(BR.item, R.layout.item_repository);
 
     public final ObservableBoolean hasError = new ObservableBoolean(false);
 

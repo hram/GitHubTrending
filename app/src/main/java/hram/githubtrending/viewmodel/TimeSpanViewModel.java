@@ -18,6 +18,9 @@ public class TimeSpanViewModel extends BaseObservable {
     @Bindable
     private String mHref;
 
+    @Bindable
+    private boolean mChecked;
+
     @NonNull
     public static TimeSpanViewModel create(@NonNull TimeSpan timeSpan) {
         return new TimeSpanViewModel(timeSpan.getName(), timeSpan.getHref());
@@ -29,11 +32,26 @@ public class TimeSpanViewModel extends BaseObservable {
         mHref = href;
     }
 
+    @NonNull
+    public String getName() {
+        return mName;
+    }
+
+    @NonNull
+    public String getHref() {
+        return mHref;
+    }
+
+    public boolean isChecked() {
+        return mChecked;
+    }
+
     @Override
     public String toString() {
         return "TimeSpanViewModel{" +
                 "mName='" + mName + '\'' +
                 ", mHref='" + mHref + '\'' +
+                ", mChecked=" + mChecked +
                 '}';
     }
 }

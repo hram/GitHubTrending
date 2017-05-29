@@ -19,22 +19,32 @@ public class LanguageViewModel extends BaseObservable {
     @Bindable
     private String mHref;
 
+    @Bindable
+    private boolean mChecked;
+
     @Contract("_ -> !null")
-    public static LanguageViewModel create(@NonNull Language model) {
-        return new LanguageViewModel(model);
+    public static LanguageViewModel create(@NonNull Language model, boolean isChecked) {
+        return new LanguageViewModel(model, isChecked);
     }
 
-    private LanguageViewModel(@NonNull Language model) {
+    private LanguageViewModel(@NonNull Language model, boolean isChecked) {
         mName = model.getName();
         mHref = model.getHref();
+        mChecked = isChecked;
     }
 
+    @NonNull
     public String getName() {
         return mName;
     }
 
+    @NonNull
     public String getHref() {
         return mHref;
+    }
+
+    public boolean isChecked() {
+        return mChecked;
     }
 
     @Override
@@ -42,6 +52,7 @@ public class LanguageViewModel extends BaseObservable {
         return "LanguageViewModel{" +
                 "mName='" + mName + '\'' +
                 ", mHref='" + mHref + '\'' +
+                ", mChecked=" + mChecked +
                 '}';
     }
 }

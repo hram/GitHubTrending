@@ -13,7 +13,11 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 public class FilterViewModel {
 
-    public final ObservableList<LanguageViewModel> languageViewModels = new ObservableArrayList<>();
+    public final ObservableList<LanguageViewModel> languageItems = new ObservableArrayList<>();
 
-    public final ItemBinding<LanguageViewModel> languageViewModelItemBinding = ItemBinding.of(BR.item, R.layout.item);
+    public final ItemBinding<LanguageViewModel> languageItemBinding = ItemBinding.of(BR.item, R.layout.item_language);
+
+    public final ObservableList<TimeSpanViewModel> timeSpanItems = new ObservableArrayList<>();
+
+    public final ItemBinding<TimeSpanViewModel> timeSpanItemBinding = ItemBinding.of(BR.item, R.layout.item_time_span);
 }
