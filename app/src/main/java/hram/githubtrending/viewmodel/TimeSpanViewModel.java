@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
 
+import hram.githubtrending.BR;
 import hram.githubtrending.data.model.TimeSpan;
 import hugo.weaving.DebugLog;
 
@@ -22,14 +23,14 @@ public class TimeSpanViewModel extends BaseObservable {
     private boolean mChecked;
 
     @NonNull
-    public static TimeSpanViewModel create(@NonNull TimeSpan timeSpan) {
-        return new TimeSpanViewModel(timeSpan.getName(), timeSpan.getHref());
+    public static TimeSpanViewModel create(@NonNull TimeSpan timeSpan, boolean checked) {
+        return new TimeSpanViewModel(timeSpan, checked);
     }
 
-    @DebugLog
-    public TimeSpanViewModel(@NonNull String name, @NonNull String href) {
-        mName = name;
-        mHref = href;
+    private TimeSpanViewModel(@NonNull TimeSpan model, boolean checked) {
+        mName = model.getName();
+        mHref = model.getHref();
+        mChecked = checked;
     }
 
     @NonNull
@@ -46,6 +47,11 @@ public class TimeSpanViewModel extends BaseObservable {
         return mChecked;
     }
 
+    public void setChecked(boolean checked) {
+        mChecked = checked;
+        notifyPropertyChanged(BR.checked);
+    }
+
     @Override
     public String toString() {
         return "TimeSpanViewModel{" +
@@ -53,5 +59,9 @@ public class TimeSpanViewModel extends BaseObservable {
                 ", mHref='" + mHref + '\'' +
                 ", mChecked=" + mChecked +
                 '}';
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(@NonNull TimeSpanViewModel item);
     }
 }

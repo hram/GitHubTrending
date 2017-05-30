@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -19,7 +20,7 @@ public class FilterActivity extends MvpAppCompatActivity implements FilterView {
     @InjectPresenter
     FilterPresenter mPresenter;
 
-    public static void startForResult(Activity activity, int requestCode) {
+    public static void startForResult(@NonNull Activity activity, int requestCode) {
         activity.startActivityForResult(new Intent(activity, FilterActivity.class), requestCode);
     }
 
@@ -34,5 +35,10 @@ public class FilterActivity extends MvpAppCompatActivity implements FilterView {
     public void setViewModel(FilterViewModel viewModel) {
         mBinding.setViewModel(viewModel);
         mBinding.executePendingBindings();
+    }
+
+    @Override
+    public void setFilterWasChanged(boolean value) {
+        setResult(value ? Activity.RESULT_OK : Activity.RESULT_CANCELED);
     }
 }

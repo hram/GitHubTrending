@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.Contract;
 
+import hram.githubtrending.BR;
 import hram.githubtrending.data.model.Language;
 
 /**
@@ -47,6 +48,11 @@ public class LanguageViewModel extends BaseObservable {
         return mChecked;
     }
 
+    public void setChecked(boolean checked) {
+        mChecked = checked;
+        notifyPropertyChanged(BR.checked);
+    }
+
     @Override
     public String toString() {
         return "LanguageViewModel{" +
@@ -54,5 +60,9 @@ public class LanguageViewModel extends BaseObservable {
                 ", mHref='" + mHref + '\'' +
                 ", mChecked=" + mChecked +
                 '}';
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(@NonNull LanguageViewModel item);
     }
 }

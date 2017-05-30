@@ -1,5 +1,8 @@
 package hram.githubtrending.trends;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -9,13 +12,12 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.List;
 
+import hram.githubtrending.BuildConfig;
 import hram.githubtrending.data.DataManager;
-import hram.githubtrending.data.model.SearchParams;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
-import hugo.weaving.DebugLog;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -24,7 +26,9 @@ import io.reactivex.schedulers.Schedulers;
  * @author Evgeny Khramov
  */
 @InjectViewState
-public class TrendsPresenter extends MvpPresenter<TrendsView> {
+public class TrendsPresenter extends MvpPresenter<TrendsView> implements RepositoryViewModel.OnItemClickListener {
+
+    public static final int CHANGE_FILTER = 405;
 
     private RepositoriesViewModel mRepositoriesViewModel;
 
@@ -48,13 +52,11 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
 
     private ItemTouchHelper mTouchHelper;
 
-    @DebugLog
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        mRepositoriesViewModel = new RepositoriesViewModel();
+        mRepositoriesViewModel = new RepositoriesViewModel(this);
         getViewState().setViewModel(mRepositoriesViewModel);
-        DataManager.getInstance().setParams(new SearchParams("java", "daily"));
         getViewState().setTitle(String.format("%s %s trends", DataManager.getInstance().getParams().getLanguage(), DataManager.getInstance().getParams().getTimeSpan()));
         loadRepositories();
     }
@@ -108,7 +110,6 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
 
     }
 
-    @DebugLog
     private void handleError(@NonNull Throwable throwable) {
         getViewState().setRefreshing(false);
         mRepositoriesViewModel.error.set(throwable.getMessage());
@@ -128,7 +129,6 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
         }
     }
 
-    @DebugLog
     private void handleHideError(@NonNull Throwable throwable) {
         getViewState().setRefreshing(false);
         mRepositoriesViewModel.error.set(throwable.getMessage());
@@ -141,6 +141,18 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(res -> TrendsPresenter.this.handleHideResult(viewModel, position, false, res), this::handleHideError);
 
+    }
+
+    @Override
+    public void onItemClick(@NonNull RepositoryViewModel item) {
+        getViewState().openScreen(new Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.URL_BASE + item.getId())));
+    }
+
+    void onActivityResult(int requestCode, int resultCode) {
+        if (requestCode == CHANGE_FILTER && resultCode == Activity.RESULT_OK) {
+            refresh();
+            getViewState().setTitle(String.format("%s %s trends", DataManager.getInstance().getParams().getLanguage(), DataManager.getInstance().getParams().getTimeSpan()));
+        }
     }
 
     private class LanguagesAndTimeSpan {

@@ -1,5 +1,6 @@
 package hram.githubtrending.trends;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
@@ -25,4 +26,7 @@ public interface TrendsView extends MvpView {
 
     @StateStrategyType(SkipStrategy.class)
     void sowRemoveUndo(@NonNull RepositoryViewModel viewModel, int position, @NonNull String text);
+
+    @StateStrategyType(SkipStrategy.class)
+    void openScreen(@NonNull Intent intent);
 }

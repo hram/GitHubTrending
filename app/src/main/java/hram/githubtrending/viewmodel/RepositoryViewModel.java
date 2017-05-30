@@ -1,18 +1,12 @@
 package hram.githubtrending.viewmodel;
 
-import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.view.View;
 
 import org.jetbrains.annotations.Contract;
 
-import hram.githubtrending.BR;
-import hram.githubtrending.BuildConfig;
 import hram.githubtrending.data.model.Repository;
-import hugo.weaving.DebugLog;
 
 /**
  * @author Evgeny Khramov
@@ -100,22 +94,7 @@ public class RepositoryViewModel extends BaseObservable {
         return mForks;
     }
 
-    public boolean onToggleChecked(View v) {
-        if (!checkable) {
-            return false;
-        }
-        mChecked = !mChecked;
-        notifyPropertyChanged(BR.checked);
-        return true;
-    }
-
-    @DebugLog
-    public void onClick(View view) {
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.URL_BASE + mModel.getHref()));
-            view.getContext().startActivity(intent);
-        } catch (Exception e) {
-            // do nothing
-        }
+    public interface OnItemClickListener {
+        void onItemClick(@NonNull RepositoryViewModel item);
     }
 }

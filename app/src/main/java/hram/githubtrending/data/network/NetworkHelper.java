@@ -16,7 +16,6 @@ import io.reactivex.Observable;
 
 public class NetworkHelper {
 
-    @DebugLog
     public Observable<List<Repository>> getRepositories(@NonNull String language, @NonNull String timeSpan) {
         final Trending trending = new RetroJsoup.Builder()
                 .url(String.format("https://github.com/trending/%s?since=%s", language, timeSpan))
@@ -30,7 +29,6 @@ public class NetworkHelper {
                 .toObservable();
     }
 
-    @DebugLog
     @NonNull
     private Observable<Repository> setLanguageAndTimeSpan(@NonNull Repository item, @NonNull String language, @NonNull String timeSpan) {
         item.setLanguage(language);

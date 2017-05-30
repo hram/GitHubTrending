@@ -1,6 +1,5 @@
 package hram.githubtrending.trends;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -20,8 +19,6 @@ import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
 
 public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
-
-    private static final int CHANGE_FILTER = 405;
 
     ActivityMainBinding mBinding;
 
@@ -54,7 +51,7 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_open_filter:
-                startActivityForResult(new Intent(this, FilterActivity.class), CHANGE_FILTER);
+                FilterActivity.startForResult(this, TrendsPresenter.CHANGE_FILTER);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -63,14 +60,12 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CHANGE_FILTER && resultCode == Activity.RESULT_OK) {
-            mPresenter.refresh();
-        }
+        mPresenter.onActivityResult(requestCode, resultCode);
     }
 
     @Override
     public void setTitle(@NonNull String title) {
-        //mBinding.toolbar.setTitle(title);
+        mBinding.toolbarTitle.setText(title);
     }
 
     @Override
@@ -94,5 +89,14 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
         Snackbar.make(mBinding.recyclerview, text, Snackbar.LENGTH_LONG)
                 .setAction("отменить", view -> mPresenter.onUndoRemove(viewModel, position))
                 .show();
+    }
+
+    @Override
+    public void openScreen(@NonNull Intent intent) {
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            // do nothing
+        }
     }
 }

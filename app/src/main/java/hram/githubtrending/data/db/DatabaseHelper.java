@@ -55,13 +55,11 @@ public class DatabaseHelper {
 
     }
 
-    @DebugLog
     @NonNull
     public Observable<List<Repository>> getRepositoriesObservable(@NonNull String language, @NonNull String timeSpan) {
         return Observable.defer(() -> Observable.just(getRepositories(language, timeSpan)));
     }
 
-    @DebugLog
     @NonNull
     public List<Repository> getRepositories(@NonNull String language, @NonNull String timeSpan) {
         Realm realm = Realm.getDefaultInstance();
@@ -90,7 +88,6 @@ public class DatabaseHelper {
         return realm.copyFromRealm(result.first());
     }
 
-    @DebugLog
     private boolean isHided(@NonNull String id) {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Repository> result = realm.where(Repository.class)

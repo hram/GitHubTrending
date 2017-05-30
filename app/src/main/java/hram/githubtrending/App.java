@@ -3,6 +3,8 @@ package hram.githubtrending;
 import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.orhanobut.hawk.Hawk;
+
 import io.realm.Realm;
 
 /**
@@ -29,6 +31,7 @@ public class App extends Application {
         }
 
         Realm.init(this);
+        Hawk.init(this).build();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 }

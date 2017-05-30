@@ -5,23 +5,29 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="item"
             type="hram.githubtrending.viewmodel.RepositoryViewModel"/>
 
-        <import type="android.view.View"/>
+        <variable
+            name="listener"
+            type="hram.githubtrending.viewmodel.RepositoryViewModel.OnItemClickListener"/>
+
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:onClick="@{() -> listener.onItemClick(item)}"
         android:orientation="vertical">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
-            android:onClick="@{(view) -> item.onClick(view)}"
             android:padding="8dp">
 
             <TextView
