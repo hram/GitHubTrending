@@ -18,7 +18,7 @@ public interface TrendsView extends MvpView {
 
     void setTitle(@NonNull String title);
 
-    void setViewModel(RepositoriesViewModel viewModel);
+    void setViewModel(@NonNull RepositoriesViewModel viewModel);
 
     void setRefreshing(boolean refreshing);
 

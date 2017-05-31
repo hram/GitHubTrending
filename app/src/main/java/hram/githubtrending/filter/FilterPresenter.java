@@ -1,5 +1,6 @@
 package hram.githubtrending.filter;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -10,8 +11,8 @@ import java.util.List;
 import hram.githubtrending.data.DataManager;
 import hram.githubtrending.viewmodel.FilterViewModel;
 import hram.githubtrending.viewmodel.LanguageViewModel;
+import hram.githubtrending.viewmodel.LanguagesAndTimeSpan;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
-import hugo.weaving.DebugLog;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -46,12 +47,32 @@ public class FilterPresenter extends MvpPresenter<FilterView> implements Languag
 
     private void handleLanguagesAndTimeSpan(@NonNull LanguagesAndTimeSpan item) {
         mViewModel.languageItems.clear();
-        mViewModel.languageItems.addAll(item.mLanguages);
-        mViewModel.setCheckedLanguage(item.mLanguages.stream().filter(LanguageViewModel::isChecked).findFirst().orElse(null));
+        mViewModel.languageItems.addAll(item.getLanguages());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mViewModel.setCheckedLanguage(item.getLanguages().stream().filter(LanguageViewModel::isChecked).findFirst().orElse(null));
+        } else {
+            for (LanguageViewModel model : item.getLanguages()) {
+                if (model.isChecked()) {
+                    mViewModel.setCheckedLanguage(model);
+                    break;
+                }
+            }
+        }
 
         mViewModel.timeSpanItems.clear();
-        mViewModel.timeSpanItems.addAll(item.mTimeSpans);
-        mViewModel.setCheckedTimeSpan(item.mTimeSpans.stream().filter(TimeSpanViewModel::isChecked).findFirst().orElse(null));
+        mViewModel.timeSpanItems.addAll(item.getTimeSpans());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mViewModel.setCheckedTimeSpan(item.getTimeSpans().stream().filter(TimeSpanViewModel::isChecked).findFirst().orElse(null));
+        } else {
+            for (TimeSpanViewModel model : item.getTimeSpans()) {
+                if (model.isChecked()) {
+                    mViewModel.setCheckedTimeSpan(model);
+                    break;
+                }
+            }
+        }
+
+        mViewModel.isButtonNextEnabled.set(mViewModel.getCheckedLanguage() != null && mViewModel.getCheckedTimeSpan() != null);
     }
 
     private void handleError(@NonNull Throwable throwable) {
@@ -73,6 +94,7 @@ public class FilterPresenter extends MvpPresenter<FilterView> implements Languag
         }
         item.setChecked(true);
         mViewModel.setCheckedTimeSpan(item);
+        mViewModel.isButtonNextEnabled.set(mViewModel.getCheckedLanguage() != null && mViewModel.getCheckedTimeSpan() != null);
         DataManager.getInstance().setSearchParamsTimeSpan(item.getHref());
         getViewState().setFilterWasChanged(!mLanguage.equals(DataManager.getInstance().getParams().getLanguage()) || !mTimeSpan.equals(DataManager.getInstance().getParams().getTimeSpan()));
     }
@@ -88,19 +110,9 @@ public class FilterPresenter extends MvpPresenter<FilterView> implements Languag
         }
         item.setChecked(true);
         mViewModel.setCheckedLanguage(item);
+        mViewModel.isButtonNextEnabled.set(mViewModel.getCheckedLanguage() != null && mViewModel.getCheckedTimeSpan() != null);
         DataManager.getInstance().setSearchParamsLanguage(item.getHref());
         getViewState().setFilterWasChanged(!mLanguage.equals(DataManager.getInstance().getParams().getLanguage()) || !mTimeSpan.equals(DataManager.getInstance().getParams().getTimeSpan()));
     }
 
-    private class LanguagesAndTimeSpan {
-
-        private List<LanguageViewModel> mLanguages;
-
-        private List<TimeSpanViewModel> mTimeSpans;
-
-        public LanguagesAndTimeSpan(List<LanguageViewModel> languages, List<TimeSpanViewModel> timeSpans) {
-            mLanguages = languages;
-            mTimeSpans = timeSpans;
-        }
-    }
 }

@@ -14,69 +14,90 @@
         <variable
             name="viewModel"
             type="hram.githubtrending.viewmodel.FilterViewModel"/>
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener"/>
     </data>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:context="hram.githubtrending.filter.FilterActivity">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/colorDivider"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context="hram.githubtrending.filter.FilterActivity">
 
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Body1"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/colorDivider"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp">
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+
+                        android:text="Период"
+                        tools:text="Период"/>
+
+                </FrameLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    app:itemBinding="@{viewModel.timeSpanItemBinding}"
+                    app:items="@{viewModel.timeSpanItems}"
+                    app:layoutManager="@{LayoutManagers.linear()}"/>
 
-                    android:text="Период"
-                    tools:text="Период"/>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/colorDivider"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp">
 
-            </FrameLayout>
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Язык"
+                        tools:text="Язык"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:itemBinding="@{viewModel.timeSpanItemBinding}"
-                app:items="@{viewModel.timeSpanItems}"
-                app:layoutManager="@{LayoutManagers.linear()}"/>
+                </FrameLayout>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/colorDivider"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp">
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Body1"
-                    android:layout_width="wrap_content"
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Язык"
-                    tools:text="Язык"/>
+                    app:itemBinding="@{viewModel.languageItemBinding}"
+                    app:items="@{viewModel.languageItems}"
+                    app:layoutManager="@{LayoutManagers.linear()}"/>
 
-            </FrameLayout>
+            </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:itemBinding="@{viewModel.languageItemBinding}"
-                app:items="@{viewModel.languageItems}"
-                app:layoutManager="@{LayoutManagers.linear()}"/>
+        </ScrollView>
 
-        </LinearLayout>
+        <Button
+            android:id="@+id/bt_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="@{viewModel.isButtonNextEnabled}"
+            android:onClick="@{(v) -> listener.onClick(v)}"
+            android:text="Продолжить"
+            android:visibility="@{viewModel.isForFirstSetup ? View.VISIBLE : View.GONE}"/>
 
-    </ScrollView>
+    </LinearLayout>
 
 </layout>

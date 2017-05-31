@@ -1,6 +1,7 @@
 package hram.githubtrending.viewmodel;
 
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,6 +29,10 @@ public class FilterViewModel implements LanguageViewModel.OnItemClickListener, T
 
     public final ItemBinding<TimeSpanViewModel> timeSpanItemBinding = ItemBinding.<TimeSpanViewModel>of(BR.item, R.layout.item_time_span)
             .bindExtra(BR.listener, this);
+
+    public ObservableBoolean isForFirstSetup = new ObservableBoolean(false);
+
+    public ObservableBoolean isButtonNextEnabled = new ObservableBoolean(false);
 
     private TimeSpanViewModel mCheckedTimeSpan;
 

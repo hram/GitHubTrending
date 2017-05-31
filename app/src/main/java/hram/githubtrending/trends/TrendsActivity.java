@@ -1,5 +1,6 @@
 package hram.githubtrending.trends;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -24,6 +25,11 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
 
     @InjectPresenter
     TrendsPresenter mPresenter;
+
+    @NonNull
+    public static void start(@NonNull Context context) {
+        context.startActivity(new Intent(context, TrendsActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +75,7 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
     }
 
     @Override
-    public void setViewModel(RepositoriesViewModel viewModel) {
+    public void setViewModel(@NonNull RepositoriesViewModel viewModel) {
         mBinding.setViewModel(viewModel);
         mBinding.executePendingBindings();
     }
