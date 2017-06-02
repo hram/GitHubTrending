@@ -13,6 +13,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import hram.githubtrending.R;
 import hram.githubtrending.databinding.AcFilterBinding;
+import hram.githubtrending.trends.TrendsActivity;
 import hram.githubtrending.viewmodel.FilterViewModel;
 import hugo.weaving.DebugLog;
 
@@ -55,6 +56,7 @@ public class FilterActivity extends MvpAppCompatActivity implements FilterView, 
         mBinding.executePendingBindings();
     }
 
+    @DebugLog
     @Override
     public void setFilterWasChanged(boolean value) {
         setResult(value ? Activity.RESULT_OK : Activity.RESULT_CANCELED);
@@ -63,6 +65,7 @@ public class FilterActivity extends MvpAppCompatActivity implements FilterView, 
     @DebugLog
     @Override
     public void onClick(View v) {
-
+        TrendsActivity.start(this);
+        finish();
     }
 }

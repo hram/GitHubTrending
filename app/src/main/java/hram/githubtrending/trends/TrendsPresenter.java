@@ -14,11 +14,8 @@ import java.util.List;
 
 import hram.githubtrending.BuildConfig;
 import hram.githubtrending.data.DataManager;
-import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
-import hram.githubtrending.viewmodel.TimeSpanViewModel;
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -57,7 +54,7 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> implements Reposit
         super.onFirstViewAttach();
         mRepositoriesViewModel = new RepositoriesViewModel(this);
         getViewState().setViewModel(mRepositoriesViewModel);
-        getViewState().setTitle(String.format("%s %s trends", DataManager.getInstance().getParams().getLanguage(), DataManager.getInstance().getParams().getTimeSpan()));
+        getViewState().setTitle(String.format("%s %s trends", DataManager.getInstance().getParams().getLanguageName(), DataManager.getInstance().getParams().getTimeSpan()));
         loadRepositories();
     }
 
@@ -95,19 +92,6 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> implements Reposit
     private void handleRepositories(@NonNull List<RepositoryViewModel> list) {
         mRepositoriesViewModel.setItems(list);
         getViewState().setRefreshing(false);
-
-        Observable.zip(DataManager.getInstance().getLanguages(), DataManager.getInstance().getTimeSpans(), this::mapToLanguagesAndTimeSpan)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::handleLanguagesAndTimeSpan, this::handleError);
-    }
-
-    private LanguagesAndTimeSpan mapToLanguagesAndTimeSpan(List<LanguageViewModel> languages, List<TimeSpanViewModel> timeSpans) {
-        return new LanguagesAndTimeSpan(languages, timeSpans);
-    }
-
-    private void handleLanguagesAndTimeSpan(@NonNull LanguagesAndTimeSpan item) {
-
     }
 
     private void handleError(@NonNull Throwable throwable) {
@@ -151,19 +135,7 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> implements Reposit
     void onActivityResult(int requestCode, int resultCode) {
         if (requestCode == CHANGE_FILTER && resultCode == Activity.RESULT_OK) {
             refresh();
-            getViewState().setTitle(String.format("%s %s trends", DataManager.getInstance().getParams().getLanguage(), DataManager.getInstance().getParams().getTimeSpan()));
-        }
-    }
-
-    private class LanguagesAndTimeSpan {
-
-        private List<LanguageViewModel> mLanguages;
-
-        private List<TimeSpanViewModel> mTimeSpans;
-
-        public LanguagesAndTimeSpan(List<LanguageViewModel> languages, List<TimeSpanViewModel> timeSpans) {
-            mLanguages = languages;
-            mTimeSpans = timeSpans;
+            getViewState().setTitle(String.format("%s %s trends", DataManager.getInstance().getParams().getLanguageName(), DataManager.getInstance().getParams().getTimeSpan()));
         }
     }
 }

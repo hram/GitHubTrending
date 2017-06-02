@@ -25,69 +25,65 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ScrollView
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:context="hram.githubtrending.filter.FilterActivity">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                tools:context="hram.githubtrending.filter.FilterActivity">
+                android:layout_height="48dp"
+                android:background="@color/colorDivider"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp">
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="@color/colorDivider"
-                    android:paddingEnd="8dp"
-                    android:paddingStart="8dp">
-
-                    <TextView
-                        style="@style/TextAppearance.AppCompat.Body1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-
-                        android:text="Период"
-                        tools:text="Период"/>
-
-                </FrameLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:itemBinding="@{viewModel.timeSpanItemBinding}"
-                    app:items="@{viewModel.timeSpanItems}"
-                    app:layoutManager="@{LayoutManagers.linear()}"/>
+                    android:layout_gravity="center_vertical"
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="@color/colorDivider"
-                    android:paddingEnd="8dp"
-                    android:paddingStart="8dp">
+                    android:text="@string/fg_period"
+                    tools:text="Период"/>
 
-                    <TextView
-                        style="@style/TextAppearance.AppCompat.Body1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="Язык"
-                        tools:text="Язык"/>
+            </FrameLayout>
 
-                </FrameLayout>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemBinding="@{viewModel.timeSpanItemBinding}"
+                app:items="@{viewModel.timeSpanItems}"
+                app:layoutManager="@{LayoutManagers.linear()}"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/colorDivider"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:itemBinding="@{viewModel.languageItemBinding}"
-                    app:items="@{viewModel.languageItems}"
-                    app:layoutManager="@{LayoutManagers.linear()}"/>
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/fg_language"
+                    tools:text="Язык"/>
 
-            </LinearLayout>
+            </FrameLayout>
 
-        </ScrollView>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemBinding="@{viewModel.languageItemBinding}"
+                app:items="@{viewModel.languageItems}"
+                app:layoutManager="@{LayoutManagers.linear()}"/>
+
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/bt_next"
@@ -95,7 +91,7 @@
             android:layout_height="wrap_content"
             android:enabled="@{viewModel.isButtonNextEnabled}"
             android:onClick="@{(v) -> listener.onClick(v)}"
-            android:text="Продолжить"
+            android:text="@string/bt_continue"
             android:visibility="@{viewModel.isForFirstSetup ? View.VISIBLE : View.GONE}"/>
 
     </LinearLayout>

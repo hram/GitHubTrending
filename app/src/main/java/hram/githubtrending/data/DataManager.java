@@ -4,8 +4,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.github.florent37.retrojsoup.RetroJsoup;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +13,11 @@ import hram.githubtrending.data.model.Repository;
 import hram.githubtrending.data.model.SearchParams;
 import hram.githubtrending.data.model.TimeSpan;
 import hram.githubtrending.data.network.NetworkHelper;
-import hram.githubtrending.data.network.Trending;
 import hram.githubtrending.data.prefepences.PreferencesHelper;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
+import hugo.weaving.DebugLog;
 import io.reactivex.Observable;
 
 /**
@@ -66,15 +64,15 @@ public class DataManager {
     @NonNull
     public Observable<List<RepositoryViewModel>> getRepositories() {
         return mDatabaseHelper.getRepositoriesObservable(mParams.getLanguage(), mParams.getTimeSpan())
-                .flatMap(this::ifEmptyThenFromNetwork)
-                .flatMap(this::mapToViewModel);
+                .flatMap(this::ifEmptyThenGetRepositoriesFromNetwork)
+                .flatMap(this::mapRepositoryToViewModel);
     }
 
     @NonNull
     public Observable<List<RepositoryViewModel>> refreshRepositories() {
         return mNetworkHelper.getRepositories(mParams.getLanguage(), mParams.getTimeSpan())
                 .flatMap(repositories -> mDatabaseHelper.saveRepositories(repositories, mParams.getLanguage(), mParams.getTimeSpan()))
-                .flatMap(this::mapToViewModel);
+                .flatMap(this::mapRepositoryToViewModel);
     }
 
     @NonNull
@@ -83,39 +81,43 @@ public class DataManager {
                 .flatMap(this::mapToViewModel);
     }
 
-    // TODO add loading from DB and only if DB empty load from network
     @NonNull
     public Observable<List<LanguageViewModel>> getLanguages() {
-        final Trending trending = new RetroJsoup.Builder()
-                .url("https://github.com/trending/")
-                //.client(okHttpClient)
-                .build()
-                .create(Trending.class);
-
-        return trending.getLanguages()
-                .flatMap(this::mapToViewModel)
-                .toList().toObservable();
+        return mDatabaseHelper.getLanguagesObservable()
+                .flatMap(this::ifEmptyThenGetLanguagesFromNetwork)
+                .flatMap(this::mapLanguageToViewModel);
     }
 
-    // TODO add loading from DB and only if DB empty load from network
     @NonNull
     public Observable<List<TimeSpanViewModel>> getTimeSpans() {
-        final Trending trending = new RetroJsoup.Builder()
-                .url("https://github.com/trending/")
-                //.client(okHttpClient)
-                .build()
-                .create(Trending.class);
-
-        return trending.getTimeSpans()
-                .flatMap(this::mapToViewModel)
-                .toList().toObservable();
+        return mDatabaseHelper.getTimeSpansObservable()
+                .flatMap(this::ifEmptyThenGetTimeSpansFromNetwork)
+                .flatMap(this::mapTimeSpanToViewModel);
     }
 
     @NonNull
-    private Observable<List<RepositoryViewModel>> mapToViewModel(List<Repository> list) {
+    private Observable<List<RepositoryViewModel>> mapRepositoryToViewModel(List<Repository> list) {
         final List<RepositoryViewModel> items = new ArrayList<>(list.size());
         for (Repository model : list) {
             items.add(RepositoryViewModel.create(model));
+        }
+        return Observable.just(items);
+    }
+
+    @NonNull
+    private Observable<List<LanguageViewModel>> mapLanguageToViewModel(@NonNull List<Language> list) {
+        final List<LanguageViewModel> items = new ArrayList<>(list.size());
+        for (Language model : list) {
+            items.add(LanguageViewModel.create(model, Uri.parse(model.getHref()).getLastPathSegment().equalsIgnoreCase(mParams.getLanguage())));
+        }
+        return Observable.just(items);
+    }
+
+    @NonNull
+    private Observable<List<TimeSpanViewModel>> mapTimeSpanToViewModel(@NonNull List<TimeSpan> list) {
+        final List<TimeSpanViewModel> items = new ArrayList<>(list.size());
+        for (TimeSpan model : list) {
+            items.add(TimeSpanViewModel.create(model, Uri.parse(model.getHref()).getQueryParameter("since").equalsIgnoreCase(mParams.getTimeSpan())));
         }
         return Observable.just(items);
     }
@@ -153,10 +155,30 @@ public class DataManager {
     }
 
     @NonNull
-    private Observable<List<Repository>> ifEmptyThenFromNetwork(@NonNull List<Repository> list) {
+    private Observable<List<Repository>> ifEmptyThenGetRepositoriesFromNetwork(@NonNull List<Repository> list) {
         if (list.isEmpty()) {
             return mNetworkHelper.getRepositories(mParams.getLanguage(), mParams.getTimeSpan())
                     .flatMap(repositories -> mDatabaseHelper.saveRepositories(repositories, mParams.getLanguage(), mParams.getTimeSpan()));
+        } else {
+            return Observable.just(list);
+        }
+    }
+
+    @NonNull
+    private Observable<List<Language>> ifEmptyThenGetLanguagesFromNetwork(@NonNull List<Language> list) {
+        if (list.isEmpty()) {
+            return mNetworkHelper.getLanguages()
+                    .flatMap(mDatabaseHelper::saveLanguages);
+        } else {
+            return Observable.just(list);
+        }
+    }
+
+    @NonNull
+    private Observable<List<TimeSpan>> ifEmptyThenGetTimeSpansFromNetwork(@NonNull List<TimeSpan> list) {
+        if (list.isEmpty()) {
+            return mNetworkHelper.getTimeSpans()
+                    .flatMap(mDatabaseHelper::saveTimeSpans);
         } else {
             return Observable.just(list);
         }
@@ -173,11 +195,19 @@ public class DataManager {
         return Observable.just(true);
     }
 
+    @DebugLog
     public void setSearchParamsLanguage(@NonNull String language) {
         mParams.setLanguage(Uri.parse(language).getLastPathSegment());
         mPreferencesHelper.setSearchParams(mParams);
     }
 
+    @DebugLog
+    public void setSearchParamsLanguageName(@NonNull String languageName) {
+        mParams.setLanguageName(languageName);
+        mPreferencesHelper.setSearchParams(mParams);
+    }
+
+    @DebugLog
     public void setSearchParamsTimeSpan(@NonNull String timeSpan) {
         mParams.setTimeSpan(Uri.parse(timeSpan).getQueryParameter("since"));
         mPreferencesHelper.setSearchParams(mParams);

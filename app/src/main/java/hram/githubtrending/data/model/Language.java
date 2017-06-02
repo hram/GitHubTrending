@@ -5,11 +5,13 @@ import android.support.annotation.NonNull;
 import com.github.florent37.retrojsoup.annotations.JsoupHref;
 import com.github.florent37.retrojsoup.annotations.JsoupText;
 
+import io.realm.RealmObject;
+
 /**
  * @author Evgeny Khramov
  */
 
-public class Language {
+public class Language extends RealmObject {
 
     @JsoupHref("a")
     String href;

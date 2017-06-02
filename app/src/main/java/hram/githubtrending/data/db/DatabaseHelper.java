@@ -5,8 +5,9 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import hram.githubtrending.data.model.Language;
 import hram.githubtrending.data.model.Repository;
-import hugo.weaving.DebugLog;
+import hram.githubtrending.data.model.TimeSpan;
 import io.reactivex.Observable;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -69,6 +70,62 @@ public class DatabaseHelper {
                 .equalTo(Repository.COLUMN_HIDED, false)
                 .findAll()
                 .sort(Repository.COLUMN_ORDER, Sort.DESCENDING);
+
+        return realm.copyFromRealm(result);
+    }
+
+    public Observable<List<Language>> saveLanguages(@NonNull List<Language> list) {
+        final Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.where(Language.class)
+                        .findAll().deleteAllFromRealm();
+                realm.copyToRealm(list);
+            }
+        });
+
+        return Observable.just(list);
+    }
+
+    @NonNull
+    public Observable<List<Language>> getLanguagesObservable() {
+        return Observable.defer(() -> Observable.just(getLanguages()));
+    }
+
+    @NonNull
+    public List<Language> getLanguages() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Language> result = realm.where(Language.class)
+                .findAll();
+
+        return realm.copyFromRealm(result);
+    }
+
+    public Observable<List<TimeSpan>> saveTimeSpans(@NonNull List<TimeSpan> list) {
+        final Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.where(TimeSpan.class)
+                        .findAll().deleteAllFromRealm();
+                realm.copyToRealm(list);
+            }
+        });
+
+        return Observable.just(list);
+    }
+
+    @NonNull
+    public Observable<List<TimeSpan>> getTimeSpansObservable() {
+        return Observable.defer(() -> Observable.just(getTimeSpans()));
+    }
+
+    @NonNull
+    public List<TimeSpan> getTimeSpans() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<TimeSpan> result = realm.where(TimeSpan.class)
+                .findAll();
 
         return realm.copyFromRealm(result);
     }

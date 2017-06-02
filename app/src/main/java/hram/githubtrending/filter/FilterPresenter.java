@@ -13,6 +13,7 @@ import hram.githubtrending.viewmodel.FilterViewModel;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.LanguagesAndTimeSpan;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
+import hugo.weaving.DebugLog;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -99,6 +100,7 @@ public class FilterPresenter extends MvpPresenter<FilterView> implements Languag
         getViewState().setFilterWasChanged(!mLanguage.equals(DataManager.getInstance().getParams().getLanguage()) || !mTimeSpan.equals(DataManager.getInstance().getParams().getTimeSpan()));
     }
 
+    @DebugLog
     @Override
     public void onItemClick(@NonNull LanguageViewModel item) {
         if (item.isChecked()) {
@@ -112,6 +114,7 @@ public class FilterPresenter extends MvpPresenter<FilterView> implements Languag
         mViewModel.setCheckedLanguage(item);
         mViewModel.isButtonNextEnabled.set(mViewModel.getCheckedLanguage() != null && mViewModel.getCheckedTimeSpan() != null);
         DataManager.getInstance().setSearchParamsLanguage(item.getHref());
+        DataManager.getInstance().setSearchParamsLanguageName(item.getName());
         getViewState().setFilterWasChanged(!mLanguage.equals(DataManager.getInstance().getParams().getLanguage()) || !mTimeSpan.equals(DataManager.getInstance().getParams().getTimeSpan()));
     }
 

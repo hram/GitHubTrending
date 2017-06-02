@@ -6,8 +6,9 @@ import com.github.florent37.retrojsoup.RetroJsoup;
 
 import java.util.List;
 
+import hram.githubtrending.data.model.Language;
 import hram.githubtrending.data.model.Repository;
-import hugo.weaving.DebugLog;
+import hram.githubtrending.data.model.TimeSpan;
 import io.reactivex.Observable;
 
 /**
@@ -27,6 +28,30 @@ public class NetworkHelper {
                 .flatMap(item -> setLanguageAndTimeSpan(item, language, timeSpan))
                 .toList()
                 .toObservable();
+    }
+
+    @NonNull
+    public Observable<List<Language>> getLanguages() {
+        final Trending trending = new RetroJsoup.Builder()
+                .url("https://github.com/trending/")
+                //.client(okHttpClient)
+                .build()
+                .create(Trending.class);
+
+        return trending.getLanguages()
+                .toList().toObservable();
+    }
+    
+    @NonNull
+    public Observable<List<TimeSpan>> getTimeSpans() {
+        final Trending trending = new RetroJsoup.Builder()
+                .url("https://github.com/trending/")
+                //.client(okHttpClient)
+                .build()
+                .create(Trending.class);
+
+        return trending.getTimeSpans()
+                .toList().toObservable();
     }
 
     @NonNull

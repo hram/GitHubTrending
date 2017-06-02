@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Github trending</string>
     <string name="bt_continue">Продолжить</string>
     <string name="fg_language">Язык</string>
     <string name="fg_period">Период</string>

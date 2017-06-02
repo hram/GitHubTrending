@@ -11,6 +11,8 @@ public class SearchParams {
 
     private String mLanguage;
 
+    private String mLanguageName;
+
     private String mTimeSpan;
 
     @NonNull
@@ -30,6 +32,15 @@ public class SearchParams {
 
     public void setLanguage(@NonNull String language) {
         mLanguage = language;
+    }
+
+    @NonNull
+    public String getLanguageName() {
+        return mLanguageName;
+    }
+
+    public void setLanguageName(@NonNull String languageName) {
+        mLanguageName = languageName;
     }
 
     @NonNull
