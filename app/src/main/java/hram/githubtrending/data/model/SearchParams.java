@@ -17,7 +17,7 @@ public class SearchParams {
 
     @NonNull
     public static SearchParams createEmpty() {
-        return new SearchParams("", "");
+        return new SearchParams("", "daily");
     }
 
     public SearchParams(@NonNull String language, @NonNull String timeSpan) {

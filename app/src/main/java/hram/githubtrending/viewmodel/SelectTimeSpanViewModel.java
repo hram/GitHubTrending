@@ -2,6 +2,7 @@ package hram.githubtrending.viewmodel;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,17 +14,9 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding;
 /**
  * @author Evgeny Khramov
  */
-
-public class FilterViewModel implements LanguageViewModel.OnItemClickListener, TimeSpanViewModel.OnItemClickListener {
-
-    private final LanguageViewModel.OnItemClickListener mLanguageListener;
+public class SelectTimeSpanViewModel implements TimeSpanViewModel.OnItemClickListener {
 
     private final TimeSpanViewModel.OnItemClickListener mTimeSpanListener;
-
-    public final ObservableList<LanguageViewModel> languageItems = new ObservableArrayList<>();
-
-    public final ItemBinding<LanguageViewModel> languageItemBinding = ItemBinding.<LanguageViewModel>of(BR.item, R.layout.item_language)
-            .bindExtra(BR.listener, this);
 
     public final ObservableList<TimeSpanViewModel> timeSpanItems = new ObservableArrayList<>();
 
@@ -32,23 +25,37 @@ public class FilterViewModel implements LanguageViewModel.OnItemClickListener, T
 
     public ObservableBoolean isButtonNextEnabled = new ObservableBoolean(false);
 
+    public final ObservableField<String> error = new ObservableField<>();
+
+    public ObservableBoolean hasError = new ObservableBoolean(false);
+
     private TimeSpanViewModel mCheckedTimeSpan;
 
-    private LanguageViewModel mCheckedLanguage;
+    @NonNull
+    public static SelectTimeSpanViewModel createEmpty() {
+        return new SelectTimeSpanViewModel();
+    }
 
-    public FilterViewModel(@NonNull LanguageViewModel.OnItemClickListener languageListener, @NonNull TimeSpanViewModel.OnItemClickListener timeSpanListener) {
-        mLanguageListener = languageListener;
+    public static SelectTimeSpanViewModel createWithError(@NonNull Throwable throwable) {
+        final SelectTimeSpanViewModel viewModel = new SelectTimeSpanViewModel();
+        viewModel.hasError.set(true);
+        viewModel.error.set(throwable.getMessage());
+        return viewModel;
+    }
+
+    private SelectTimeSpanViewModel() {
+        mTimeSpanListener = item -> {
+            // do nithing
+        };
+    }
+
+    public SelectTimeSpanViewModel(@NonNull TimeSpanViewModel.OnItemClickListener timeSpanListener) {
         mTimeSpanListener = timeSpanListener;
     }
 
     @Override
     public void onItemClick(@NonNull TimeSpanViewModel item) {
         mTimeSpanListener.onItemClick(item);
-    }
-
-    @Override
-    public void onItemClick(@NonNull LanguageViewModel item) {
-        mLanguageListener.onItemClick(item);
     }
 
     @Nullable
@@ -58,14 +65,5 @@ public class FilterViewModel implements LanguageViewModel.OnItemClickListener, T
 
     public void setCheckedTimeSpan(@NonNull TimeSpanViewModel checkedTimeSpan) {
         mCheckedTimeSpan = checkedTimeSpan;
-    }
-
-    @Nullable
-    public LanguageViewModel getCheckedLanguage() {
-        return mCheckedLanguage;
-    }
-
-    public void setCheckedLanguage(@NonNull LanguageViewModel checkedLanguage) {
-        mCheckedLanguage = checkedLanguage;
     }
 }

@@ -9,7 +9,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import hram.githubtrending.R;
 import hram.githubtrending.databinding.AcSplashBinding;
-import hram.githubtrending.filter.FilterActivity;
+import hram.githubtrending.selectlanguage.SelectLanguageActivity;
 import hram.githubtrending.trends.TrendsActivity;
 import hram.githubtrending.viewmodel.SplashViewModel;
 
@@ -39,7 +39,7 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
 
     @Override
     public void openFilterScreen() {
-        FilterActivity.startForFirstSetup(this);
+        SelectLanguageActivity.start(this);
         finish();
     }
 }

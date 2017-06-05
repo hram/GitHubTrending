@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Contract;
 
 import hram.githubtrending.BR;
 import hram.githubtrending.data.model.Language;
-import hugo.weaving.DebugLog;
 
 /**
  * @author Evgeny Khramov
@@ -29,7 +28,6 @@ public class LanguageViewModel extends BaseObservable {
         return new LanguageViewModel(model, isChecked);
     }
 
-    @DebugLog
     private LanguageViewModel(@NonNull Language model, boolean isChecked) {
         mName = model.getName();
         mHref = model.getHref();

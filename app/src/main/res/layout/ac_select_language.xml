@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers"/>
+
+        <import type="hram.githubtrending.viewmodel.SelectLanguageViewModel"/>
+
+        <variable
+            name="viewModel"
+            type="hram.githubtrending.viewmodel.SelectLanguageViewModel"/>
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="hram.githubtrending.selectlanguage.SelectLanguageActivity">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Выберите язык"
+                android:textSize="24sp"
+                tools:text="Выберите язык, в дальнейшем вы сможете поменять его в настройках"/>
+
+        </FrameLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:itemBinding="@{viewModel.languageItemBinding}"
+            app:items="@{viewModel.languageItems}"
+            app:layoutManager="@{LayoutManagers.linear()}"/>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <Button
+                android:id="@+id/bt_next"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="@{viewModel.isButtonNextEnabled}"
+                android:onClick="@{(v) -> listener.onClick(v)}"
+                android:text="@string/bt_continue"
+                android:layout_gravity="end"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</layout>

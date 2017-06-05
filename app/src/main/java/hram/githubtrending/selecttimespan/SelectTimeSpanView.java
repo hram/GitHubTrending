@@ -1,4 +1,4 @@
-package hram.githubtrending.filter;
+package hram.githubtrending.selecttimespan;
 
 import android.support.annotation.NonNull;
 
@@ -6,16 +6,14 @@ import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
-import hram.githubtrending.viewmodel.FilterViewModel;
+import hram.githubtrending.viewmodel.SelectTimeSpanViewModel;
 
 /**
  * @author Evgeny Khramov
  */
-interface FilterView extends MvpView {
+
+interface SelectTimeSpanView extends MvpView {
 
     @StateStrategyType(value = AddToEndSingleStrategy.class)
-    void setViewModel(@NonNull FilterViewModel viewModel);
-
-    @StateStrategyType(value = AddToEndSingleStrategy.class)
-    void setFilterWasChanged(boolean value);
+    void setViewModel(@NonNull SelectTimeSpanViewModel viewModel);
 }

@@ -1,6 +1,7 @@
 package hram.githubtrending.data;
 
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -16,6 +17,8 @@ import hram.githubtrending.data.network.NetworkHelper;
 import hram.githubtrending.data.prefepences.PreferencesHelper;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
+import hram.githubtrending.viewmodel.SelectLanguageViewModel;
+import hram.githubtrending.viewmodel.SelectTimeSpanViewModel;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
 import hugo.weaving.DebugLog;
 import io.reactivex.Observable;
@@ -60,7 +63,6 @@ public class DataManager {
         return mParams;
     }
 
-    // TODO add loading from DB and only if DB empty load from network
     @NonNull
     public Observable<List<RepositoryViewModel>> getRepositories() {
         return mDatabaseHelper.getRepositoriesObservable(mParams.getLanguage(), mParams.getTimeSpan())
@@ -126,12 +128,6 @@ public class DataManager {
         return Observable.just(RepositoryViewModel.create(item));
     }
 
-//    @DebugLog
-//    @NonNull
-//    private Observable<RepositoryViewModel> mapToViewModel(@NonNull Repository item) {
-//        return Observable.just(RepositoryViewModel.create(item));
-//    }
-
     @NonNull
     public Observable<Repository> saveToDataBase(@NonNull Repository item) {
         mDatabaseHelper.saveRepository(item);
@@ -195,21 +191,69 @@ public class DataManager {
         return Observable.just(true);
     }
 
-    @DebugLog
     public void setSearchParamsLanguage(@NonNull String language) {
         mParams.setLanguage(Uri.parse(language).getLastPathSegment());
         mPreferencesHelper.setSearchParams(mParams);
     }
 
-    @DebugLog
     public void setSearchParamsLanguageName(@NonNull String languageName) {
         mParams.setLanguageName(languageName);
         mPreferencesHelper.setSearchParams(mParams);
     }
 
-    @DebugLog
     public void setSearchParamsTimeSpan(@NonNull String timeSpan) {
         mParams.setTimeSpan(Uri.parse(timeSpan).getQueryParameter("since"));
         mPreferencesHelper.setSearchParams(mParams);
+    }
+
+    @NonNull
+    public Observable<SelectLanguageViewModel> getSelectLanguageViewModel(@NonNull LanguageViewModel.OnItemClickListener languageListener) {
+        return getLanguages()
+                .flatMap(list -> mapLanguagesToSelectLanguageViewModel(languageListener, list));
+    }
+
+    @NonNull
+    private Observable<SelectLanguageViewModel> mapLanguagesToSelectLanguageViewModel(@NonNull LanguageViewModel.OnItemClickListener listener, @NonNull List<LanguageViewModel> list) {
+        final SelectLanguageViewModel viewModel = new SelectLanguageViewModel(listener);
+        viewModel.languageItems.addAll(list);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            viewModel.setCheckedLanguage(list.stream().filter(LanguageViewModel::isChecked).findFirst().orElse(null));
+        } else {
+            for (LanguageViewModel model : list) {
+                if (model.isChecked()) {
+                    viewModel.setCheckedLanguage(model);
+                    break;
+                }
+            }
+        }
+
+        viewModel.isButtonNextEnabled.set(viewModel.getCheckedLanguage() != null);
+        return Observable.just(viewModel);
+    }
+
+    @NonNull
+    public Observable<SelectTimeSpanViewModel> getSelectTimeSpanViewModel(@NonNull TimeSpanViewModel.OnItemClickListener languageListener) {
+        return getTimeSpans()
+                .flatMap(list -> mapTimeSpansToSelectTimeSpanViewModel(languageListener, list));
+    }
+
+    @NonNull
+    private Observable<SelectTimeSpanViewModel> mapTimeSpansToSelectTimeSpanViewModel(@NonNull TimeSpanViewModel.OnItemClickListener listener, @NonNull List<TimeSpanViewModel> list) {
+        final SelectTimeSpanViewModel viewModel = new SelectTimeSpanViewModel(listener);
+        viewModel.timeSpanItems.clear();
+        viewModel.timeSpanItems.addAll(list);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            viewModel.setCheckedTimeSpan(list.stream().filter(TimeSpanViewModel::isChecked).findFirst().orElse(null));
+        } else {
+            for (TimeSpanViewModel model : list) {
+                if (model.isChecked()) {
+                    viewModel.setCheckedTimeSpan(model);
+                    break;
+                }
+            }
+        }
+
+        viewModel.isButtonNextEnabled.set(viewModel.getCheckedTimeSpan() != null);
+        return Observable.just(viewModel);
     }
 }

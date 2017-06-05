@@ -14,6 +14,10 @@
         </activity>
         <activity android:name=".filter.FilterActivity">
         </activity>
+        <activity android:name=".selectlanguage.SelectLanguageActivity">
+        </activity>
+        <activity android:name=".selecttimespan.SelectTimeSpanActivity">
+        </activity>
         <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

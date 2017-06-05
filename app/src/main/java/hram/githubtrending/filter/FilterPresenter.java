@@ -13,7 +13,6 @@ import hram.githubtrending.viewmodel.FilterViewModel;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.LanguagesAndTimeSpan;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
-import hugo.weaving.DebugLog;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -28,7 +27,7 @@ public class FilterPresenter extends MvpPresenter<FilterView> implements Languag
 
     private String mTimeSpan;
 
-    FilterViewModel mViewModel;
+    private FilterViewModel mViewModel;
 
     @Override
     protected void onFirstViewAttach() {
@@ -100,7 +99,6 @@ public class FilterPresenter extends MvpPresenter<FilterView> implements Languag
         getViewState().setFilterWasChanged(!mLanguage.equals(DataManager.getInstance().getParams().getLanguage()) || !mTimeSpan.equals(DataManager.getInstance().getParams().getTimeSpan()));
     }
 
-    @DebugLog
     @Override
     public void onItemClick(@NonNull LanguageViewModel item) {
         if (item.isChecked()) {
@@ -117,5 +115,4 @@ public class FilterPresenter extends MvpPresenter<FilterView> implements Languag
         DataManager.getInstance().setSearchParamsLanguageName(item.getName());
         getViewState().setFilterWasChanged(!mLanguage.equals(DataManager.getInstance().getParams().getLanguage()) || !mTimeSpan.equals(DataManager.getInstance().getParams().getTimeSpan()));
     }
-
 }

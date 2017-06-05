@@ -9,7 +9,6 @@ import java.util.List;
 
 import hram.githubtrending.data.DataManager;
 import hram.githubtrending.viewmodel.LanguageViewModel;
-import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.SplashViewModel;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
 import io.reactivex.Observable;
@@ -45,7 +44,7 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
         if (res) {
             getViewState().openFilterScreen();
         } else {
-
+            // do nothing
         }
     }
 

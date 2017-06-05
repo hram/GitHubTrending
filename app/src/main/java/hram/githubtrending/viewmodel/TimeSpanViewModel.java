@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 
 import hram.githubtrending.BR;
 import hram.githubtrending.data.model.TimeSpan;
-import hugo.weaving.DebugLog;
 
 /**
  * @author Evgeny Khramov
