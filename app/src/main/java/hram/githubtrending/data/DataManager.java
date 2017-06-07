@@ -20,7 +20,6 @@ import hram.githubtrending.viewmodel.RepositoryViewModel;
 import hram.githubtrending.viewmodel.SelectLanguageViewModel;
 import hram.githubtrending.viewmodel.SelectTimeSpanViewModel;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
-import hugo.weaving.DebugLog;
 import io.reactivex.Observable;
 
 /**
@@ -85,9 +84,30 @@ public class DataManager {
 
     @NonNull
     public Observable<List<LanguageViewModel>> getLanguages() {
+        //return Observable.defer(() -> getLanguagesEmpty());
         return mDatabaseHelper.getLanguagesObservable()
                 .flatMap(this::ifEmptyThenGetLanguagesFromNetwork)
                 .flatMap(this::mapLanguageToViewModel);
+    }
+
+    private Observable<List<LanguageViewModel>> getLanguagesEmpty() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return Observable.just(new ArrayList<>());
+    }
+
+    private Observable<List<LanguageViewModel>> getLanguagesError() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return Observable.error(new Exception("this is a message"));
     }
 
     @NonNull

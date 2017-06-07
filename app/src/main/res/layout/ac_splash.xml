@@ -7,23 +7,34 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <com.vlonjatg.progressactivity.ProgressRelativeLayout
+        android:id="@+id/progressActivity"
+        app:emptyBackgroundColor="#fbc02d"
+        app:errorBackgroundColor="#42a5f5"
+        app:loadingBackgroundColor="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="hram.githubtrending.splash.SplashActivity">
+        android:layout_below="@+id/activityToolbar">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="preloader.json"
-            app:lottie_loop="true"/>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="hram.githubtrending.splash.SplashActivity">
 
-    </android.support.constraint.ConstraintLayout>
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="preloader.json"
+                app:lottie_loop="true"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </com.vlonjatg.progressactivity.ProgressRelativeLayout>
 
 </layout>

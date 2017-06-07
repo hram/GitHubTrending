@@ -6,6 +6,7 @@ apply from: '../config/quality/quality.gradle'
 
 repositories {
     maven { url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo' }
+    maven { url "https://jitpack.io" }
 }
 
 android {
@@ -65,4 +66,5 @@ dependencies {
     debugCompile 'com.facebook.stetho:stetho:1.4.2'
     debugCompile 'com.uphyca:stetho_realm:2.0.0'
     compile 'com.airbnb.android:lottie:2.0.0-rc2'
+    compile 'com.github.vlonjatg:progress-activity:v2.0.3'
 }

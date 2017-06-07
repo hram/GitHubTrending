@@ -29,7 +29,11 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
 
         mSplashViewModel = new SplashViewModel();
         getViewState().setViewModel(mSplashViewModel);
+        loadData();
+    }
 
+    public void loadData() {
+        getViewState().showContent();
         if (DataManager.getInstance().getParams().isEmpty()) {
             Observable.zip(DataManager.getInstance().getLanguages(), DataManager.getInstance().getTimeSpans(), this::checkIfNotEmpty)
                     .subscribeOn(Schedulers.newThread())
@@ -44,12 +48,12 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
         if (res) {
             getViewState().openFilterScreen();
         } else {
-            // do nothing
+            getViewState().showEmpty();
         }
     }
 
     private void handleError(@NonNull Throwable throwable) {
-
+        getViewState().showError(throwable);
     }
 
     private boolean checkIfNotEmpty(List<LanguageViewModel> languages, List<TimeSpanViewModel> timeSpans) {

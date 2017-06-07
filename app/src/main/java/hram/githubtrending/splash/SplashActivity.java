@@ -3,6 +3,7 @@ package hram.githubtrending.splash;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -41,5 +42,24 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
     public void openFilterScreen() {
         SelectLanguageActivity.start(this);
         finish();
+    }
+
+    @Override
+    public void showEmpty() {
+        mBinding.progressActivity.showEmpty(R.drawable.ic_star, "Что то пошло не так (((", "Не удалось получить список языков. Мы уже в курсе. Помощь уже в пути.");
+    }
+
+    @Override
+    public void showError(@NonNull Throwable throwable) {
+        mBinding.progressActivity.showError(R.drawable.ic_star, "error", throwable.getMessage(), "обновить", this::refresh);
+    }
+
+    @Override
+    public void showContent() {
+        mBinding.progressActivity.showContent();
+    }
+
+    private void refresh(View view) {
+        mPresenter.loadData();
     }
 }
