@@ -40,7 +40,7 @@ public class DataManager {
     private final PreferencesHelper mPreferencesHelper;
 
     @NonNull
-    private final SearchParams mParams;
+    private SearchParams mParams;
 
     @NonNull
     public static DataManager getInstance() {

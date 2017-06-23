@@ -20,4 +20,9 @@ public class PreferencesHelper {
     public void setSearchParams(@NonNull SearchParams params) {
         Hawk.put(SearchParams.class.getName(), params);
     }
+
+
+    public void resetSearchParams() {
+        Hawk.put(SearchParams.class.getName(), SearchParams.createEmpty());
+    }
 }

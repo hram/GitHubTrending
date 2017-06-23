@@ -11,6 +11,7 @@ import hram.githubtrending.data.model.Language;
 import hram.githubtrending.data.model.Repository;
 import hram.githubtrending.data.model.TimeSpan;
 import io.reactivex.Observable;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 
 /**
@@ -21,9 +22,16 @@ public class NetworkHelper {
 
     private static OkHttpClient sClient;
 
+
+    private final HttpUrl mBaseUrl;
+
+    public NetworkHelper() {
+        mBaseUrl = HttpUrl.parse("https://github.com");
+    }
+
     public Observable<List<Repository>> getRepositories(@NonNull String language, @NonNull String timeSpan) {
         final Trending trending = new RetroJsoup.Builder()
-                .url(String.format("https://github.com/trending/%s?since=%s", language, timeSpan))
+                .url(String.format("%s/trending/%s?since=%s", mBaseUrl, language, timeSpan))
                 .client(getClient())
                 .build()
                 .create(Trending.class);
@@ -37,7 +45,7 @@ public class NetworkHelper {
     @NonNull
     public Observable<List<Language>> getLanguages() {
         final Trending trending = new RetroJsoup.Builder()
-                .url("https://github.com/trending/")
+                .url(String.format("%s/trending/", mBaseUrl))
                 .client(getClient())
                 .build()
                 .create(Trending.class);
@@ -49,7 +57,7 @@ public class NetworkHelper {
     @NonNull
     public Observable<List<TimeSpan>> getTimeSpans() {
         final Trending trending = new RetroJsoup.Builder()
-                .url("https://github.com/trending/")
+                .url(String.format("%s/trending/", mBaseUrl))
                 .client(getClient())
                 .build()
                 .create(Trending.class);

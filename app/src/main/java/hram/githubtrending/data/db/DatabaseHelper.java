@@ -8,6 +8,7 @@ import java.util.List;
 import hram.githubtrending.data.model.Language;
 import hram.githubtrending.data.model.Repository;
 import hram.githubtrending.data.model.TimeSpan;
+import hram.githubtrending.util.RealmUtils;
 import io.reactivex.Observable;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -20,7 +21,7 @@ import io.realm.Sort;
 public class DatabaseHelper {
 
     public Observable<List<Repository>> saveRepositories(@NonNull List<Repository> list, @NonNull String language, @NonNull String timeSpan) {
-        final Realm realm = Realm.getDefaultInstance();
+        final Realm realm = RealmUtils.getRealm();
         List<Repository> saved = new ArrayList<>();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -46,7 +47,7 @@ public class DatabaseHelper {
     }
 
     public void saveRepository(@NonNull Repository repository) {
-        Realm realm = Realm.getDefaultInstance();
+        Realm realm = RealmUtils.getRealm();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -63,7 +64,7 @@ public class DatabaseHelper {
 
     @NonNull
     public List<Repository> getRepositories(@NonNull String language, @NonNull String timeSpan) {
-        Realm realm = Realm.getDefaultInstance();
+        Realm realm = RealmUtils.getRealm();
         RealmResults<Repository> result = realm.where(Repository.class)
                 .equalTo(Repository.COLUMN_LANGUAGE, language)
                 .equalTo(Repository.COLUMN_TIME_SPAN, timeSpan)
@@ -75,7 +76,7 @@ public class DatabaseHelper {
     }
 
     public Observable<List<Language>> saveLanguages(@NonNull List<Language> list) {
-        final Realm realm = Realm.getDefaultInstance();
+        final Realm realm = RealmUtils.getRealm();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -95,7 +96,7 @@ public class DatabaseHelper {
 
     @NonNull
     public List<Language> getLanguages() {
-        Realm realm = Realm.getDefaultInstance();
+        Realm realm = RealmUtils.getRealm();
         RealmResults<Language> result = realm.where(Language.class)
                 .findAll();
 
@@ -103,7 +104,7 @@ public class DatabaseHelper {
     }
 
     public Observable<List<TimeSpan>> saveTimeSpans(@NonNull List<TimeSpan> list) {
-        final Realm realm = Realm.getDefaultInstance();
+        final Realm realm = RealmUtils.getRealm();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -123,7 +124,7 @@ public class DatabaseHelper {
 
     @NonNull
     public List<TimeSpan> getTimeSpans() {
-        Realm realm = Realm.getDefaultInstance();
+        Realm realm = RealmUtils.getRealm();
         RealmResults<TimeSpan> result = realm.where(TimeSpan.class)
                 .findAll();
 
@@ -135,7 +136,7 @@ public class DatabaseHelper {
     }
 
     public Repository getRepositoryById(@NonNull String id) {
-        Realm realm = Realm.getDefaultInstance();
+        Realm realm = RealmUtils.getRealm();
         RealmResults<Repository> result = realm.where(Repository.class)
                 .equalTo(Repository.COLUMN_ID, id)
                 .findAll();
@@ -146,7 +147,7 @@ public class DatabaseHelper {
     }
 
     private boolean isHided(@NonNull String id) {
-        Realm realm = Realm.getDefaultInstance();
+        Realm realm = RealmUtils.getRealm();
         RealmResults<Repository> result = realm.where(Repository.class)
                 .equalTo(Repository.COLUMN_ID, id)
                 .findAll();
