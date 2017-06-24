@@ -69,8 +69,6 @@ dependencies {
     debugCompile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     debugCompile 'com.uphyca:stetho_realm:2.0.0'
     compile 'com.airbnb.android:lottie:2.0.0'
-    compile 'com.github.vlonjatg:progress-activity:v2.0.3'
-
 
     compile "com.google.dagger:dagger:2.9"
     annotationProcessor "com.google.dagger:dagger-compiler:2.9"

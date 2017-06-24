@@ -45,21 +45,23 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
     }
 
     @Override
+    public void showProgress() {
+        mBinding.progress.showLoading();
+    }
+
+    @Override
     public void showEmpty() {
-        mBinding.animationView.setVisibility(View.GONE);
-        mBinding.progressActivity.showEmpty(R.drawable.ic_star, "Что то пошло не так (((", "Не удалось получить список языков. Мы уже в курсе. Помощь уже в пути.");
+        mBinding.progress.showEmpty(R.drawable.ic_star, "Что то пошло не так (((", "Не удалось получить список языков. Мы уже в курсе. Помощь уже в пути.");
     }
 
     @Override
     public void showError(@NonNull Throwable throwable) {
-        mBinding.animationView.setVisibility(View.GONE);
-        mBinding.progressActivity.showError(R.drawable.ic_star, "error", throwable.getMessage(), "обновить", this::refresh);
+        mBinding.progress.showError(R.drawable.ic_star, "error", throwable.getMessage(), "обновить", this::refresh);
     }
 
     @Override
     public void showContent() {
-        mBinding.animationView.setVisibility(View.VISIBLE);
-        mBinding.progressActivity.showContent();
+        // do nothing
     }
 
     private void refresh(View view) {

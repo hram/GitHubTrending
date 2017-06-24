@@ -10,7 +10,7 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.RecordedRequest;
 
 /**
- * Created by hram on 24.06.2017.
+ * @author Evgeny Khramov
  */
 public class SuccessDispatcher extends Dispatcher {
 

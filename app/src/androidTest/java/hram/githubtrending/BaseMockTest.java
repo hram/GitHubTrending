@@ -24,9 +24,8 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created by hram on 24.06.2017.
+ * @author Evgeny Khramov
  */
-
 public class BaseMockTest extends BaseTest {
 
     @Rule

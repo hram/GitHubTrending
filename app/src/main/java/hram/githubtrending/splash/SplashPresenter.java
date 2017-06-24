@@ -21,7 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class SplashPresenter extends MvpPresenter<SplashView> {
 
-    SplashViewModel mSplashViewModel;
+    private SplashViewModel mSplashViewModel;
 
     @Override
     protected void onFirstViewAttach() {
@@ -32,8 +32,8 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
         loadData();
     }
 
-    public void loadData() {
-        getViewState().showContent();
+    void loadData() {
+        getViewState().showProgress();
         if (DataManager.getInstance().getParams().isEmpty()) {
             Observable.zip(DataManager.getInstance().getLanguages(), DataManager.getInstance().getTimeSpans(), this::checkIfNotEmpty)
                     .subscribeOn(Schedulers.newThread())
