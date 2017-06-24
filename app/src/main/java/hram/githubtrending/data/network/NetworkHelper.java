@@ -7,9 +7,13 @@ import com.github.florent37.retrojsoup.RetroJsoup;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import hram.githubtrending.App;
 import hram.githubtrending.data.model.Language;
 import hram.githubtrending.data.model.Repository;
 import hram.githubtrending.data.model.TimeSpan;
+import hram.githubtrending.di.AppComponent;
 import io.reactivex.Observable;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -17,22 +21,23 @@ import okhttp3.OkHttpClient;
 /**
  * @author Evgeny Khramov
  */
-
 public class NetworkHelper {
 
-    private static OkHttpClient sClient;
+    @Inject
+    OkHttpClient mClient;
 
-
-    private final HttpUrl mBaseUrl;
+    @Inject
+    HttpUrl mBaseUrl;
 
     public NetworkHelper() {
-        mBaseUrl = HttpUrl.parse("https://github.com");
+        App.getInstance().getAppComponent().inject(this);
     }
 
+    @NonNull
     public Observable<List<Repository>> getRepositories(@NonNull String language, @NonNull String timeSpan) {
         final Trending trending = new RetroJsoup.Builder()
-                .url(String.format("%s/trending/%s?since=%s", mBaseUrl, language, timeSpan))
-                .client(getClient())
+                .url(String.format("%strending/%s?since=%s", mBaseUrl, language, timeSpan))
+                .client(mClient)
                 .build()
                 .create(Trending.class);
 
@@ -45,8 +50,8 @@ public class NetworkHelper {
     @NonNull
     public Observable<List<Language>> getLanguages() {
         final Trending trending = new RetroJsoup.Builder()
-                .url(String.format("%s/trending/", mBaseUrl))
-                .client(getClient())
+                .url(String.format("%strending/", mBaseUrl))
+                .client(mClient)
                 .build()
                 .create(Trending.class);
 
@@ -57,8 +62,8 @@ public class NetworkHelper {
     @NonNull
     public Observable<List<TimeSpan>> getTimeSpans() {
         final Trending trending = new RetroJsoup.Builder()
-                .url(String.format("%s/trending/", mBaseUrl))
-                .client(getClient())
+                .url(String.format("%strending/", mBaseUrl))
+                .client(mClient)
                 .build()
                 .create(Trending.class);
 
@@ -72,16 +77,5 @@ public class NetworkHelper {
         item.setTimeSpan(timeSpan);
         item.setOrder(Integer.parseInt(item.getStarsToday().split("\\s+")[0].replaceAll(",", "")));
         return Observable.just(item);
-    }
-
-    @NonNull
-    private OkHttpClient getClient() {
-        if (sClient == null) {
-            sClient = new OkHttpClient.Builder()
-                    .addNetworkInterceptor(new StethoInterceptor())
-                    .build();
-        }
-
-        return sClient;
     }
 }

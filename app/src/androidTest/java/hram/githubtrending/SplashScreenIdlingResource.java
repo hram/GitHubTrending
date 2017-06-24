@@ -3,6 +3,7 @@ package hram.githubtrending;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.IdlingResource;
+import android.view.View;
 
 import hram.githubtrending.splash.SplashActivity;
 
@@ -31,7 +32,7 @@ public class SplashScreenIdlingResource implements IdlingResource {
             return false;
         }
 
-        boolean isIdle = !(activity instanceof SplashActivity);
+        boolean isIdle = !(activity instanceof SplashActivity) || isGone(activity.findViewById(R.id.animation_view));
         if (isIdle && mResourceCallback != null) {
             mResourceCallback.onTransitionToIdle();
         }
@@ -42,5 +43,9 @@ public class SplashScreenIdlingResource implements IdlingResource {
     @Override
     public void registerIdleTransitionCallback(ResourceCallback callback) {
         mResourceCallback = callback;
+    }
+
+    private boolean isGone(View view) {
+        return view.getVisibility() == View.GONE;
     }
 }
