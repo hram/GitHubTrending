@@ -37,13 +37,13 @@ public class Repository extends RealmObject {
     @JsoupText(".py-1 p")
     String mDescription;
 
-    @JsoupText(".f6 :eq(2)")
+    @JsoupText(".muted-link:eq(1)")
     String mAllStars;
 
-    @JsoupText(".f6 :eq(3)")
+    @JsoupText(".muted-link:eq(2)")
     String mForks;
 
-    @JsoupText(".f6 :eq(5)")
+    @JsoupText(".f6 .float-right")
     String mStarsToday;
 
     private String mLanguage;

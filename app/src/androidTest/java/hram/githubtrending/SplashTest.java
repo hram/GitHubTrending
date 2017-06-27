@@ -1,7 +1,6 @@
 package hram.githubtrending;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.rule.ActivityTestRule;
@@ -13,15 +12,8 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
-import hram.githubtrending.di.AppComponent;
-import hram.githubtrending.di.DaggerAppComponent;
-import hram.githubtrending.di.TestNetworkModule;
 import hram.githubtrending.selectlanguage.SelectLanguageActivity;
 import hram.githubtrending.splash.SplashActivity;
-import okhttp3.mockwebserver.Dispatcher;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -54,7 +46,7 @@ public class SplashTest extends BaseMockTest {
             Espresso.registerIdlingResources(idlingResource);
 
             try {
-                onView(withId(R.id.animation_view))
+                onView(withId(R.id.progress_bar_loading))
                         .check(matches(isDisplayed()));
                 fail();
             } catch (NoMatchingViewException e) {

@@ -12,12 +12,12 @@ import io.reactivex.Observable;
  */
 public interface Trending {
 
-    @Select(".repo-list .col-12")
+    @Select(".repo-list")
     Observable<Repository> getRepositories();
 
-    @Select(".column.one-fourth .select-menu-item")
+    @Select("[data-filterable-for=text-filter-field]")
     Observable<Language> getLanguages();
 
-    @Select(".column.three-fourths .select-menu-item")
+    @Select(".select-menu.select-menu-modal-right")
     Observable<TimeSpan> getTimeSpans();
 }

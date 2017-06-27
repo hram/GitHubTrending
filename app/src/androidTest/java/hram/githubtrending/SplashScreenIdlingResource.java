@@ -32,7 +32,7 @@ public class SplashScreenIdlingResource implements IdlingResource {
             return false;
         }
 
-        boolean isIdle = !(activity instanceof SplashActivity) || isGone(activity.findViewById(R.id.animation_view));
+        boolean isIdle = !(activity instanceof SplashActivity) || isGone(activity.findViewById(R.id.progress_bar_loading));
         if (isIdle && mResourceCallback != null) {
             mResourceCallback.onTransitionToIdle();
         }
