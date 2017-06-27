@@ -78,7 +78,7 @@ public class ProgressLinearLayout extends LinearLayout {
     int errorStateButtonBackgroundColor;
     int errorStateBackgroundColor;
 
-    private String state = CONTENT;
+    private String mState = CONTENT;
 
     public ProgressLinearLayout(Context context) {
         super(context);
@@ -317,7 +317,7 @@ public class ProgressLinearLayout extends LinearLayout {
      * @return State
      */
     public String getState() {
-        return state;
+        return mState;
     }
 
     /**
@@ -326,7 +326,7 @@ public class ProgressLinearLayout extends LinearLayout {
      * @return boolean
      */
     public boolean isContent() {
-        return state.equals(CONTENT);
+        return mState.equals(CONTENT);
     }
 
     /**
@@ -335,7 +335,7 @@ public class ProgressLinearLayout extends LinearLayout {
      * @return boolean
      */
     public boolean isLoading() {
-        return state.equals(LOADING);
+        return mState.equals(LOADING);
     }
 
     /**
@@ -344,7 +344,7 @@ public class ProgressLinearLayout extends LinearLayout {
      * @return boolean
      */
     public boolean isEmpty() {
-        return state.equals(EMPTY);
+        return mState.equals(EMPTY);
     }
 
     /**
@@ -353,12 +353,12 @@ public class ProgressLinearLayout extends LinearLayout {
      * @return boolean
      */
     public boolean isError() {
-        return state.equals(ERROR);
+        return mState.equals(ERROR);
     }
 
     private void switchState(String state, Drawable drawable, String errorText, String errorTextContent,
                              String errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
-        this.state = state;
+        this.mState = state;
 
         switch (state) {
             case CONTENT:
@@ -389,7 +389,7 @@ public class ProgressLinearLayout extends LinearLayout {
 
     private void switchState(String state, int drawable, String errorText, String errorTextContent,
                              String errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
-        this.state = state;
+        this.mState = state;
 
         switch (state) {
             case CONTENT:

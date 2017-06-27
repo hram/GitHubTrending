@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -79,7 +77,7 @@ public class ProgressFrameLayout extends FrameLayout {
     int errorStateButtonBackgroundColor;
     int errorStateBackgroundColor;
 
-    private String state = CONTENT;
+    private String mState = CONTENT;
 
     public ProgressFrameLayout(Context context) {
         super(context);
@@ -318,7 +316,7 @@ public class ProgressFrameLayout extends FrameLayout {
      * @return State
      */
     public String getState() {
-        return state;
+        return mState;
     }
 
     /**
@@ -327,7 +325,7 @@ public class ProgressFrameLayout extends FrameLayout {
      * @return boolean
      */
     public boolean isContent() {
-        return state.equals(CONTENT);
+        return mState.equals(CONTENT);
     }
 
     /**
@@ -336,7 +334,7 @@ public class ProgressFrameLayout extends FrameLayout {
      * @return boolean
      */
     public boolean isLoading() {
-        return state.equals(LOADING);
+        return mState.equals(LOADING);
     }
 
     /**
@@ -345,7 +343,7 @@ public class ProgressFrameLayout extends FrameLayout {
      * @return boolean
      */
     public boolean isEmpty() {
-        return state.equals(EMPTY);
+        return mState.equals(EMPTY);
     }
 
     /**
@@ -354,12 +352,12 @@ public class ProgressFrameLayout extends FrameLayout {
      * @return boolean
      */
     public boolean isError() {
-        return state.equals(ERROR);
+        return mState.equals(ERROR);
     }
 
     private void switchState(String state, Drawable drawable, String errorText, String errorTextContent,
                              String errorButtonText, View.OnClickListener onClickListener, List<Integer> skipIds) {
-        this.state = state;
+        mState = state;
 
         switch (state) {
             case CONTENT:
@@ -390,7 +388,7 @@ public class ProgressFrameLayout extends FrameLayout {
 
     private void switchState(String state, int drawable, String errorText, String errorTextContent,
                              String errorButtonText, View.OnClickListener onClickListener, List<Integer> skipIds) {
-        this.state = state;
+        mState = state;
 
         switch (state) {
             case CONTENT:

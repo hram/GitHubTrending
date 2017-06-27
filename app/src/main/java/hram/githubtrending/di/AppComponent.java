@@ -1,7 +1,5 @@
 package hram.githubtrending.di;
 
-import android.support.annotation.NonNull;
-
 import javax.inject.Singleton;
 
 import dagger.Component;

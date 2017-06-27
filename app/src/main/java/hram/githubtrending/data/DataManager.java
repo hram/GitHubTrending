@@ -94,7 +94,7 @@ public class DataManager {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            // do nothing
         }
 
         return Observable.just(new ArrayList<>());
@@ -104,7 +104,7 @@ public class DataManager {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            // do nothing
         }
 
         return Observable.error(new Exception("this is a message"));

@@ -8,7 +8,6 @@ import com.arellomobile.mvp.MvpPresenter;
 import hram.githubtrending.data.DataManager;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.SelectLanguageViewModel;
-import hugo.weaving.DebugLog;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 

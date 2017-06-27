@@ -14,10 +14,10 @@ import okhttp3.mockwebserver.RecordedRequest;
  */
 public class SuccessDispatcher extends Dispatcher {
 
-    private final BaseMockTest baseMockTest;
+    private final BaseMockTest mBaseMockTest;
 
     public SuccessDispatcher(@NonNull BaseMockTest baseMockTest) {
-        this.baseMockTest = baseMockTest;
+        this.mBaseMockTest = baseMockTest;
     }
 
     @Override
@@ -25,15 +25,16 @@ public class SuccessDispatcher extends Dispatcher {
         try {
             switch (request.getPath()) {
                 case "/trending/":
-                    return baseMockTest.getResponse("trending_200.html");
+                    return mBaseMockTest.getResponse("trending_200.html");
                 case "/trending/java?since=daily":
-                    return baseMockTest.getResponse("java_daily_200.html");
+                    return mBaseMockTest.getResponse("java_daily_200.html");
                 case "/trending/java?since=weekly":
                     break;
                 case "/trending/java?since=monthly":
                     break;
             }
         } catch (IOException e) {
+            // do nothing
         }
 
         return new MockResponse().setResponseCode(404);

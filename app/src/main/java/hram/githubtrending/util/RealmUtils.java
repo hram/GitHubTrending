@@ -38,6 +38,7 @@ public class RealmUtils {
             try {
                 Realm.migrateRealm(sConfiguration, new Migration());
             } catch (FileNotFoundException e) {
+                // do nothing
             }
         }
         return sConfiguration;
