@@ -3,4 +3,9 @@
     <string name="bt_continue">Продолжить</string>
     <string name="fg_language">Язык</string>
     <string name="fg_period">Период</string>
+    <string name="progressActivityErrorButton">Повторить</string>
+    <string name="progressActivityErrorTitlePlaceholder">Нет соединения</string>
+    <string name="progressActivityEmptyTitlePlaceholder">Пусто</string>
+    <string name="progressActivityErrorContentPlaceholder">Сервер не доступен. Пожалуйста попробуйте позже когда будет доступен интернет.</string>
+    <string name="progressActivityEmptyContentPlaceholder">Ошибка получения данных</string>
 </resources>

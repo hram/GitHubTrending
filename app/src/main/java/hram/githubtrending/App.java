@@ -19,15 +19,14 @@ public class App extends Application {
 
     private static boolean sIsTestMode;
 
-    private static App sApp;
+    private static App sInstance;
 
     AppComponent mAppComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        sApp = this;
+        setInstance(this);
 
         mAppComponent = buildComponent();
 
@@ -47,15 +46,20 @@ public class App extends Application {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    AppComponent buildComponent() {
-        return DaggerAppComponent.builder()
-                .networkModule(new NetworkModule())
-                .build();
+    private static void setInstance(@NonNull App instance) {
+        sInstance = instance;
     }
 
     @NonNull
     public static App getInstance() {
-        return sApp;
+        return sInstance;
+    }
+
+    @NonNull
+    private AppComponent buildComponent() {
+        return DaggerAppComponent.builder()
+                .networkModule(new NetworkModule())
+                .build();
     }
 
     @NonNull
