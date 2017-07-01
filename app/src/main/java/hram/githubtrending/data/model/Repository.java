@@ -27,11 +27,11 @@ public class Repository extends RealmObject {
     @JsoupText(".text-normal")
     String mUser;
 
-    @JsoupText(".d-inline-block a")
+    @JsoupText(".d-inline-block.col-9.mb-1 a")
     String mTitle;
 
     @PrimaryKey
-    @JsoupHref(".d-inline-block a")
+    @JsoupHref(".d-inline-block.col-9.mb-1 a")
     String mHref;
 
     @JsoupText(".py-1 p")

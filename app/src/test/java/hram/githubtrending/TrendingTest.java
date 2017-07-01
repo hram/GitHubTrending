@@ -1,7 +1,5 @@
 package hram.githubtrending;
 
-import com.github.florent37.retrojsoup.RetroJsoup;
-
 import org.junit.Test;
 
 import java.util.List;
@@ -9,7 +7,6 @@ import java.util.List;
 import hram.githubtrending.data.model.Language;
 import hram.githubtrending.data.model.Repository;
 import hram.githubtrending.data.model.TimeSpan;
-import hram.githubtrending.data.network.Trending;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
@@ -22,27 +19,14 @@ import static org.junit.Assert.fail;
 /**
  * @author evgeny.khramov
  */
-public class TrendingTest {
-
-    private List<Repository> mRepositories;
-
-    private List<Language> mLanguages;
-
-    private List<TimeSpan> mTimeSpans;
+public class TrendingTest extends BaseTest {
 
     @Test
     public void testRepositories() throws InterruptedException {
 
-        final Trending trending = new RetroJsoup.Builder()
-                .url("https://github.com/trending/java")
-                .build()
-                .create(Trending.class);
+        final List<Repository> repositories = getRepositories("https://github.com/trending/java");
 
-        trending.getRepositories()
-                .toList()
-                .subscribe(list -> mRepositories = list);
-
-        assertThat(mRepositories.size(), is(25));
+        assertThat(repositories.size(), is(25));
 
         //Repository first = mRepositories.get(0);
 
@@ -54,7 +38,7 @@ public class TrendingTest {
         //assertThat(first.getForks(), is("39"));
 //        assertThat(first.getStarsToday(), is("214 stars today"));
 
-        for (Repository repository : mRepositories) {
+        for (Repository repository : repositories) {
             assertThat(repository.getTitle(), repository.getUser(), is(not(equalTo(""))));
             assertThat(repository.getTitle(), repository.getTitle(), is(not(equalTo(""))));
             assertThat(repository.getTitle(), repository.getHref(), is(not(equalTo(""))));
@@ -73,48 +57,34 @@ public class TrendingTest {
     @Test
     public void testLanguages() throws InterruptedException {
 
-        final Trending trending = new RetroJsoup.Builder()
-                .url("https://github.com/trending")
-                .build()
-                .create(Trending.class);
+        final List<Language> languages = getLanguages("https://github.com/trending");
 
-        trending.getLanguages()
-                .toList()
-                .subscribe(list -> mLanguages = list);
+        assertThat(languages.size(), is(451));
 
-        assertThat(mLanguages.size(), is(451));
+        assertThat(languages.get(0).getHref(), is("https://github.com/trending/1c-enterprise"));
+        assertThat(languages.get(0).getName(), is("1C Enterprise"));
 
-        assertThat(mLanguages.get(0).getHref(), is("https://github.com/trending/1c-enterprise"));
-        assertThat(mLanguages.get(0).getName(), is("1C Enterprise"));
+        assertThat(languages.get(100).getHref(), is("https://github.com/trending/ec"));
+        assertThat(languages.get(100).getName(), is("eC"));
 
-        assertThat(mLanguages.get(100).getHref(), is("https://github.com/trending/ec"));
-        assertThat(mLanguages.get(100).getName(), is("eC"));
-
-        assertThat(mLanguages.get(200).getHref(), is("https://github.com/trending/kotlin"));
-        assertThat(mLanguages.get(200).getName(), is("Kotlin"));
+        assertThat(languages.get(200).getHref(), is("https://github.com/trending/kotlin"));
+        assertThat(languages.get(200).getName(), is("Kotlin"));
     }
 
     @Test
     public void testTimeSpans() throws InterruptedException {
 
-        final Trending trending = new RetroJsoup.Builder()
-                .url("https://github.com/trending")
-                .build()
-                .create(Trending.class);
+        final List<TimeSpan> timeSpans = getTimeSpans("https://github.com/trending");
 
-        trending.getTimeSpans()
-                .toList()
-                .subscribe(list -> mTimeSpans = list);
+        assertThat(timeSpans.size(), is(3));
 
-        assertThat(mTimeSpans.size(), is(3));
+        assertThat(timeSpans.get(0).getHref(), is("https://github.com/trending?since=daily"));
+        assertThat(timeSpans.get(0).getName(), is("today"));
 
-        assertThat(mTimeSpans.get(0).getHref(), is("https://github.com/trending?since=daily"));
-        assertThat(mTimeSpans.get(0).getName(), is("today"));
+        assertThat(timeSpans.get(1).getHref(), is("https://github.com/trending?since=weekly"));
+        assertThat(timeSpans.get(1).getName(), is("this week"));
 
-        assertThat(mTimeSpans.get(1).getHref(), is("https://github.com/trending?since=weekly"));
-        assertThat(mTimeSpans.get(1).getName(), is("this week"));
-
-        assertThat(mTimeSpans.get(2).getHref(), is("https://github.com/trending?since=monthly"));
-        assertThat(mTimeSpans.get(2).getName(), is("this month"));
+        assertThat(timeSpans.get(2).getHref(), is("https://github.com/trending?since=monthly"));
+        assertThat(timeSpans.get(2).getName(), is("this month"));
     }
 }
