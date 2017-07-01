@@ -7,7 +7,6 @@ import com.arellomobile.mvp.MvpView;
 /**
  * @author Evgeny Khramov
  */
-
 public interface BaseView extends MvpView {
 
     void showProgress();
