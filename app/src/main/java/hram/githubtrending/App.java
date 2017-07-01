@@ -4,11 +4,13 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.crashlytics.android.Crashlytics;
 import com.orhanobut.hawk.Hawk;
 
 import hram.githubtrending.di.AppComponent;
 import hram.githubtrending.di.DaggerAppComponent;
 import hram.githubtrending.di.NetworkModule;
+import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 
 /**
@@ -28,6 +30,10 @@ public class App extends Application {
         super.onCreate();
         setInstance(this);
 
+        if (!BuildConfig.DEBUG) {
+            Fabric.with(this, new Crashlytics());
+        }
+
         mAppComponent = buildComponent();
 
         try {
@@ -35,10 +41,6 @@ public class App extends Application {
             sIsTestMode = true;
         } catch (final Exception e) {
             sIsTestMode = false;
-        }
-
-        if (!BuildConfig.DEBUG) {
-            //Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         }
 
         Realm.init(this);
