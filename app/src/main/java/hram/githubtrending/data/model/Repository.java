@@ -5,13 +5,14 @@ import android.support.annotation.NonNull;
 import com.github.florent37.retrojsoup.annotations.JsoupHref;
 import com.github.florent37.retrojsoup.annotations.JsoupText;
 
+import fr.xebia.android.freezer.annotations.Model;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * @author Evgeny Khramov
  */
-
+@Model
 public class Repository extends RealmObject {
 
     public static final String COLUMN_ID = "mHref";
@@ -46,13 +47,13 @@ public class Repository extends RealmObject {
     @JsoupText(".f6 .float-right")
     String mStarsToday;
 
-    private String mLanguage;
+    String mLanguage;
 
-    private String mTimeSpan;
+    String mTimeSpan;
 
-    private boolean mIsHided;
+    boolean mIsHided;
 
-    private int mOrder;
+    int mOrder;
 
     public String getUser() {
         return mUser;

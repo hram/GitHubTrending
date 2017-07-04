@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatDelegate;
 import com.crashlytics.android.Crashlytics;
 import com.orhanobut.hawk.Hawk;
 
+import fr.xebia.android.freezer.Freezer;
 import hram.githubtrending.di.AppComponent;
 import hram.githubtrending.di.DaggerAppComponent;
 import hram.githubtrending.di.NetworkModule;
@@ -43,6 +44,7 @@ public class App extends Application {
             sIsTestMode = false;
         }
 
+        Freezer.onCreate(this);
         Realm.init(this);
         Hawk.init(this).build();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);

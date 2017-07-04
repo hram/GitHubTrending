@@ -16,6 +16,7 @@ import hram.githubtrending.BuildConfig;
 import hram.githubtrending.data.DataManager;
 import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
+import hugo.weaving.DebugLog;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -94,6 +95,7 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> implements Reposit
         getViewState().setRefreshing(false);
     }
 
+    @DebugLog
     private void handleError(@NonNull Throwable throwable) {
         getViewState().setRefreshing(false);
         mRepositoriesViewModel.error.set(throwable.getMessage());

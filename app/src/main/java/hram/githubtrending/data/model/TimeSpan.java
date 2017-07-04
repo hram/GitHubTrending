@@ -5,12 +5,13 @@ import android.support.annotation.NonNull;
 import com.github.florent37.retrojsoup.annotations.JsoupHref;
 import com.github.florent37.retrojsoup.annotations.JsoupText;
 
+import fr.xebia.android.freezer.annotations.Model;
 import io.realm.RealmObject;
 
 /**
  * @author Evgeny Khramov
  */
-
+@Model
 public class TimeSpan extends RealmObject {
 
     @JsoupHref("a")

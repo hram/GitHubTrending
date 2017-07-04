@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hram.githubtrending.data.db.DatabaseHelper;
+import hram.githubtrending.data.db.FreezerDatabaseHelper;
 import hram.githubtrending.data.model.Language;
 import hram.githubtrending.data.model.Repository;
 import hram.githubtrending.data.model.SearchParams;
@@ -45,7 +46,7 @@ public class DataManager {
     @NonNull
     public static DataManager getInstance() {
         if (sDataManager == null) {
-            sDataManager = new DataManager(new DatabaseHelper(), new NetworkHelper(), new PreferencesHelper());
+            sDataManager = new DataManager(new FreezerDatabaseHelper(), new NetworkHelper(), new PreferencesHelper());
         }
         return sDataManager;
     }
