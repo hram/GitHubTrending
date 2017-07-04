@@ -8,8 +8,6 @@ import org.junit.Before;
 
 import java.util.Collection;
 
-import hram.githubtrending.util.TestUtils;
-
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.runner.lifecycle.Stage.RESUMED;
 
@@ -23,7 +21,7 @@ public class BaseTest {
 
     @Before
     public void setUp() {
-        TestUtils.clearAppData();
+        //TestUtils.clearAppData();
     }
 
     public AppCompatActivity getActivity() {

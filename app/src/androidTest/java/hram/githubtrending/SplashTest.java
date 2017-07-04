@@ -60,7 +60,7 @@ public class SplashTest extends BaseMockTest {
         assertThat(getActivity(), instanceOf(SelectLanguageActivity.class));
 
         assertThat(mServer.getRequestCount(), is(2));
-        assertThat(mServer.takeRequest().getPath(), is("/trending/"));
-        assertThat(mServer.takeRequest().getPath(), is("/trending/"));
+        assertThat(mServer.takeRequest().getPath(), is("//trending/"));
+        assertThat(mServer.takeRequest().getPath(), is("//trending/"));
     }
 }

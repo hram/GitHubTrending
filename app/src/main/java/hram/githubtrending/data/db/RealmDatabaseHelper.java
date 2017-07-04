@@ -158,6 +158,13 @@ public class RealmDatabaseHelper implements DatabaseHelper {
         return realm.copyFromRealm(result.first());
     }
 
+    @Override
+    public void clearAppData() {
+        Realm realm = RealmUtils.getRealm();
+        realm.executeTransaction(realm1 -> realm.deleteAll());
+        RealmUtils.close(realm);
+    }
+
     private boolean isHided(@NonNull String id) {
         Realm realm = RealmUtils.getRealm();
         RealmResults<Repository> result = realm.where(Repository.class)

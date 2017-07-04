@@ -8,8 +8,10 @@ import org.junit.Rule;
 import java.io.IOException;
 import java.io.InputStream;
 
+import hram.githubtrending.data.DataManager;
 import hram.githubtrending.di.AppComponent;
 import hram.githubtrending.di.DaggerAppComponent;
+import hram.githubtrending.di.DataModule;
 import hram.githubtrending.di.TestNetworkModule;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -31,6 +33,7 @@ public class BaseMockTest extends BaseTest {
     public void setUp() {
         super.setUp();
         App.getInstance().setAppComponent(buildComponent());
+        DataManager.getInstance().clearAppData();
     }
 
     @NonNull
@@ -45,6 +48,7 @@ public class BaseMockTest extends BaseTest {
     private AppComponent buildComponent() {
         return DaggerAppComponent.builder()
                 .networkModule(new TestNetworkModule(mServer))
+                .dataModule(new DataModule())
                 .build();
     }
 }

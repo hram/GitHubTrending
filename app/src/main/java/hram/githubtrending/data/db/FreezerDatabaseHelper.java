@@ -42,8 +42,24 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
                 continue;
             }
 
-            if (mRepositories.select().mHref().equalsTo(item.getHref()).first() != null) {
-                mRepositories.update(item);
+            final Repository repository = mRepositories.select()
+                    .mHref().equalsTo(item.getHref())
+                    .and()
+                    .mLanguage().equalsTo(language)
+                    .and()
+                    .mTimeSpan().equalsTo(timeSpan)
+                    .first();
+
+            if (repository != null) {
+                repository.setUser(item.getUser());
+                repository.setTitle(item.getTitle());
+                repository.setHided(item.isHided());
+                repository.setOrder(item.getOrder());
+                repository.setDescription(item.getDescription());
+                repository.setAllStars(item.getAllStars());
+                repository.setForks(item.getForks());
+                repository.setStarsToday(item.getStarsToday());
+                mRepositories.update(repository);
             } else {
                 mRepositories.add(item);
             }
@@ -139,6 +155,13 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
         return mRepositories.select()
                 .mHref().equalsTo(id)
                 .first();
+    }
+
+    @Override
+    public void clearAppData() {
+        mRepositories.deleteAll();
+        mLanguages.deleteAll();
+        mTimeSpans.deleteAll();
     }
 
     private boolean isHided(@NonNull String id) {

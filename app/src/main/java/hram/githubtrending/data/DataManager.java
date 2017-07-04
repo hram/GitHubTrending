@@ -8,8 +8,10 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import hram.githubtrending.App;
 import hram.githubtrending.data.db.DatabaseHelper;
-import hram.githubtrending.data.db.FreezerDatabaseHelper;
 import hram.githubtrending.data.model.Language;
 import hram.githubtrending.data.model.Repository;
 import hram.githubtrending.data.model.SearchParams;
@@ -31,14 +33,14 @@ public class DataManager {
 
     private static DataManager sDataManager;
 
-    @NonNull
-    private final DatabaseHelper mDatabaseHelper;
+    @Inject
+    DatabaseHelper mDatabaseHelper;
 
-    @NonNull
-    private final NetworkHelper mNetworkHelper;
+    @Inject
+    NetworkHelper mNetworkHelper;
 
-    @NonNull
-    private final PreferencesHelper mPreferencesHelper;
+    @Inject
+    PreferencesHelper mPreferencesHelper;
 
     @NonNull
     private SearchParams mParams;
@@ -46,16 +48,19 @@ public class DataManager {
     @NonNull
     public static DataManager getInstance() {
         if (sDataManager == null) {
-            sDataManager = new DataManager(new FreezerDatabaseHelper(), new NetworkHelper(), new PreferencesHelper());
+            sDataManager = new DataManager();
         }
         return sDataManager;
     }
 
-    private DataManager(@NonNull DatabaseHelper databaseHelper, @NonNull NetworkHelper networkHelper, @NonNull PreferencesHelper preferencesHelper) {
-        mDatabaseHelper = databaseHelper;
-        mNetworkHelper = networkHelper;
-        mPreferencesHelper = preferencesHelper;
-        mParams = preferencesHelper.getSearchParams();
+    private DataManager() {
+        App.getInstance().getAppComponent().inject(this);
+        mParams = mPreferencesHelper.getSearchParams();
+    }
+
+    public void clearAppData() {
+        mPreferencesHelper.clearAppData();
+        mDatabaseHelper.clearAppData();
     }
 
     @NonNull

@@ -10,6 +10,7 @@ import com.orhanobut.hawk.Hawk;
 import fr.xebia.android.freezer.Freezer;
 import hram.githubtrending.di.AppComponent;
 import hram.githubtrending.di.DaggerAppComponent;
+import hram.githubtrending.di.DataModule;
 import hram.githubtrending.di.NetworkModule;
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
@@ -63,6 +64,7 @@ public class App extends Application {
     private AppComponent buildComponent() {
         return DaggerAppComponent.builder()
                 .networkModule(new NetworkModule())
+                .dataModule(new DataModule())
                 .build();
     }
 

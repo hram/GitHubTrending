@@ -44,4 +44,6 @@ public interface DatabaseHelper {
     Observable<Repository> getRepositoryObservable(@NonNull String id);
 
     Repository getRepositoryById(@NonNull String id);
+
+    void clearAppData();
 }

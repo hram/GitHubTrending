@@ -24,13 +24,13 @@ public class SuccessDispatcher extends Dispatcher {
     public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
         try {
             switch (request.getPath()) {
-                case "/trending/":
+                case "//trending/":
                     return mBaseMockTest.getResponse("trending_200.html");
-                case "/trending/java?since=daily":
+                case "//trending/java?since=daily":
                     return mBaseMockTest.getResponse("java_daily_200.html");
-                case "/trending/java?since=weekly":
+                case "//trending/java?since=weekly":
                     break;
-                case "/trending/java?since=monthly":
+                case "//trending/java?since=monthly":
                     break;
             }
         } catch (IOException e) {
