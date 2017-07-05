@@ -5,14 +5,12 @@ import android.support.annotation.NonNull;
 import com.github.florent37.retrojsoup.annotations.JsoupHref;
 import com.github.florent37.retrojsoup.annotations.JsoupText;
 
-import fr.xebia.android.freezer.annotations.Model;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * @author Evgeny Khramov
  */
-@Model
 public class Repository extends RealmObject {
 
     public static final String COLUMN_ID = "mHref";

@@ -5,14 +5,12 @@ import android.support.annotation.NonNull;
 import com.github.florent37.retrojsoup.annotations.JsoupHref;
 import com.github.florent37.retrojsoup.annotations.JsoupText;
 
-import fr.xebia.android.freezer.annotations.Model;
 import io.realm.RealmObject;
 
 /**
  * @author Evgeny Khramov
  */
-@Model
-public class Language extends RealmObject {
+public class TimeSpan extends RealmObject {
 
     @JsoupHref("a")
     String href;
@@ -21,18 +19,18 @@ public class Language extends RealmObject {
     String mName;
 
     @NonNull
-    public String getHref() {
-        return href;
-    }
-
-    @NonNull
     public String getName() {
         return mName;
     }
 
+    @NonNull
+    public String getHref() {
+        return href;
+    }
+
     @Override
     public String toString() {
-        return "Language{" +
+        return "TimeSpan{" +
                 "href='" + href + '\'' +
                 ", mName='" + mName + '\'' +
                 '}';

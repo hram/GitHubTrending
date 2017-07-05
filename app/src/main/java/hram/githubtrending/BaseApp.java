@@ -5,25 +5,25 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.orhanobut.hawk.Hawk;
 
-import fr.xebia.android.freezer.Freezer;
 import hram.githubtrending.di.AppComponent;
 import hram.githubtrending.di.DaggerAppComponent;
 import hram.githubtrending.di.DataModule;
 import hram.githubtrending.di.NetworkModule;
 import io.fabric.sdk.android.Fabric;
-import io.realm.Realm;
 
 /**
  * @author Evgeny Khramov
  */
 
-public class App extends Application {
+public class BaseApp extends Application {
+
 
     private static boolean sIsTestMode;
 
-    private static App sInstance;
+    private static BaseApp sInstance;
 
     AppComponent mAppComponent;
 
@@ -33,7 +33,9 @@ public class App extends Application {
         setInstance(this);
 
         if (!BuildConfig.DEBUG) {
-            Fabric.with(this, new Crashlytics());
+            Fabric.with(this, new Crashlytics.Builder()
+                    .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
+                    .build());
         }
 
         mAppComponent = buildComponent();
@@ -45,18 +47,16 @@ public class App extends Application {
             sIsTestMode = false;
         }
 
-        Freezer.onCreate(this);
-        Realm.init(this);
         Hawk.init(this).build();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    private static void setInstance(@NonNull App instance) {
+    private static void setInstance(@NonNull BaseApp instance) {
         sInstance = instance;
     }
 
     @NonNull
-    public static App getInstance() {
+    public static BaseApp getInstance() {
         return sInstance;
     }
 

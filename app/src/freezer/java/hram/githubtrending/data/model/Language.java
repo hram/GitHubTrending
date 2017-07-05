@@ -6,13 +6,12 @@ import com.github.florent37.retrojsoup.annotations.JsoupHref;
 import com.github.florent37.retrojsoup.annotations.JsoupText;
 
 import fr.xebia.android.freezer.annotations.Model;
-import io.realm.RealmObject;
 
 /**
  * @author Evgeny Khramov
  */
 @Model
-public class TimeSpan extends RealmObject {
+public class Language {
 
     @JsoupHref("a")
     String href;
@@ -21,18 +20,18 @@ public class TimeSpan extends RealmObject {
     String mName;
 
     @NonNull
-    public String getName() {
-        return mName;
-    }
-
-    @NonNull
     public String getHref() {
         return href;
     }
 
+    @NonNull
+    public String getName() {
+        return mName;
+    }
+
     @Override
     public String toString() {
-        return "TimeSpan{" +
+        return "Language{" +
                 "href='" + href + '\'' +
                 ", mName='" + mName + '\'' +
                 '}';
