@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -33,10 +34,13 @@ public class SelectLanguageActivity extends MvpAppCompatActivity implements Sele
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.ac_select_language);
+        mBinding.recyclerview.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mBinding.fastScroller.setRecyclerView(mBinding.recyclerview);
     }
 
     @Override
     public void setViewModel(@NonNull SelectLanguageViewModel viewModel) {
+        mBinding.fastScroller.setUpAlphabet(viewModel.alphabetItems);
         mBinding.setViewModel(viewModel);
         mBinding.setListener(this);
         mBinding.executePendingBindings();

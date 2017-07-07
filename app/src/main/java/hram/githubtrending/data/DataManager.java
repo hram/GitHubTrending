@@ -4,6 +4,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+
+import com.viethoa.models.AlphabetItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -250,6 +253,20 @@ public class DataManager {
                     viewModel.setCheckedLanguage(model);
                     break;
                 }
+            }
+        }
+
+        final List<String> strAlphabets = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            final String name = list.get(i).getName();
+            if (TextUtils.isEmpty(name) || name.trim().isEmpty()) {
+                continue;
+            }
+
+            final String word = name.substring(0, 1).toUpperCase();
+            if (!strAlphabets.contains(word)) {
+                strAlphabets.add(word);
+                viewModel.alphabetItems.add(new AlphabetItem(i, word, false));
             }
         }
 

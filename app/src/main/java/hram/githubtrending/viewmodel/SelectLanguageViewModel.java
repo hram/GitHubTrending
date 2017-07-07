@@ -6,9 +6,19 @@ import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+
+import com.viethoa.RecyclerViewFastScroller;
+import com.viethoa.models.AlphabetItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import hram.githubtrending.BR;
 import hram.githubtrending.R;
+import me.tatarka.bindingcollectionadapter2.BindingListViewAdapter;
+import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
@@ -28,6 +38,10 @@ public class SelectLanguageViewModel implements LanguageViewModel.OnItemClickLis
     public final ObservableField<String> error = new ObservableField<>();
 
     public ObservableBoolean hasError = new ObservableBoolean(false);
+
+    public List<AlphabetItem> alphabetItems = new ArrayList<>();
+
+    public FastScrollerAdapter<LanguageViewModel> adapter = new FastScrollerAdapter<LanguageViewModel>();
 
     private LanguageViewModel mCheckedLanguage;
 
@@ -65,5 +79,20 @@ public class SelectLanguageViewModel implements LanguageViewModel.OnItemClickLis
 
     public void setCheckedLanguage(@NonNull LanguageViewModel checkedLanguage) {
         mCheckedLanguage = checkedLanguage;
+    }
+
+    public class FastScrollerAdapter<LanguageViewModel> extends BindingRecyclerViewAdapter<LanguageViewModel> implements RecyclerViewFastScroller.BubbleTextGetter {
+
+        @Override
+        public String getTextToShowInBubble(int pos) {
+            if (pos < 0 || pos >= languageItems.size())
+                return null;
+
+            final String name = languageItems.get(pos).getName();
+            if (TextUtils.isEmpty(name) || name.length() < 1)
+                return null;
+
+            return name.substring(0, 1).toUpperCase();
+        }
     }
 }
