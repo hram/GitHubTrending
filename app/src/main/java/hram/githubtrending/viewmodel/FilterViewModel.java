@@ -5,9 +5,17 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+
+import com.viethoa.RecyclerViewFastScroller;
+import com.viethoa.models.AlphabetItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import hram.githubtrending.BR;
 import hram.githubtrending.R;
+import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
@@ -35,6 +43,25 @@ public class FilterViewModel implements LanguageViewModel.OnItemClickListener, T
     private TimeSpanViewModel mCheckedTimeSpan;
 
     private LanguageViewModel mCheckedLanguage;
+
+    public List<AlphabetItem> alphabetItems = new ArrayList<>();
+
+    public FastScrollerAdapter<LanguageViewModel> adapter = new FastScrollerAdapter<>();
+
+    @NonNull
+    public static FilterViewModel createEmpty() {
+        return new FilterViewModel();
+    }
+
+    private FilterViewModel() {
+        mLanguageListener = item -> {
+            // do nothing
+        };
+
+        mTimeSpanListener = item -> {
+            // do nothing
+        };
+    }
 
     public FilterViewModel(@NonNull LanguageViewModel.OnItemClickListener languageListener, @NonNull TimeSpanViewModel.OnItemClickListener timeSpanListener) {
         mLanguageListener = languageListener;
@@ -67,5 +94,20 @@ public class FilterViewModel implements LanguageViewModel.OnItemClickListener, T
 
     public void setCheckedLanguage(@NonNull LanguageViewModel checkedLanguage) {
         mCheckedLanguage = checkedLanguage;
+    }
+
+    public class FastScrollerAdapter<T> extends BindingRecyclerViewAdapter<LanguageViewModel> implements RecyclerViewFastScroller.BubbleTextGetter {
+
+        @Override
+        public String getTextToShowInBubble(int pos) {
+            if (pos < 0 || pos >= languageItems.size())
+                return null;
+
+            final String name = languageItems.get(pos).getName();
+            if (TextUtils.isEmpty(name) || name.length() < 1)
+                return null;
+
+            return name.substring(0, 1).toUpperCase();
+        }
     }
 }

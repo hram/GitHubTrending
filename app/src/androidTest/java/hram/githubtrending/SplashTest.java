@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import hram.githubtrending.selectlanguage.SelectLanguageActivity;
 import hram.githubtrending.splash.SplashActivity;
+import okhttp3.mockwebserver.MockResponse;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -40,13 +41,35 @@ public class SplashTest extends BaseMockTest {
 
         mActivityRule.launchActivity(new Intent());
 
+        screenShot("splash_with_loading");
+
+        waitLoading();
+
+        screenShot("select_language_after_splash");
+        assertThat(getActivity(), instanceOf(SelectLanguageActivity.class));
+
+        assertThat(mServer.getRequestCount(), is(2));
+        assertThat(mServer.takeRequest().getPath(), is("//trending/"));
+        assertThat(mServer.takeRequest().getPath(), is("//trending/"));
+    }
+
+    @Test
+    public void testErrorLoadLanguages() throws InterruptedException, IOException {
+        mServer.enqueue(getResponse("trending_200.html"));
+        mServer.enqueue(new MockResponse().setResponseCode(404));
+        mActivityRule.launchActivity(new Intent());
+        waitLoading();
+        testHasError();
+    }
+
+    private void waitLoading() {
         final SplashScreenIdlingResource idlingResource = new SplashScreenIdlingResource(this);
         try {
 
             Espresso.registerIdlingResources(idlingResource);
 
             try {
-                onView(withId(R.id.progress_bar_loading))
+                onView(withId(idlingResource.getProgressViewId()))
                         .check(matches(isDisplayed()));
                 fail();
             } catch (NoMatchingViewException e) {
@@ -56,11 +79,11 @@ public class SplashTest extends BaseMockTest {
         } finally {
             Espresso.unregisterIdlingResources(idlingResource);
         }
+    }
 
-        assertThat(getActivity(), instanceOf(SelectLanguageActivity.class));
-
-        assertThat(mServer.getRequestCount(), is(2));
-        assertThat(mServer.takeRequest().getPath(), is("//trending/"));
-        assertThat(mServer.takeRequest().getPath(), is("//trending/"));
+    private void testHasError() {
+        screenShot("error_screen");
+        onView(withId(R.id.frame_layout_error))
+                .check(matches(isDisplayed()));
     }
 }

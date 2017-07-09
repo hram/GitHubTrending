@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DividerItemDecoration;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -28,10 +29,14 @@ public class FilterActivity extends MvpAppCompatActivity implements FilterView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.ac_filter);
+        mBinding.recyclerviewTimeSpans.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mBinding.recyclerviewLanguages.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mBinding.fastScroller.setRecyclerView(mBinding.recyclerviewLanguages);
     }
 
     @Override
     public void setViewModel(@NonNull FilterViewModel viewModel) {
+        mBinding.fastScroller.setUpAlphabet(viewModel.alphabetItems);
         mBinding.setViewModel(viewModel);
         mBinding.executePendingBindings();
     }

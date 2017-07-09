@@ -41,8 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Выберите язык"
-                android:textSize="34sp" />
+                android:text="@string/adjust_language"
+                android:textSize="24sp" />
 
         </FrameLayout>
 

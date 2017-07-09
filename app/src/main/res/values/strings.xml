@@ -10,4 +10,5 @@
     <string name="progressActivityErrorTitlePlaceholder">No Connection</string>
     <string name="progressActivityErrorContentPlaceholder">We could not establish a connection with our servers. Please try again when you are connected to the internet.</string>
     <string name="adjust_time_span">Adjust time span</string>
+    <string name="adjust_language">Выберите язык</string>
 </resources>

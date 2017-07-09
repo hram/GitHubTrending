@@ -36,51 +36,22 @@ public class FilterPresenter extends MvpPresenter<FilterView> implements Languag
         mLanguage = DataManager.getInstance().getParams().getLanguage();
         mTimeSpan = DataManager.getInstance().getParams().getTimeSpan();
 
-        mViewModel = new FilterViewModel(this, this);
+        mViewModel = FilterViewModel.createEmpty();
         getViewState().setViewModel(mViewModel);
 
-        Observable.zip(DataManager.getInstance().getLanguages(), DataManager.getInstance().getTimeSpans(), this::mapToLanguagesAndTimeSpan)
+        DataManager.getInstance().getFilterViewModel(this, this)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleLanguagesAndTimeSpan, this::handleError);
     }
 
-    private void handleLanguagesAndTimeSpan(@NonNull LanguagesAndTimeSpan item) {
-        mViewModel.languageItems.clear();
-        mViewModel.languageItems.addAll(item.getLanguages());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mViewModel.setCheckedLanguage(item.getLanguages().stream().filter(LanguageViewModel::isChecked).findFirst().orElse(null));
-        } else {
-            for (LanguageViewModel model : item.getLanguages()) {
-                if (model.isChecked()) {
-                    mViewModel.setCheckedLanguage(model);
-                    break;
-                }
-            }
-        }
-
-        mViewModel.timeSpanItems.clear();
-        mViewModel.timeSpanItems.addAll(item.getTimeSpans());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mViewModel.setCheckedTimeSpan(item.getTimeSpans().stream().filter(TimeSpanViewModel::isChecked).findFirst().orElse(null));
-        } else {
-            for (TimeSpanViewModel model : item.getTimeSpans()) {
-                if (model.isChecked()) {
-                    mViewModel.setCheckedTimeSpan(model);
-                    break;
-                }
-            }
-        }
-
-        mViewModel.isButtonNextEnabled.set(mViewModel.getCheckedLanguage() != null && mViewModel.getCheckedTimeSpan() != null);
+    private void handleLanguagesAndTimeSpan(@NonNull FilterViewModel item) {
+        mViewModel = item;
+        getViewState().setViewModel(mViewModel);
     }
 
     private void handleError(@NonNull Throwable throwable) {
-
-    }
-
-    private LanguagesAndTimeSpan mapToLanguagesAndTimeSpan(List<LanguageViewModel> languages, List<TimeSpanViewModel> timeSpans) {
-        return new LanguagesAndTimeSpan(languages, timeSpans);
+        // TODO
     }
 
     @Override

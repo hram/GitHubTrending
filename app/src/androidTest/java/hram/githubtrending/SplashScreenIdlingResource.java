@@ -1,6 +1,7 @@
 package hram.githubtrending;
 
 import android.app.Activity;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.IdlingResource;
 import android.view.View;
@@ -32,7 +33,7 @@ public class SplashScreenIdlingResource implements IdlingResource {
             return false;
         }
 
-        boolean isIdle = !(activity instanceof SplashActivity) || isGone(activity.findViewById(R.id.progress_bar_loading));
+        boolean isIdle = !(activity instanceof SplashActivity) || isGone(activity.findViewById(getProgressViewId()));
         if (isIdle && mResourceCallback != null) {
             mResourceCallback.onTransitionToIdle();
         }
@@ -47,5 +48,10 @@ public class SplashScreenIdlingResource implements IdlingResource {
 
     private boolean isGone(View view) {
         return view.getVisibility() == View.GONE;
+    }
+
+    @IdRes
+    public int getProgressViewId() {
+        return R.id.frame_layout_progress;
     }
 }

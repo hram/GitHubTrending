@@ -41,7 +41,7 @@ public class SelectLanguageViewModel implements LanguageViewModel.OnItemClickLis
 
     public List<AlphabetItem> alphabetItems = new ArrayList<>();
 
-    public FastScrollerAdapter<LanguageViewModel> adapter = new FastScrollerAdapter<LanguageViewModel>();
+    public FastScrollerAdapter<LanguageViewModel> adapter = new FastScrollerAdapter<>();
 
     private LanguageViewModel mCheckedLanguage;
 
@@ -81,7 +81,7 @@ public class SelectLanguageViewModel implements LanguageViewModel.OnItemClickLis
         mCheckedLanguage = checkedLanguage;
     }
 
-    public class FastScrollerAdapter<LanguageViewModel> extends BindingRecyclerViewAdapter<LanguageViewModel> implements RecyclerViewFastScroller.BubbleTextGetter {
+    public class FastScrollerAdapter<T> extends BindingRecyclerViewAdapter<LanguageViewModel> implements RecyclerViewFastScroller.BubbleTextGetter {
 
         @Override
         public String getTextToShowInBubble(int pos) {

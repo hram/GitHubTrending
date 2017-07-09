@@ -9,4 +9,5 @@
     <string name="progressActivityErrorContentPlaceholder">Сервер не доступен. Пожалуйста попробуйте позже когда будет доступен интернет.</string>
     <string name="progressActivityEmptyContentPlaceholder">Ошибка получения данных</string>
     <string name="adjust_time_span">Выберите промежуток времени</string>
+    <string name="adjust_language">Выберите язык</string>
 </resources>

@@ -21,12 +21,16 @@ import hram.githubtrending.data.model.SearchParams;
 import hram.githubtrending.data.model.TimeSpan;
 import hram.githubtrending.data.network.NetworkHelper;
 import hram.githubtrending.data.prefepences.PreferencesHelper;
+import hram.githubtrending.viewmodel.FilterViewModel;
 import hram.githubtrending.viewmodel.LanguageViewModel;
+import hram.githubtrending.viewmodel.LanguagesAndTimeSpan;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
 import hram.githubtrending.viewmodel.SelectLanguageViewModel;
 import hram.githubtrending.viewmodel.SelectTimeSpanViewModel;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author Evgeny Khramov
@@ -298,5 +302,61 @@ public class DataManager {
 
         viewModel.isButtonNextEnabled.set(viewModel.getCheckedTimeSpan() != null);
         return Observable.just(viewModel);
+    }
+
+    @NonNull
+    public Observable<FilterViewModel> getFilterViewModel(@NonNull LanguageViewModel.OnItemClickListener languageListener, @NonNull TimeSpanViewModel.OnItemClickListener timeSpanListener) {
+        return Observable.zip(DataManager.getInstance().getLanguages(), DataManager.getInstance().getTimeSpans(), this::mapToLanguagesAndTimeSpan)
+                .flatMap(languagesAndTimeSpan -> Observable.just(mapLanguagesAndTimeSpanToViewModel(languagesAndTimeSpan, languageListener, timeSpanListener)));
+    }
+
+    @NonNull
+    private LanguagesAndTimeSpan mapToLanguagesAndTimeSpan(@NonNull List<LanguageViewModel> languages, @NonNull List<TimeSpanViewModel> timeSpans) {
+        return new LanguagesAndTimeSpan(languages, timeSpans);
+    }
+
+    @NonNull
+    private FilterViewModel mapLanguagesAndTimeSpanToViewModel(@NonNull LanguagesAndTimeSpan languagesAndTimeSpan, @NonNull LanguageViewModel.OnItemClickListener languageListener, @NonNull TimeSpanViewModel.OnItemClickListener timeSpanListener) {
+        final FilterViewModel viewModel = new FilterViewModel(languageListener, timeSpanListener);
+        viewModel.languageItems.addAll(languagesAndTimeSpan.getLanguages());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            viewModel.setCheckedLanguage(languagesAndTimeSpan.getLanguages().stream().filter(LanguageViewModel::isChecked).findFirst().orElse(null));
+        } else {
+            for (LanguageViewModel model : languagesAndTimeSpan.getLanguages()) {
+                if (model.isChecked()) {
+                    viewModel.setCheckedLanguage(model);
+                    break;
+                }
+            }
+        }
+
+        viewModel.timeSpanItems.addAll(languagesAndTimeSpan.getTimeSpans());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            viewModel.setCheckedTimeSpan(languagesAndTimeSpan.getTimeSpans().stream().filter(TimeSpanViewModel::isChecked).findFirst().orElse(null));
+        } else {
+            for (TimeSpanViewModel model : languagesAndTimeSpan.getTimeSpans()) {
+                if (model.isChecked()) {
+                    viewModel.setCheckedTimeSpan(model);
+                    break;
+                }
+            }
+        }
+
+        final List<String> strAlphabets = new ArrayList<>();
+        for (int i = 0; i < languagesAndTimeSpan.getLanguages().size(); i++) {
+            final String name = languagesAndTimeSpan.getLanguages().get(i).getName();
+            if (TextUtils.isEmpty(name) || name.trim().isEmpty()) {
+                continue;
+            }
+
+            final String word = name.substring(0, 1).toUpperCase();
+            if (!strAlphabets.contains(word)) {
+                strAlphabets.add(word);
+                viewModel.alphabetItems.add(new AlphabetItem(i, word, false));
+            }
+        }
+
+        viewModel.isButtonNextEnabled.set(viewModel.getCheckedLanguage() != null && viewModel.getCheckedTimeSpan() != null);
+        return viewModel;
     }
 }

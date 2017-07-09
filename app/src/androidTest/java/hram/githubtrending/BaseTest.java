@@ -1,10 +1,14 @@
 package hram.githubtrending;
 
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import android.support.v7.app.AppCompatActivity;
 
+import com.squareup.spoon.Spoon;
+
 import org.junit.Before;
+import org.junit.Rule;
 
 import java.util.Collection;
 
@@ -44,5 +48,9 @@ public class BaseTest {
         }
 
         return mCurrentActivity;
+    }
+
+    protected void screenShot(@NonNull String text) {
+        Spoon.screenshot(getActivity(), text);
     }
 }

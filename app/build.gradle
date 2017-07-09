@@ -14,6 +14,7 @@ apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'realm-android'
 apply from: '../config/quality/quality.gradle'
 apply plugin: 'android-soexcluder'
+apply plugin: 'spoon'
 
 repositories {
     maven { url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo' }
@@ -110,6 +111,7 @@ dependencies {
         exclude module: 'support-annotations'
     })
     androidTestCompile 'com.squareup.okhttp3:mockwebserver:3.8.1'
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.6.4'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
@@ -127,4 +129,21 @@ soexcluder {
         exclude 'lib/arm64-v8a/librealm-jni.so'
         exclude 'lib/armeabi-v7a/librealm-jni.so'
     }
+}
+
+spoon {
+    // for debug output
+    debug = true
+
+    // To run a single test class
+    //className = 'fully.qualified.TestCase'
+
+    // To run a single method in TestCase
+    //methodName = 'testMyApp'
+
+    // To execute the tests device by device */
+    sequential = true
+
+    // To grant permissions to Android M >= devices */
+    grantAllPermissions = true
 }
