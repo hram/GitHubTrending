@@ -36,7 +36,7 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     void loadData() {
         getViewState().showProgress();
         if (DataManager.getInstance().getParams().isEmpty()) {
-            Observable.zip(DataManager.getInstance().getLanguages(), DataManager.getInstance().getTimeSpans(), this::checkIfNotEmpty)
+            Observable.combineLatest(DataManager.getInstance().getLanguages(), DataManager.getInstance().getTimeSpans(), this::checkIfNotEmpty)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(this::handleResult, this::handleError);
