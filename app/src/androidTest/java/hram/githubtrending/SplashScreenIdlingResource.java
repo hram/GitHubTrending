@@ -51,7 +51,7 @@ public class SplashScreenIdlingResource implements IdlingResource {
     }
 
     @IdRes
-    public int getProgressViewId() {
+    private int getProgressViewId() {
         return R.id.frame_layout_progress;
     }
 }

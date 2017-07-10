@@ -11,16 +11,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import hram.githubtrending.selectlanguage.SelectLanguageActivity;
 import hram.githubtrending.splash.SplashActivity;
-import okhttp3.mockwebserver.MockResponse;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.fail;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
@@ -54,12 +55,19 @@ public class SplashTest extends BaseMockTest {
     }
 
     @Test
-    public void testErrorLoadLanguages() throws InterruptedException, IOException {
-        mServer.enqueue(getResponse("trending_200.html"));
-        mServer.enqueue(new MockResponse().setResponseCode(404));
+    public void testError404() throws InterruptedException, IOException {
+        mServer.enqueue(getResponse("404.html").setResponseCode(404).throttleBody(64 * 1024, 125, TimeUnit.MILLISECONDS)); // 500 Kbps
+        mServer.enqueue(getResponse("404.html").setResponseCode(404).throttleBody(64 * 1024, 125, TimeUnit.MILLISECONDS)); // 500 Kbps
         mActivityRule.launchActivity(new Intent());
         waitLoading();
-        testHasError();
+        testEmptyScreen();
+    }
+
+    @Test
+    public void testSocketTimeoutException() throws InterruptedException, IOException {
+        mActivityRule.launchActivity(new Intent());
+        waitLoading();
+        testEmptyScreen();
     }
 
     private void waitLoading() {
@@ -69,7 +77,7 @@ public class SplashTest extends BaseMockTest {
             Espresso.registerIdlingResources(idlingResource);
 
             try {
-                onView(withId(idlingResource.getProgressViewId()))
+                onView(withText("bla_bla"))
                         .check(matches(isDisplayed()));
                 fail();
             } catch (NoMatchingViewException e) {
@@ -81,9 +89,13 @@ public class SplashTest extends BaseMockTest {
         }
     }
 
-    private void testHasError() {
-        screenShot("error_screen");
-        onView(withId(R.id.frame_layout_error))
+    private void testEmptyScreen() {
+        screenShot("empty_screen");
+        onView(withId(R.id.frame_layout_empty))
                 .check(matches(isDisplayed()));
+        onView(withId(R.id.text_title))
+                .check(matches(withText("Что то пошло не так (((")));
+        onView(withId(R.id.text_content))
+                .check(matches(withText("Не удалось получить список языков. Мы уже в курсе. Помощь уже в пути.")));
     }
 }

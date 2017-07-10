@@ -30,6 +30,7 @@ import hram.githubtrending.viewmodel.SelectTimeSpanViewModel;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -100,7 +101,8 @@ public class DataManager {
         //return Observable.defer(() -> getLanguagesEmpty());
         return mDatabaseHelper.getLanguagesObservable()
                 .flatMap(this::ifEmptyThenGetLanguagesFromNetwork)
-                .flatMap(this::mapLanguageToViewModel);
+                .flatMap(this::mapLanguageToViewModel)
+                .onErrorReturn(this::logThrowableAndReturnEmptyList);
     }
 
     private Observable<List<LanguageViewModel>> getLanguagesEmpty() {
@@ -127,7 +129,14 @@ public class DataManager {
     public Observable<List<TimeSpanViewModel>> getTimeSpans() {
         return mDatabaseHelper.getTimeSpansObservable()
                 .flatMap(this::ifEmptyThenGetTimeSpansFromNetwork)
-                .flatMap(this::mapTimeSpanToViewModel);
+                .flatMap(this::mapTimeSpanToViewModel)
+                .onErrorReturn(this::logThrowableAndReturnEmptyList);
+    }
+
+    @NonNull
+    private ArrayList logThrowableAndReturnEmptyList(@NonNull Throwable throwable) {
+        // TODO log to fabric
+        return new ArrayList<>();
     }
 
     @NonNull

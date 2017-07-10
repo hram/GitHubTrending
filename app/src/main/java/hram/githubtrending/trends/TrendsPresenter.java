@@ -95,7 +95,6 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> implements Reposit
         getViewState().setRefreshing(false);
     }
 
-    @DebugLog
     private void handleError(@NonNull Throwable throwable) {
         getViewState().setRefreshing(false);
         mRepositoriesViewModel.error.set(throwable.getMessage());

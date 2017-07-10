@@ -36,9 +36,10 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     void loadData() {
         getViewState().showProgress();
         if (DataManager.getInstance().getParams().isEmpty()) {
-            Observable.combineLatest(DataManager.getInstance().getLanguages(), DataManager.getInstance().getTimeSpans(), this::checkIfNotEmpty)
+            Observable.zip(DataManager.getInstance().getLanguages(), DataManager.getInstance().getTimeSpans(), this::checkIfNotEmpty)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
+                    //.onErrorReturn(error -> false)
                     .subscribe(this::handleResult, this::handleError);
         } else {
             getViewState().openTrendsScreen();
@@ -53,7 +54,6 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
         }
     }
 
-    @DebugLog
     private void handleError(@NonNull Throwable throwable) {
         getViewState().showError(throwable);
     }

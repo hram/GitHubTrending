@@ -25,7 +25,6 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
 
     private final TimeSpanEntityManager mTimeSpans = new TimeSpanEntityManager();
 
-    @DebugLog
     @Override
     public Observable<List<Repository>> saveRepositories(@NonNull List<Repository> list, @NonNull String language, @NonNull String timeSpan) {
         mRepositories.delete(mRepositories.select()
@@ -100,15 +99,17 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
         return Observable.defer(() -> Observable.just(saveAndGetLanguages(list)));
     }
 
-    @DebugLog
     @NonNull
     private List<Language> saveAndGetLanguages(@NonNull List<Language> list) {
         mLanguages.deleteAll();
+        if (list.isEmpty()) {
+            return list;
+        }
+
         mLanguages.add(list);
         return mLanguages.select().asList();
     }
 
-    @DebugLog
     @NonNull
     @Override
     public Observable<List<Language>> getLanguagesObservable() {
@@ -129,6 +130,10 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
     @NonNull
     private List<TimeSpan> saveAndGetTimeSpans(@NonNull List<TimeSpan> list) {
         mTimeSpans.deleteAll();
+        if (list.isEmpty()) {
+            return list;
+        }
+
         mTimeSpans.add(list);
         return mTimeSpans.select().asList();
     }

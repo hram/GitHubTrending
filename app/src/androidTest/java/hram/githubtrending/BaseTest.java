@@ -51,6 +51,10 @@ public class BaseTest {
     }
 
     protected void screenShot(@NonNull String text) {
-        Spoon.screenshot(getActivity(), text);
+        try {
+            Spoon.screenshot(getActivity(), text);
+        } catch (RuntimeException e) {
+            // do nothing
+        }
     }
 }
