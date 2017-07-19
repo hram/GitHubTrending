@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="96dp"
             android:background="@color/background_color"
-            android:elevation="4dp"
+            android:elevation="2dp"
             android:paddingEnd="16dp"
             android:paddingStart="16dp">
 
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background_color"
-            android:elevation="4dp"
+            android:elevation="2dp"
             android:padding="8dp">
 
             <Button

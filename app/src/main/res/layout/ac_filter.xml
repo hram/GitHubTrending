@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/colorDivider"
-            android:elevation="4dp"
+            android:elevation="2dp"
             android:paddingEnd="8dp"
             android:paddingStart="8dp">
 
@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/colorDivider"
-            android:elevation="4dp"
+            android:elevation="2dp"
             android:paddingEnd="8dp"
             android:paddingStart="8dp">
 

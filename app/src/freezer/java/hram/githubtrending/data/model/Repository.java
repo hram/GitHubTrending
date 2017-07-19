@@ -43,7 +43,7 @@ public class Repository {
     @JsoupText(".muted-link:eq(2)")
     String mForks;
 
-    @JsoupText(".f6 .float-right")
+    @JsoupText(".d-inline-block.float-sm-right")
     String mStarsToday;
 
     String mLanguage;

@@ -138,4 +138,12 @@ public class TrendingTestMock extends BaseMockTest {
         assertThat(timeSpans.get(2).getHref(), is("https://github.com/trending/java?since=monthly"));
         assertThat(timeSpans.get(2).getName(), is("this month"));
     }
+
+    @Test
+    public void test0719() throws IOException {
+        mServer.enqueue(getResponse("java_today_07.19.html"));
+
+        final List<Repository> repositories = getRepositories(mServer.url("/").toString());
+        assertThat(repositories.size(), is(25));
+    }
 }
