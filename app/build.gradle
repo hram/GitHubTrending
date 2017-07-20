@@ -23,6 +23,17 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
+def getProps(String propName) {
+    def propsFile = rootProject.file('local.properties')
+    if (propsFile.exists()) {
+        def props = new Properties()
+        props.load(new FileInputStream(propsFile))
+        return props[propName] != null ? props[propName] : "\"define config field: " + propName + "\""
+    } else {
+        return "\"define config file local.properties\"";
+    }
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.3'
@@ -36,6 +47,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         buildConfigField "String", "URL_BASE", '"https://github.com"'
+        buildConfigField "String", "TELEGRAM_BOT_TOKEN", getProps("telegram.botToken")
     }
     buildTypes {
         release {
@@ -69,7 +81,6 @@ android {
         preDexLibraries true
         maxProcessCount 8
     }
-
 }
 
 dependencies {
@@ -88,7 +99,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.arello-mobile:moxy:1.5.3'
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
-    compile 'com.github.orhanobut:hawk:1.23'
     testCompile('junit:junit:4.12') {
         exclude group: 'org.hamcrest'
     }
@@ -119,6 +129,9 @@ dependencies {
     provided 'fr.xebia.android.freezer:freezer-annotations:2.1.0'
     annotationProcessor 'fr.xebia.android.freezer:freezer-compiler:2.1.0'
     compile 'com.github.viethoa:fastscroller:1.2.0'
+    testCompile "org.robolectric:robolectric:3.3.2"
+    testCompile 'com.github.pengrad:java-telegram-bot-api:3.1.0'
+    compile 'com.google.code.gson:gson:2.8.1'
 }
 
 soexcluder {

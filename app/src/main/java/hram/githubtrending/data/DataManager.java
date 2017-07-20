@@ -29,9 +29,6 @@ import hram.githubtrending.viewmodel.SelectLanguageViewModel;
 import hram.githubtrending.viewmodel.SelectTimeSpanViewModel;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author Evgeny Khramov

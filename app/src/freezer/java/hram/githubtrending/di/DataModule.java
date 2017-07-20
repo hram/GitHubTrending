@@ -10,7 +10,7 @@ import hram.githubtrending.data.db.DatabaseHelper;
 import hram.githubtrending.data.db.FreezerDatabaseHelper;
 import hram.githubtrending.data.network.NetworkHelper;
 import hram.githubtrending.data.network.RetroJsoupNetworkHelper;
-import hram.githubtrending.data.prefepences.HawkPreferencesHelper;
+import hram.githubtrending.data.prefepences.SharedPreferencesHelper;
 import hram.githubtrending.data.prefepences.PreferencesHelper;
 
 /**
@@ -30,7 +30,7 @@ public class DataModule {
     @Provides
     @Singleton
     PreferencesHelper providePreferencesHelper() {
-        return new HawkPreferencesHelper();
+        return new SharedPreferencesHelper();
     }
 
     @NonNull

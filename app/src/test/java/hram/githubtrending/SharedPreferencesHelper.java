@@ -1,36 +1,34 @@
-package hram.githubtrending.data.prefepences;
+package hram.githubtrending;
 
 import android.support.annotation.NonNull;
 
-import com.orhanobut.hawk.Hawk;
-
 import hram.githubtrending.data.model.SearchParams;
+import hram.githubtrending.data.prefepences.PreferencesHelper;
 
 /**
  * @author Evgeny Khramov
  */
 
-public class HawkPreferencesHelper implements PreferencesHelper {
+public class SharedPreferencesHelper implements PreferencesHelper {
 
-    @Override
     @NonNull
+    @Override
     public SearchParams getSearchParams() {
-        return Hawk.get(SearchParams.class.getName(), SearchParams.createEmpty());
+        return new SearchParams("java", "daily");
     }
 
     @Override
     public void setSearchParams(@NonNull SearchParams params) {
-        Hawk.put(SearchParams.class.getName(), params);
+        // do nothing
     }
-
 
     @Override
     public void resetSearchParams() {
-        Hawk.put(SearchParams.class.getName(), SearchParams.createEmpty());
+        // do nothing
     }
 
     @Override
     public void clearAppData() {
-        Hawk.clear();
+        // do nothing
     }
 }
