@@ -5,7 +5,6 @@ import android.util.LongSparseArray;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.TelegramBotAdapter;
-import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.GetUpdates;
@@ -51,6 +50,12 @@ public class TelegramBotClient extends BaseTest {
 
     private TelegramBot mBot;
 
+    // Android legion
+    private long mGroupId = -225516712;
+
+    // Тестирование бота
+    //private long mGroupId = -205792160;
+
     @Before
     public void setup() throws IOException {
         mBot = TelegramBotAdapter.build(BuildConfig.TELEGRAM_BOT_TOKEN);
@@ -59,6 +64,10 @@ public class TelegramBotClient extends BaseTest {
         if (mCopyDataBase.exists()) {
             copyFile(mCopyDataBase, mCurrentDataBase);
         }
+
+        assertThat(DataManager.getInstance().getParams().isEmpty(), is(false));
+        assertThat(DataManager.getInstance().getParams().getLanguage(), is("java"));
+        assertThat(DataManager.getInstance().getParams().getTimeSpan(), is("daily"));
     }
 
     @After
@@ -67,15 +76,11 @@ public class TelegramBotClient extends BaseTest {
     }
 
 
-    @Test
-    public void sendMessagesForAll() throws URISyntaxException, IOException {
-        assertThat(DataManager.getInstance().getParams().isEmpty(), is(false));
-        assertThat(DataManager.getInstance().getParams().getLanguage(), is("java"));
-        assertThat(DataManager.getInstance().getParams().getTimeSpan(), is("daily"));
-
+    //@Test
+    public void sendMessagesForAll() throws URISyntaxException, IOException, InterruptedException {
         final List<Update> updates = getUpdates();
 
-        final TestObserver<List<RepositoryViewModel>> repositories = DataManager.getInstance().refreshRepositories().test();
+        final TestObserver<List<RepositoryViewModel>> repositories = DataManager.getInstance().getRepositories().test();
         repositories.awaitTerminalEvent();
         repositories.assertNoErrors();
 
@@ -90,9 +95,24 @@ public class TelegramBotClient extends BaseTest {
                     continue;
                 }
 
-                sendMessage(update.message().chat(), formatMessage(viewModel));
+                sendMessage(update.message().chat().id(), formatMessage(viewModel));
                 array.put(update.message().chat().id(), update);
             }
+        }
+    }
+
+    @Test
+    public void sendMessagesToAndroidLegion() throws URISyntaxException, IOException, InterruptedException {
+        final TestObserver<List<RepositoryViewModel>> repositories = DataManager.getInstance().getRepositories().test();
+        repositories.awaitTerminalEvent();
+        repositories.assertNoErrors();
+
+        for (RepositoryViewModel viewModel : repositories.values().get(0)) {
+            TestObserver<Boolean> res = DataManager.getInstance().setHided(viewModel.getId(), true).test();
+            res.awaitTerminalEvent();
+            res.assertNoErrors().assertResult(true);
+
+            sendMessage(mGroupId, formatMessage(viewModel));
         }
     }
 
@@ -110,14 +130,15 @@ public class TelegramBotClient extends BaseTest {
         return String.format("<a href=\"%s\">%s</a>\n%s\n\nStars: %s\nForks: %s\n%s", BuildConfig.URL_BASE + viewModel.getId(), viewModel.getTitle(), viewModel.getDescription(), viewModel.getAllStars(), viewModel.getForks(), viewModel.getStarsToday());
     }
 
-    private void sendMessage(@NonNull Chat chat, @NonNull String message) {
-        SendMessage request = new SendMessage(chat.id(), message)
+    private void sendMessage(Long id, @NonNull String message) throws InterruptedException {
+        SendMessage request = new SendMessage(id, message)
                 .parseMode(ParseMode.HTML)
                 .disableWebPagePreview(true)
                 .disableNotification(true);
 
         SendResponse sendResponse = mBot.execute(request);
         assertThat(sendResponse.isOk(), is(true));
+        Thread.sleep(1000);
     }
 
     private static void copyFile(@NonNull File sourceFile, @NonNull File destFile) throws IOException {
