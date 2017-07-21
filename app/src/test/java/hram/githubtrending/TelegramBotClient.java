@@ -103,9 +103,12 @@ public class TelegramBotClient extends BaseTest {
 
     @Test
     public void sendMessagesToAndroidLegion() throws URISyntaxException, IOException, InterruptedException {
+        System.out.println("run sendMessagesToAndroidLegion()");
         final TestObserver<List<RepositoryViewModel>> repositories = DataManager.getInstance().refreshRepositories().test();
         repositories.awaitTerminalEvent();
         repositories.assertNoErrors();
+
+        System.out.println(String.format("received %s new repos", repositories.values().get(0).size()));
 
         for (RepositoryViewModel viewModel : repositories.values().get(0)) {
             TestObserver<Boolean> res = DataManager.getInstance().setHided(viewModel.getId(), true).test();
@@ -131,6 +134,7 @@ public class TelegramBotClient extends BaseTest {
     }
 
     private void sendMessage(Long id, @NonNull String message) throws InterruptedException {
+        System.out.println(String.format("send message:%s to %s", message, id));
         SendMessage request = new SendMessage(id, message)
                 .parseMode(ParseMode.HTML)
                 .disableWebPagePreview(true)
@@ -142,6 +146,7 @@ public class TelegramBotClient extends BaseTest {
     }
 
     private static void copyFile(@NonNull File sourceFile, @NonNull File destFile) throws IOException {
+        System.out.println(String.format("copy db from %s to %s", sourceFile.getAbsolutePath(), destFile.getAbsolutePath()));
         if (!destFile.exists()) {
             if (destFile.getParentFile() != null && !destFile.getParentFile().exists()) {
                 destFile.getParentFile().mkdirs();
