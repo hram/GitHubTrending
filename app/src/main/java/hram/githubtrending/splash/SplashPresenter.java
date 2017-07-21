@@ -11,7 +11,6 @@ import hram.githubtrending.data.DataManager;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.SplashViewModel;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
-import hugo.weaving.DebugLog;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

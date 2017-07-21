@@ -11,7 +11,6 @@ import hram.githubtrending.data.model.Repository;
 import hram.githubtrending.data.model.RepositoryEntityManager;
 import hram.githubtrending.data.model.TimeSpan;
 import hram.githubtrending.data.model.TimeSpanEntityManager;
-import hugo.weaving.DebugLog;
 import io.reactivex.Observable;
 
 /**
@@ -79,7 +78,6 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
         return Observable.defer(() -> Observable.just(getRepositories(language, timeSpan)));
     }
 
-    @DebugLog
     @NonNull
     @Override
     public List<Repository> getRepositories(@NonNull String language, @NonNull String timeSpan) {

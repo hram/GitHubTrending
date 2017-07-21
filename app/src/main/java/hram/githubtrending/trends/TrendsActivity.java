@@ -19,7 +19,6 @@ import hram.githubtrending.databinding.ActivityMainBinding;
 import hram.githubtrending.filter.FilterActivity;
 import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
-import hugo.weaving.DebugLog;
 
 public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
 
@@ -107,25 +106,21 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
         }
     }
 
-    @DebugLog
     @Override
     public void showProgress() {
         mBinding.progress.showLoading();
     }
 
-    @DebugLog
     @Override
     public void showEmpty() {
         mBinding.progress.showEmpty(R.drawable.ic_star, "Хорошая работа!", "Поздравляю все прочитано");
     }
 
-    @DebugLog
     @Override
     public void showError(@NonNull Throwable throwable) {
         mBinding.progress.showError(R.drawable.ic_star, "error", throwable.getMessage(), "обновить", this::refresh);
     }
 
-    @DebugLog
     @Override
     public void showContent() {
         mBinding.progress.showContent();
