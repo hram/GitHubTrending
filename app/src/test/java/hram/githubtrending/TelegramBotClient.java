@@ -51,10 +51,10 @@ public class TelegramBotClient extends BaseTest {
     private TelegramBot mBot;
 
     // Android legion
-    private long mGroupId = -225516712;
+    //private long mGroupId = -225516712;
 
     // Тестирование бота
-    //private long mGroupId = -205792160;
+    private long mGroupId = -205792160;
 
     @Before
     public void setup() throws IOException {
@@ -103,7 +103,7 @@ public class TelegramBotClient extends BaseTest {
 
     @Test
     public void sendMessagesToAndroidLegion() throws URISyntaxException, IOException, InterruptedException {
-        final TestObserver<List<RepositoryViewModel>> repositories = DataManager.getInstance().getRepositories().test();
+        final TestObserver<List<RepositoryViewModel>> repositories = DataManager.getInstance().refreshRepositories().test();
         repositories.awaitTerminalEvent();
         repositories.assertNoErrors();
 
