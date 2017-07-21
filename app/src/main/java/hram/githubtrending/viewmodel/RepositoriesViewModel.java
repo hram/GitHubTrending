@@ -1,8 +1,6 @@
 package hram.githubtrending.viewmodel;
 
 import android.databinding.ObservableArrayList;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
 
@@ -24,10 +22,6 @@ public class RepositoriesViewModel implements RepositoryViewModel.OnItemClickLis
 
     public final ItemBinding<RepositoryViewModel> itemBinding = ItemBinding.<RepositoryViewModel>of(BR.item, R.layout.item_repository)
             .bindExtra(BR.listener, this);
-
-    public final ObservableBoolean hasError = new ObservableBoolean(false);
-
-    public final ObservableField<String> error = new ObservableField<>();
 
     public RepositoriesViewModel(@NonNull RepositoryViewModel.OnItemClickListener listener) {
         mListener = listener;

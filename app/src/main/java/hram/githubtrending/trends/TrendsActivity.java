@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -18,6 +19,7 @@ import hram.githubtrending.databinding.ActivityMainBinding;
 import hram.githubtrending.filter.FilterActivity;
 import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
+import hugo.weaving.DebugLog;
 
 public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
 
@@ -42,7 +44,6 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        mBinding.buttonRefresh.setOnClickListener(v -> mPresenter.refresh());
         setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
@@ -104,5 +105,33 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
         } catch (Exception e) {
             // do nothing
         }
+    }
+
+    @DebugLog
+    @Override
+    public void showProgress() {
+        mBinding.progress.showLoading();
+    }
+
+    @DebugLog
+    @Override
+    public void showEmpty() {
+        mBinding.progress.showEmpty(R.drawable.ic_star, "Хорошая работа!", "Поздравляю все прочитано");
+    }
+
+    @DebugLog
+    @Override
+    public void showError(@NonNull Throwable throwable) {
+        mBinding.progress.showError(R.drawable.ic_star, "error", throwable.getMessage(), "обновить", this::refresh);
+    }
+
+    @DebugLog
+    @Override
+    public void showContent() {
+        mBinding.progress.showContent();
+    }
+
+    private void refresh(View view) {
+        mPresenter.refresh();
     }
 }

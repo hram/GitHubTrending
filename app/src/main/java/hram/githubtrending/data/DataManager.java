@@ -28,6 +28,7 @@ import hram.githubtrending.viewmodel.RepositoryViewModel;
 import hram.githubtrending.viewmodel.SelectLanguageViewModel;
 import hram.githubtrending.viewmodel.SelectTimeSpanViewModel;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
+import hugo.weaving.DebugLog;
 import io.reactivex.Observable;
 
 /**
@@ -130,6 +131,7 @@ public class DataManager {
                 .onErrorReturn(this::logThrowableAndReturnEmptyList);
     }
 
+    @DebugLog
     @NonNull
     private ArrayList logThrowableAndReturnEmptyList(@NonNull Throwable throwable) {
         // TODO log to fabric

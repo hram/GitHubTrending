@@ -16,7 +16,6 @@ import hram.githubtrending.BuildConfig;
 import hram.githubtrending.data.DataManager;
 import hram.githubtrending.viewmodel.RepositoriesViewModel;
 import hram.githubtrending.viewmodel.RepositoryViewModel;
-import hugo.weaving.DebugLog;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -73,7 +72,6 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> implements Reposit
     }
 
     private void loadRepositories() {
-        mRepositoriesViewModel.hasError.set(false);
         getViewState().setRefreshing(true);
         DataManager.getInstance().getRepositories()
                 .subscribeOn(Schedulers.io())
@@ -82,7 +80,6 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> implements Reposit
     }
 
     void refresh() {
-        mRepositoriesViewModel.hasError.set(false);
         getViewState().setRefreshing(true);
         DataManager.getInstance().refreshRepositories()
                 .subscribeOn(Schedulers.io())
@@ -91,14 +88,17 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> implements Reposit
     }
 
     private void handleRepositories(@NonNull List<RepositoryViewModel> list) {
-        mRepositoriesViewModel.setItems(list);
         getViewState().setRefreshing(false);
+        if (list.isEmpty()) {
+            getViewState().showEmpty();
+        } else {
+            mRepositoriesViewModel.setItems(list);
+            getViewState().showContent();
+        }
     }
 
     private void handleError(@NonNull Throwable throwable) {
         getViewState().setRefreshing(false);
-        mRepositoriesViewModel.error.set(throwable.getMessage());
-        mRepositoriesViewModel.hasError.set(true);
     }
 
     private void handleHideResult(@NonNull RepositoryViewModel viewModel, int position, boolean hided, Boolean result) {
@@ -116,8 +116,7 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> implements Reposit
 
     private void handleHideError(@NonNull Throwable throwable) {
         getViewState().setRefreshing(false);
-        mRepositoriesViewModel.error.set(throwable.getMessage());
-        mRepositoriesViewModel.hasError.set(true);
+        getViewState().showError(throwable);
     }
 
     public void onUndoRemove(@NonNull RepositoryViewModel viewModel, int position) {

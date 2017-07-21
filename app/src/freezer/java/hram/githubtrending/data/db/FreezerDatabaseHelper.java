@@ -77,13 +77,9 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
     @Override
     public Observable<List<Repository>> getRepositoriesObservable(@NonNull String language, @NonNull String timeSpan) {
         return Observable.defer(() -> Observable.just(getRepositories(language, timeSpan)));
-//        return mRepositories.select()
-//                .mLanguage().equalsTo(language)
-//                .and()
-//                .mTimeSpan().equalsTo(timeSpan)
-//                .asObservable();
     }
 
+    @DebugLog
     @NonNull
     @Override
     public List<Repository> getRepositories(@NonNull String language, @NonNull String timeSpan) {
@@ -91,6 +87,8 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
                 .mLanguage().equalsTo(language)
                 .and()
                 .mTimeSpan().equalsTo(timeSpan)
+                .and()
+                .mIsHided().isFalse()
                 .asList();
     }
 
