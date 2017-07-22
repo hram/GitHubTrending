@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import hram.githubtrending.data.model.Language;
+import hram.githubtrending.data.model.LanguagesAndTimeSpans;
 import hram.githubtrending.data.model.Repository;
 import hram.githubtrending.data.model.TimeSpan;
 import io.reactivex.Observable;
@@ -22,4 +23,7 @@ public interface NetworkHelper {
 
     @NonNull
     Observable<List<TimeSpan>> getTimeSpans();
+
+    @NonNull
+    Observable<LanguagesAndTimeSpans> getLanguagesAndTimeSpans();
 }

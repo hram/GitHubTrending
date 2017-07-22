@@ -92,7 +92,7 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
 
     @Override
     public Observable<List<Language>> saveLanguages(@NonNull List<Language> list) {
-        return Observable.defer(() -> Observable.just(saveAndGetLanguages(list)));
+        return Observable.just(saveAndGetLanguages(list));
     }
 
     @NonNull
@@ -120,7 +120,7 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
 
     @Override
     public Observable<List<TimeSpan>> saveTimeSpans(@NonNull List<TimeSpan> list) {
-        return Observable.defer(() -> Observable.just(saveAndGetTimeSpans(list)));
+        return Observable.just(saveAndGetTimeSpans(list));
     }
 
     @NonNull

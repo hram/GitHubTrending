@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import hram.githubtrending.App;
 import hram.githubtrending.data.model.Language;
+import hram.githubtrending.data.model.LanguagesAndTimeSpans;
 import hram.githubtrending.data.model.Repository;
 import hram.githubtrending.data.model.TimeSpan;
 import io.reactivex.Observable;
@@ -67,6 +68,17 @@ public class RetroJsoupNetworkHelper implements NetworkHelper {
 
         return trending.getTimeSpans()
                 .toList().toObservable();
+    }
+
+    @NonNull
+    public Observable<LanguagesAndTimeSpans> getLanguagesAndTimeSpans() {
+        final Trending trending = new RetroJsoup.Builder()
+                .url(createUrl())
+                .client(mClient)
+                .build()
+                .create(Trending.class);
+
+        return Observable.zip(trending.getLanguages().toList().toObservable(), trending.getTimeSpans().toList().toObservable(), LanguagesAndTimeSpans::new);
     }
 
     @NonNull

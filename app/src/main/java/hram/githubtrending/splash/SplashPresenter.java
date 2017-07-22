@@ -11,7 +11,6 @@ import hram.githubtrending.data.DataManager;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.SplashViewModel;
 import hram.githubtrending.viewmodel.TimeSpanViewModel;
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -35,10 +34,9 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     void loadData() {
         getViewState().showProgress();
         if (DataManager.getInstance().getParams().isEmpty()) {
-            Observable.zip(DataManager.getInstance().getLanguages(), DataManager.getInstance().getTimeSpans(), this::checkIfNotEmpty)
+            DataManager.getInstance().isLanguagesAndTimeSpansLoaded()
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    //.onErrorReturn(error -> false)
                     .subscribe(this::handleResult, this::handleError);
         } else {
             getViewState().openTrendsScreen();

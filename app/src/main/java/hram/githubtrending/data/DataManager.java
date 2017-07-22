@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import hram.githubtrending.App;
 import hram.githubtrending.data.db.DatabaseHelper;
 import hram.githubtrending.data.model.Language;
+import hram.githubtrending.data.model.LanguagesAndTimeSpans;
 import hram.githubtrending.data.model.Repository;
 import hram.githubtrending.data.model.SearchParams;
 import hram.githubtrending.data.model.TimeSpan;
@@ -72,6 +73,33 @@ public class DataManager {
     @NonNull
     public SearchParams getParams() {
         return mParams;
+    }
+
+    @NonNull
+    public Observable<Boolean> isLanguagesAndTimeSpansLoaded() {
+        return Observable.zip(mDatabaseHelper.getLanguagesObservable(), mDatabaseHelper.getTimeSpansObservable(), (languageList, timeSpanList) -> !languageList.isEmpty() && !timeSpanList.isEmpty())
+                .flatMap(this::ifEmptyThenGetFromNetwork);
+    }
+
+    @NonNull
+    private Observable<Boolean> ifEmptyThenGetFromNetwork(boolean loaded) {
+        if (!loaded) {
+            return mNetworkHelper.getLanguagesAndTimeSpans()
+                    .flatMap(this::saveLanguagesAndTimeSpans);
+        } else {
+            return Observable.just(true);
+        }
+    }
+
+    @NonNull
+    private Observable<Boolean> saveLanguagesAndTimeSpans(@NonNull LanguagesAndTimeSpans languagesAndTimeSpans) {
+        return mDatabaseHelper.saveLanguages(languagesAndTimeSpans.getLanguages())
+                .flatMap(languageList -> mDatabaseHelper.saveTimeSpans(languagesAndTimeSpans.getTimeSpans()))
+                .flatMap(timeSpanList -> Observable.just(true));
+    }
+
+    private boolean checkIfNotEmpty(List<LanguageViewModel> languages, List<TimeSpanViewModel> timeSpans) {
+        return !languages.isEmpty() && !timeSpans.isEmpty();
     }
 
     @NonNull
