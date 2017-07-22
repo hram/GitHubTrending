@@ -21,6 +21,7 @@ import hram.githubtrending.data.model.SearchParams;
 import hram.githubtrending.data.model.TimeSpan;
 import hram.githubtrending.data.network.NetworkHelper;
 import hram.githubtrending.data.prefepences.PreferencesHelper;
+import hram.githubtrending.utils.FabricUtil;
 import hram.githubtrending.viewmodel.FilterViewModel;
 import hram.githubtrending.viewmodel.LanguageViewModel;
 import hram.githubtrending.viewmodel.LanguagesAndTimeSpan;
@@ -132,7 +133,7 @@ public class DataManager {
 
     @NonNull
     private ArrayList logThrowableAndReturnEmptyList(@NonNull Throwable throwable) {
-        // TODO log to fabric
+        FabricUtil.logException(throwable);
         return new ArrayList<>();
     }
 

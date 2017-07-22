@@ -12,6 +12,7 @@ import hram.githubtrending.R;
 import hram.githubtrending.databinding.AcSplashBinding;
 import hram.githubtrending.selectlanguage.SelectLanguageActivity;
 import hram.githubtrending.trends.TrendsActivity;
+import hram.githubtrending.utils.FabricUtil;
 import hram.githubtrending.viewmodel.SplashViewModel;
 
 public class SplashActivity extends MvpAppCompatActivity implements SplashView {
@@ -51,12 +52,14 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
 
     @Override
     public void showEmpty() {
-        mBinding.progress.showEmpty(R.drawable.ic_star, "Что то пошло не так (((", "Не удалось получить список языков. Мы уже в курсе. Помощь уже в пути.");
+        mBinding.progress.showEmpty(R.drawable.ic_emergency, "Ooops! Что то пошло не так (((", "Помощь в пути.");
+        FabricUtil.logException(FabricUtil.createEmptyDataException());
     }
 
     @Override
     public void showError(@NonNull Throwable throwable) {
-        mBinding.progress.showError(R.drawable.ic_star, "error", throwable.getMessage(), "обновить", this::refresh);
+        mBinding.progress.showError(R.drawable.ic_emergency, "Ooops! Произошла ошибка (((", "Помощь в пути", "Обновить", this::refresh);
+        FabricUtil.logException(throwable);
     }
 
     @Override

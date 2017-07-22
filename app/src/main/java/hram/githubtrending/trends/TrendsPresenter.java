@@ -109,7 +109,13 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> implements Reposit
         if (hided) {
             mRepositoriesViewModel.removeItem(position);
             getViewState().sowRemoveUndo(viewModel, position, "Репозиторий больше не будет отображаться в списке");
+            if (mRepositoriesViewModel.items.isEmpty()) {
+                getViewState().showEmpty();
+            }
         } else {
+            if (mRepositoriesViewModel.items.isEmpty()) {
+                getViewState().showContent();
+            }
             mRepositoriesViewModel.items.add(position, viewModel);
         }
     }

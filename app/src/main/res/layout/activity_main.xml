@@ -50,9 +50,10 @@
                 android:id="@+id/progress"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:emptyBackgroundColor="#fff9c4"
-                app:errorBackgroundColor="#ffcdd2"
-                app:loadingBackgroundColor="#FFFFFF">
+                app:emptyContentTextSize="8dp"
+                app:emptyTitleTextSize="10dp"
+                app:errorContentTextSize="8sp"
+                app:errorTitleTextSize="10sp">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"

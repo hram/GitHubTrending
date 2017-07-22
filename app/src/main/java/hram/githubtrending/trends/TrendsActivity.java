@@ -113,12 +113,12 @@ public class TrendsActivity extends MvpAppCompatActivity implements TrendsView {
 
     @Override
     public void showEmpty() {
-        mBinding.progress.showEmpty(R.drawable.ic_star, "Хорошая работа!", "Поздравляю все прочитано");
+        mBinding.progress.showEmpty(R.drawable.ic_well_done, "Хорошая работа! Следите за обновлениями.", "Или смените настройки фильтра.");
     }
 
     @Override
     public void showError(@NonNull Throwable throwable) {
-        mBinding.progress.showError(R.drawable.ic_star, "error", throwable.getMessage(), "обновить", this::refresh);
+        mBinding.progress.showError(R.drawable.ic_emergency, "Ooops! Произошла ошибка (((", "Помощь в пути", "Обновить", this::refresh);
     }
 
     @Override
