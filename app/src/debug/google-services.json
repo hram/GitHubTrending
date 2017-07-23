@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "870825897214",
+    "firebase_url": "https://trending-debug.firebaseio.com",
+    "project_id": "trending-debug",
+    "storage_bucket": "trending-debug.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870825897214:android:9ec5caf344692920",
+        "android_client_info": {
+          "package_name": "hram.githubtrending.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870825897214-ah3iknfr06tgsergerhve4i345ana166.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC59fq2bvGjdLzrgKpsBsxmdWLbgWGs8rQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
