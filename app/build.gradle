@@ -15,8 +15,6 @@ apply plugin: 'realm-android'
 apply from: '../config/quality/quality.gradle'
 apply plugin: 'android-soexcluder'
 apply plugin: 'spoon'
-apply plugin: 'com.google.firebase.firebase-perf'
-apply plugin: 'com.google.firebase.firebase-crash'
 
 repositories {
     maven { url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo' }
@@ -178,5 +176,3 @@ android.applicationVariants.all { variant ->
         }
     }
 }
-
-apply plugin: 'com.google.gms.google-services'

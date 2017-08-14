@@ -11,8 +11,6 @@ buildscript {
         classpath "io.realm:realm-gradle-plugin:3.1.4"
         classpath 'com.jween.gradle:android-soexcluder:1.1'
         classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
-        classpath 'com.google.gms:google-services:3.1.0'
-        classpath 'com.google.firebase:firebase-plugins:1.1.0'
     }
 }
 
