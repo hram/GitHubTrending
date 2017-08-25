@@ -22,7 +22,6 @@ public class BaseTest {
 
         final Trending trending = new RetroJsoup.Builder()
                 .url(url)
-                .exceptionIfNotFound()
                 .build()
                 .create(Trending.class);
 

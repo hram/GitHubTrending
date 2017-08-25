@@ -25,74 +25,42 @@ public class TrendingTestMock extends BaseMockTest {
 
         final List<Repository> repositories = getRepositories(mServer.url("/").toString());
 
-        assertThat(repositories.get(0).getTitle(), is("didi / VirtualAPK"));
-        assertThat(repositories.get(0).getDescription(), is("A powerful and lightweight plugin framework for Android"));
-        assertThat(repositories.get(0).getUser(), is("didi /"));
-        assertThat(repositories.get(0).getHref(), is("/didi/VirtualAPK"));
-        assertThat(repositories.get(0).getAllStars(), is("2,042"));
-        assertThat(repositories.get(0).getForks(), is("273"));
-        assertThat(repositories.get(0).getStarsToday(), is("364 stars today"));
+        assertThat(repositories.get(0).getTitle(), is("rsms / interface"));
+        assertThat(repositories.get(0).getDescription(), is("The Interface font family"));
+        assertThat(repositories.get(0).getUser(), is("rsms /"));
+        assertThat(repositories.get(0).getHref(), is("/rsms/interface"));
+        assertThat(repositories.get(0).getAllStars(), is("1,983"));
+        assertThat(repositories.get(0).getForks(), is("26"));
+        assertThat(repositories.get(0).getStarsToday(), is("666 stars today"));
 
-        assertThat(repositories.get(1).getTitle(), is("Qihoo360 / RePlugin"));
-        assertThat(repositories.get(1).getDescription(), is("RePlugin - A flexible, stable, easy-to-use Android Plug-in Framework"));
-        assertThat(repositories.get(1).getUser(), is("Qihoo360 /"));
-        assertThat(repositories.get(1).getHref(), is("/Qihoo360/RePlugin"));
-        assertThat(repositories.get(1).getAllStars(), is("1,687"));
-        assertThat(repositories.get(1).getForks(), is("218"));
-        assertThat(repositories.get(1).getStarsToday(), is("139 stars today"));
+        assertThat(repositories.get(1).getTitle(), is("LewisVo / Awesome-Linux-Software"));
+        assertThat(repositories.get(2).getTitle(), is("justdoit0823 / pywxclient"));
+        assertThat(repositories.get(3).getTitle(), is("0x09AL / raven"));
 
-        assertThat(repositories.get(2).getTitle(), is("lihengming / spring-boot-api-project-seed"));
-//        assertThat(repositories.get().getDescription(), is(""));
-//        assertThat(repositories.get().getUser(), is(""));
-//        assertThat(repositories.get().getHref(), is(""));
-//        assertThat(repositories.get().getAllStars(), is(""));
-//        assertThat(repositories.get().getForks(), is(""));
-//        assertThat(repositories.get().getStarsToday(), is(""));
+        assertThat(repositories.get(4).getTitle(), is("eldraco / Salamandra"));
+        assertThat(repositories.get(4).getDescription(), is(""));
 
-        assertThat(repositories.get(3).getTitle(), is("apache / incubator-rocketmq"));
-        assertThat(repositories.get(4).getTitle(), is("Krupen / FabulousFilter"));
-        assertThat(repositories.get(5).getTitle(), is("JetBrains / kotlin"));
-        assertThat(repositories.get(6).getTitle(), is("airbnb / lottie-android"));
-        assertThat(repositories.get(7).getTitle(), is("sebig3000 / MachineLearning"));
-        assertThat(repositories.get(8).getTitle(), is("Ramotion / cardslider-android"));
-        assertThat(repositories.get(9).getTitle(), is("shuzheng / zheng"));
-        assertThat(repositories.get(10).getTitle(), is("spring-projects / spring-boot"));
-        assertThat(repositories.get(11).getTitle(), is("harjot-oberai / VectorMaster"));
-        assertThat(repositories.get(12).getTitle(), is("google / flexbox-layout"));
-        assertThat(repositories.get(13).getTitle(), is("Tencent / angel"));
-        assertThat(repositories.get(14).getTitle(), is("Justson / AgentWeb"));
-        assertThat(repositories.get(15).getTitle(), is("square / okhttp"));
-        assertThat(repositories.get(16).getTitle(), is("JakeWharton / butterknife"));
-        assertThat(repositories.get(17).getTitle(), is("iluwatar / java-design-patterns"));
-        assertThat(repositories.get(18).getTitle(), is("google / guava"));
-        assertThat(repositories.get(19).getTitle(), is("ReactiveX / RxJava"));
-        assertThat(repositories.get(20).getTitle(), is("PhilJay / MPAndroidChart"));
+        assertThat(repositories.get(5).getTitle(), is("facebook / codemod"));
+        assertThat(repositories.get(6).getTitle(), is("Kyubyong / neural_chinese_transliterator"));
+        assertThat(repositories.get(7).getTitle(), is("tensorflow / models"));
+        assertThat(repositories.get(8).getTitle(), is("vinta / awesome-python"));
+        assertThat(repositories.get(9).getTitle(), is("lk-geimfari / mimesis"));
+        assertThat(repositories.get(10).getTitle(), is("fchollet / keras"));
+        assertThat(repositories.get(11).getTitle(), is("pallets / flask"));
+        assertThat(repositories.get(12).getTitle(), is("requests / requests"));
+        assertThat(repositories.get(13).getTitle(), is("josephmisiti / awesome-machine-learning"));
+        assertThat(repositories.get(14).getTitle(), is("masasin / latexipy"));
+        assertThat(repositories.get(15).getTitle(), is("jmhessel / fmpytorch"));
+        assertThat(repositories.get(16).getTitle(), is("ansible / ansible"));
+        assertThat(repositories.get(17).getTitle(), is("chiphuyen / stanford-tensorflow-tutorials"));
+        assertThat(repositories.get(18).getTitle(), is("rg3 / youtube-dl"));
+        assertThat(repositories.get(19).getTitle(), is("django / django"));
+        assertThat(repositories.get(20).getTitle(), is("deepmind / pysc2"));
+        assertThat(repositories.get(21).getTitle(), is("BenWhetton / keras-surgeon"));
+        assertThat(repositories.get(22).getTitle(), is("pytorch / pytorch"));
+        assertThat(repositories.get(23).getTitle(), is("AndreaOm / xiaomiquan_bak"));
 
-        assertThat(repositories.get(21).getTitle(), is("CymChad / BaseRecyclerViewAdapterHelper"));
-        assertThat(repositories.get(21).getDescription(), is("Powerful and flexible RecyclerAdapter, www.recyclerview.org"));
-        assertThat(repositories.get(21).getUser(), is("CymChad /"));
-        assertThat(repositories.get(21).getHref(), is("/CymChad/BaseRecyclerViewAdapterHelper"));
-        assertThat(repositories.get(21).getAllStars(), is("8,093"));
-        assertThat(repositories.get(21).getForks(), is("1,818"));
-        assertThat(repositories.get(21).getStarsToday(), is("11 stars today"));
-
-        assertThat(repositories.get(22).getTitle(), is("bumptech / glide"));
-        assertThat(repositories.get(22).getDescription(), is("An image loading and caching library for Android focused on smooth scrolling"));
-        assertThat(repositories.get(22).getUser(), is("bumptech /"));
-        assertThat(repositories.get(22).getHref(), is("/bumptech/glide"));
-        assertThat(repositories.get(22).getAllStars(), is("16,260"));
-        assertThat(repositories.get(22).getForks(), is("3,338"));
-        assertThat(repositories.get(22).getStarsToday(), is("10 stars today"));
-
-        assertThat(repositories.get(23).getTitle(), is("alibaba / druid"));
-        assertThat(repositories.get(23).getDescription(), is("♨️ 为监控而生的数据库连接池！"));
-        assertThat(repositories.get(23).getUser(), is("alibaba /"));
-        assertThat(repositories.get(23).getHref(), is("/alibaba/druid"));
-        assertThat(repositories.get(23).getAllStars(), is("6,788"));
-        assertThat(repositories.get(23).getForks(), is("3,240"));
-        assertThat(repositories.get(23).getStarsToday(), is("10 stars today"));
-
-        assertThat(repositories.get(24).getTitle(), is("huseyinozer / TooltipIndicator"));
+        assertThat(repositories.get(24).getTitle(), is("jakubroztocil / httpie"));
         assertThat(repositories.get(24).getDescription(), is(""));
         assertThat(repositories.get(24).getUser(), is("huseyinozer /"));
         assertThat(repositories.get(24).getHref(), is("/huseyinozer/TooltipIndicator"));
