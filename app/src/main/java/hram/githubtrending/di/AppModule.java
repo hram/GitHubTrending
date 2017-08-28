@@ -1,5 +1,7 @@
 package hram.githubtrending.di;
 
+import android.support.annotation.NonNull;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -12,9 +14,9 @@ import hram.githubtrending.App;
 @Module
 public class AppModule {
 
-    App mApplication;
+    private App mApplication;
 
-    public AppModule(App application) {
+    public AppModule(@NonNull App application) {
         mApplication = application;
     }
 

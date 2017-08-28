@@ -39,6 +39,11 @@ public class TrendingTestMock extends BaseMockTest {
 
         assertThat(repositories.get(4).getTitle(), is("eldraco / Salamandra"));
         assertThat(repositories.get(4).getDescription(), is(""));
+        assertThat(repositories.get(4).getUser(), is("eldraco /"));
+        assertThat(repositories.get(4).getHref(), is("/eldraco/Salamandra"));
+        assertThat(repositories.get(4).getAllStars(), is("71"));
+        assertThat(repositories.get(4).getForks(), is("11"));
+        assertThat(repositories.get(4).getStarsToday(), is("62 stars today"));
 
         assertThat(repositories.get(5).getTitle(), is("facebook / codemod"));
         assertThat(repositories.get(6).getTitle(), is("Kyubyong / neural_chinese_transliterator"));
@@ -61,12 +66,12 @@ public class TrendingTestMock extends BaseMockTest {
         assertThat(repositories.get(23).getTitle(), is("AndreaOm / xiaomiquan_bak"));
 
         assertThat(repositories.get(24).getTitle(), is("jakubroztocil / httpie"));
-        assertThat(repositories.get(24).getDescription(), is(""));
-        assertThat(repositories.get(24).getUser(), is("huseyinozer /"));
-        assertThat(repositories.get(24).getHref(), is("/huseyinozer/TooltipIndicator"));
-        assertThat(repositories.get(24).getAllStars(), is("42"));
-        assertThat(repositories.get(24).getForks(), is("3"));
-        assertThat(repositories.get(24).getStarsToday(), is("11 stars today"));
+        assertThat(repositories.get(24).getDescription(), is("Modern command line HTTP client � user-friendly curl alternative with intuitive UI, JSON support, syntax highlighting, wget-like downloads, extensions, etc. https://httpie.org"));
+        assertThat(repositories.get(24).getUser(), is("jakubroztocil /"));
+        assertThat(repositories.get(24).getHref(), is("/jakubroztocil/httpie"));
+        assertThat(repositories.get(24).getAllStars(), is("31,152"));
+        assertThat(repositories.get(24).getForks(), is("2,095"));
+        assertThat(repositories.get(24).getStarsToday(), is(""));
     }
 
     @Test
@@ -76,16 +81,16 @@ public class TrendingTestMock extends BaseMockTest {
 
         final List<Language> languages = getLanguages(mServer.url("/").toString());
 
-        assertThat(languages.size(), is(451));
+        assertThat(languages.size(), is(457));
 
-        assertThat(languages.get(0).getHref(), is("https://github.com/trending/1c-enterprise"));
+        assertThat(languages.get(0).getHref(), is("https://github.com/trending/1c-enterprise?since=daily"));
         assertThat(languages.get(0).getName(), is("1C Enterprise"));
 
-        assertThat(languages.get(100).getHref(), is("https://github.com/trending/ec"));
-        assertThat(languages.get(100).getName(), is("eC"));
+        assertThat(languages.get(100).getHref(), is("https://github.com/trending/easybuild?since=daily"));
+        assertThat(languages.get(100).getName(), is("Easybuild"));
 
-        assertThat(languages.get(200).getHref(), is("https://github.com/trending/kotlin"));
-        assertThat(languages.get(200).getName(), is("Kotlin"));
+        assertThat(languages.get(200).getHref(), is("https://github.com/trending/kicad-layout?since=daily"));
+        assertThat(languages.get(200).getName(), is("KiCad Layout"));
     }
 
     @Test
@@ -97,13 +102,13 @@ public class TrendingTestMock extends BaseMockTest {
 
         assertThat(timeSpans.size(), is(3));
 
-        assertThat(timeSpans.get(0).getHref(), is("https://github.com/trending/java?since=daily"));
+        assertThat(timeSpans.get(0).getHref(), is("https://github.com/trending/python?since=daily"));
         assertThat(timeSpans.get(0).getName(), is("today"));
 
-        assertThat(timeSpans.get(1).getHref(), is("https://github.com/trending/java?since=weekly"));
+        assertThat(timeSpans.get(1).getHref(), is("https://github.com/trending/python?since=weekly"));
         assertThat(timeSpans.get(1).getName(), is("this week"));
 
-        assertThat(timeSpans.get(2).getHref(), is("https://github.com/trending/java?since=monthly"));
+        assertThat(timeSpans.get(2).getHref(), is("https://github.com/trending/python?since=monthly"));
         assertThat(timeSpans.get(2).getName(), is("this month"));
     }
 

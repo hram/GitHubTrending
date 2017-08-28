@@ -23,7 +23,7 @@ public class BaseApp extends Application {
 
     private static BaseApp sInstance;
 
-    AppComponent mAppComponent;
+    private AppComponent mAppComponent;
 
     @Override
     public void onCreate() {

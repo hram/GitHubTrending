@@ -28,10 +28,10 @@ public class ProgressRelativeLayout extends RelativeLayout {
     private static final String TAG_EMPTY = "ProgressActivity.TAG_EMPTY";
     private static final String TAG_ERROR = "ProgressActivity.TAG_ERROR";
 
-    final String CONTENT = "type_content";
-    final String LOADING = "type_loading";
-    final String EMPTY = "type_empty";
-    final String ERROR = "type_error";
+    private static final String CONTENT = "type_content";
+    private static final String LOADING = "type_loading";
+    private static final String EMPTY = "type_empty";
+    private static final String ERROR = "type_error";
 
     LayoutInflater inflater;
     View view;

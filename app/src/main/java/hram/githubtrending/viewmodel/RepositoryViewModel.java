@@ -11,8 +11,7 @@ import hram.githubtrending.data.model.Repository;
 /**
  * @author Evgeny Khramov
  */
-
-public class RepositoryViewModel extends BaseObservable {
+public final class RepositoryViewModel extends BaseObservable {
 
     public boolean checkable;
 

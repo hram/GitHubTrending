@@ -9,7 +9,10 @@ import hram.githubtrending.BuildConfig;
 /**
  * @author Evgeny Khramov
  */
-public class FabricUtil {
+public final class FabricUtil {
+
+    private FabricUtil() {
+    }
 
     public static void logException(@NonNull Throwable throwable) {
         if (!BuildConfig.DEBUG) {

@@ -12,7 +12,7 @@ import io.reactivex.Observable;
  */
 public interface Trending {
 
-    @Select(".repo-list")
+    @Select(".col-12.d-block")
     Observable<Repository> getRepositories();
 
     @Select("[data-filterable-for=text-filter-field]")

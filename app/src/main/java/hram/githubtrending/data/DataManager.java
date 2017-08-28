@@ -209,16 +209,6 @@ public class DataManager {
     }
 
     @NonNull
-    private Observable<LanguageViewModel> mapToViewModel(@NonNull Language item) {
-        return Observable.just(LanguageViewModel.create(item, Uri.parse(item.getHref()).getLastPathSegment().equalsIgnoreCase(mParams.getLanguage())));
-    }
-
-    @NonNull
-    private Observable<TimeSpanViewModel> mapToViewModel(@NonNull TimeSpan item) {
-        return Observable.just(TimeSpanViewModel.create(item, Uri.parse(item.getHref()).getQueryParameter("since").equalsIgnoreCase(mParams.getTimeSpan())));
-    }
-
-    @NonNull
     private Observable<List<Repository>> ifEmptyThenGetRepositoriesFromNetwork(@NonNull List<Repository> list) {
         if (list.isEmpty()) {
             return mNetworkHelper.getRepositories(mParams.getLanguage(), mParams.getTimeSpan())

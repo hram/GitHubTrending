@@ -12,7 +12,7 @@ import hram.githubtrending.data.model.Language;
 /**
  * @author Evgeny Khramov
  */
-public class LanguageViewModel extends BaseObservable {
+public final class LanguageViewModel extends BaseObservable {
 
     @Bindable
     private String mName;

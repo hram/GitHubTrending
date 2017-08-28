@@ -10,7 +10,7 @@ import hram.githubtrending.data.model.TimeSpan;
 /**
  * @author Evgeny Khramov
  */
-public class TimeSpanViewModel extends BaseObservable {
+public final class TimeSpanViewModel extends BaseObservable {
 
     @Bindable
     private String mName;
