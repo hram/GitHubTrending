@@ -47,7 +47,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         buildConfigField "String", "URL_BASE", '"https://github.com"'
-        buildConfigField "String", "TELEGRAM_BOT_TOKEN", getProps("telegram.botToken")
+        buildConfigField "String", "TELEGRAM_BOT_TOKEN", System.getenv("TELEGRAM_BOT_TOKEN")
     }
     buildTypes {
         release {
