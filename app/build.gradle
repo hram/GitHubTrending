@@ -15,6 +15,7 @@ apply plugin: 'realm-android'
 apply from: '../config/quality/quality.gradle'
 apply plugin: 'android-soexcluder'
 apply plugin: 'spoon'
+apply plugin: 'com.github.triplet.play'
 
 repositories {
     maven { url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo' }
@@ -37,6 +38,7 @@ def getProps(String propName) {
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.3'
+
     defaultConfig {
         applicationId "hram.githubtrending"
         minSdkVersion 19
@@ -49,10 +51,25 @@ android {
         buildConfigField "String", "URL_BASE", '"https://github.com"'
         buildConfigField "String", "TELEGRAM_BOT_TOKEN", System.getenv("TELEGRAM_BOT_TOKEN")
     }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.jks')
+        }
+
+        release {
+            storeFile file(getProps("KEYSTORE"))
+            storePassword getProps("STOREPASS")
+            keyAlias getProps("KEYALIAS")
+            keyPassword getProps("KEYPASS")
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
 
         debug {
@@ -161,6 +178,12 @@ spoon {
 
     // To grant permissions to Android M >= devices */
     grantAllPermissions = true
+}
+
+play {
+    track = 'alpha'
+    serviceAccountEmail = getProps("SERVICE_ACCOUNT_EMAIL")
+    pk12File = file(getProps("PK_12_FILE"))
 }
 
 android.applicationVariants.all { variant ->

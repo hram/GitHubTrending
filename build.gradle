@@ -11,13 +11,24 @@ buildscript {
         classpath "io.realm:realm-gradle-plugin:3.1.4"
         classpath 'com.jween.gradle:android-soexcluder:1.1'
         classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
+        classpath 'com.github.triplet.gradle:play-publisher:1.2.0'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        maven { url "https://maven.google.com" }
     }
+}
+
+ext {
+    if (rootProject.hasProperty('teamcity')) {
+        versionName = teamcity["build.number"]
+    } else {
+        versionName = "N/A"
+    }
+    versionCode = (int) (((new Date().getTime() / 1000) - 1451606400) / 10)
 }
 
 task clean(type: Delete) {

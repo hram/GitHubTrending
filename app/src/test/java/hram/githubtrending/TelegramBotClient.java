@@ -134,7 +134,7 @@ public class TelegramBotClient extends BaseTest {
     }
 
     private void sendMessage(Long id, @NonNull String message) throws InterruptedException {
-        System.out.println(String.format("send message:%s to %s", message, id));
+        System.out.println(String.format("send message:%s\nto %s\n\n", message, id));
         SendMessage request = new SendMessage(id, message)
                 .parseMode(ParseMode.HTML)
                 .disableWebPagePreview(true)
@@ -142,7 +142,7 @@ public class TelegramBotClient extends BaseTest {
 
         SendResponse sendResponse = mBot.execute(request);
         assertThat(sendResponse.isOk(), is(true));
-        Thread.sleep(1000);
+        Thread.sleep(10000);
     }
 
     private static void copyFile(@NonNull File sourceFile, @NonNull File destFile) throws IOException {
