@@ -3,6 +3,11 @@ package hram.githubtrending;
 import android.support.annotation.NonNull;
 import android.util.LongSparseArray;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.TelegramBotAdapter;
 import com.pengrad.telegrambot.model.Update;
@@ -17,15 +22,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.channels.FileChannel;
 import java.util.List;
 
 import hram.githubtrending.data.DataManager;
@@ -42,12 +42,6 @@ import static org.junit.Assert.assertThat;
 @Config(manifest = Config.NONE, sdk = 21, application = TestApplication.class)
 public class TelegramBotClient extends BaseTest {
 
-    private static final String DB_FILE_NAME = "database.db";
-
-    private File mCopyDataBase;
-
-    private File mCurrentDataBase;
-
     private TelegramBot mBot;
 
     // Android legion
@@ -57,22 +51,36 @@ public class TelegramBotClient extends BaseTest {
     private long mGroupId = -205792160;
 
     @Before
-    public void setup() throws IOException {
-        mBot = TelegramBotAdapter.build(BuildConfig.TELEGRAM_BOT_TOKEN);
-        mCopyDataBase = new File(DB_FILE_NAME);
-        mCurrentDataBase = RuntimeEnvironment.application.getDatabasePath(DB_FILE_NAME);
-        if (mCopyDataBase.exists()) {
-            copyFile(mCopyDataBase, mCurrentDataBase);
-        }
-
+    public void setup() throws IOException, InterruptedException {
+        mBot = TelegramBotAdapter.build("443566725:AAFuIPcXsSg-KiOlqloiIrk-2nKJ1ouFnAk");
         assertThat(DataManager.getInstance().getParams().isEmpty(), is(false));
         assertThat(DataManager.getInstance().getParams().getLanguage(), is("java"));
         assertThat(DataManager.getInstance().getParams().getTimeSpan(), is("daily"));
+
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference("repositories");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (connected) {
+                    System.out.println("connected");
+                } else {
+                    System.out.println("not connected");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                System.out.println("Listener was cancelled");
+            }
+        });
+
+        Thread.sleep(100000);
     }
 
     @After
     public void breakdown() throws IOException {
-        copyFile(mCurrentDataBase, mCopyDataBase);
+        // do nothing
     }
 
 
@@ -143,31 +151,5 @@ public class TelegramBotClient extends BaseTest {
         SendResponse sendResponse = mBot.execute(request);
         assertThat(sendResponse.isOk(), is(true));
         Thread.sleep(10000);
-    }
-
-    private static void copyFile(@NonNull File sourceFile, @NonNull File destFile) throws IOException {
-        System.out.println(String.format("copy db from %s to %s", sourceFile.getAbsolutePath(), destFile.getAbsolutePath()));
-        if (!destFile.exists()) {
-            if (destFile.getParentFile() != null && !destFile.getParentFile().exists()) {
-                destFile.getParentFile().mkdirs();
-            }
-            destFile.createNewFile();
-        }
-
-        FileChannel source = null;
-        FileChannel destination = null;
-
-        try {
-            source = new FileInputStream(sourceFile).getChannel();
-            destination = new FileOutputStream(destFile).getChannel();
-            destination.transferFrom(source, 0, source.size());
-        } finally {
-            if (source != null) {
-                source.close();
-            }
-            if (destination != null) {
-                destination.close();
-            }
-        }
     }
 }

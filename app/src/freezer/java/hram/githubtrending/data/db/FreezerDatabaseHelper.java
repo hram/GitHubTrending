@@ -79,7 +79,6 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
     }
 
     @NonNull
-    @Override
     public List<Repository> getRepositories(@NonNull String language, @NonNull String timeSpan) {
         return mRepositories.select()
                 .mLanguage().equalsTo(language)
@@ -113,7 +112,6 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
     }
 
     @NonNull
-    @Override
     public List<Language> getLanguages() {
         return mLanguages.select().asList();
     }
@@ -141,7 +139,6 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
     }
 
     @NonNull
-    @Override
     public List<TimeSpan> getTimeSpans() {
         return mTimeSpans.select().asList();
     }
@@ -151,7 +148,6 @@ public class FreezerDatabaseHelper implements DatabaseHelper {
         return Observable.just(getRepositoryById(id));
     }
 
-    @Override
     public Repository getRepositoryById(@NonNull String id) {
         return mRepositories.select()
                 .mHref().equalsTo(id)

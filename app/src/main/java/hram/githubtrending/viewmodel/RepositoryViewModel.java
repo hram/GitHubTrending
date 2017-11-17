@@ -47,7 +47,7 @@ public final class RepositoryViewModel extends BaseObservable {
 
     private RepositoryViewModel(@NonNull Repository model) {
         mModel = model;
-        mId = model.getHref();
+        mId = model.getKey();
         mTitle = model.getTitle();
         mDescription = model.getDescription();
         mStarsToday = model.getStarsToday();

@@ -3,22 +3,22 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
         classpath "io.realm:realm-gradle-plugin:3.1.4"
         classpath 'com.jween.gradle:android-soexcluder:1.1'
         classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
         classpath 'com.github.triplet.gradle:play-publisher:1.2.0'
+        classpath 'com.google.gms:google-services:3.1.1'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
-        maven { url "https://maven.google.com" }
     }
 }
 

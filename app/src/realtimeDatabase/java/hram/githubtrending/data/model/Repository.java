@@ -5,24 +5,10 @@ import android.support.annotation.NonNull;
 import com.github.florent37.retrojsoup.annotations.JsoupHref;
 import com.github.florent37.retrojsoup.annotations.JsoupText;
 
-import fr.xebia.android.freezer.annotations.Model;
-import io.realm.annotations.PrimaryKey;
-
 /**
  * @author Evgeny Khramov
  */
-@Model
 public class Repository {
-
-    public static final String COLUMN_ID = "mHref";
-
-    public static final String COLUMN_LANGUAGE = "mLanguage";
-
-    public static final String COLUMN_TIME_SPAN = "mTimeSpan";
-
-    public static final String COLUMN_HIDED = "mIsHided";
-
-    public static final String COLUMN_ORDER = "mOrder";
 
     @JsoupText(".text-normal")
     String mUser;
@@ -30,7 +16,6 @@ public class Repository {
     @JsoupText(".d-inline-block.col-9.mb-1 a")
     String mTitle;
 
-    @PrimaryKey
     @JsoupHref(".d-inline-block.col-9.mb-1 a")
     String mHref;
 
@@ -55,7 +40,7 @@ public class Repository {
     int mOrder;
 
     public String getKey() {
-        return mHref;
+        return mHref.replaceAll("/", "-");
     }
 
     public String getUser() {

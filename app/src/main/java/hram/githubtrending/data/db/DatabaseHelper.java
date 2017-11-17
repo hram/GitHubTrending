@@ -22,28 +22,28 @@ public interface DatabaseHelper {
     @NonNull
     Observable<List<Repository>> getRepositoriesObservable(@NonNull String language, @NonNull String timeSpan);
 
-    @NonNull
-    List<Repository> getRepositories(@NonNull String language, @NonNull String timeSpan);
+//    @NonNull
+//    List<Repository> getRepositories(@NonNull String language, @NonNull String timeSpan);
 
     Observable<List<Language>> saveLanguages(@NonNull List<Language> list);
 
     @NonNull
     Observable<List<Language>> getLanguagesObservable();
 
-    @NonNull
-    List<Language> getLanguages();
+//    @NonNull
+//    List<Language> getLanguages();
 
     Observable<List<TimeSpan>> saveTimeSpans(@NonNull List<TimeSpan> list);
 
     @NonNull
     Observable<List<TimeSpan>> getTimeSpansObservable();
 
-    @NonNull
-    List<TimeSpan> getTimeSpans();
+//    @NonNull
+//    List<TimeSpan> getTimeSpans();
 
     Observable<Repository> getRepositoryObservable(@NonNull String id);
 
-    Repository getRepositoryById(@NonNull String id);
+//    Repository getRepositoryById(@NonNull String id);
 
     void clearAppData();
 }

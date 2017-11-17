@@ -21,18 +21,18 @@
             tools:background="#000000"
             tools:ignore="ContentDescription"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_light"
             android:gravity="center"
-            app:typeface="roboto_light"
             tools:text="@string/progressActivityEmptyTitlePlaceholder"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/text_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,9 +40,9 @@
             android:layout_marginLeft="56dp"
             android:layout_marginRight="56dp"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_thin"
             android:gravity="center"
             android:lineSpacingExtra="5.5dp"
-            app:typeface="roboto_thin"
             tools:text="@string/progressActivityEmptyContentPlaceholder"/>
 
     </LinearLayout>
