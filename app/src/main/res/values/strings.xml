@@ -11,4 +11,6 @@
     <string name="progressActivityErrorContentPlaceholder">We could not establish a connection with our servers. Please try again when you are connected to the internet.</string>
     <string name="adjust_time_span">Adjust time span</string>
     <string name="adjust_language">Выберите язык</string>
+    <string name="adjust_language_description">Выберите язык(описание)</string>
+    <string name="adjust_time_span_description">Выберите промежуток времени(описание)</string>
 </resources>

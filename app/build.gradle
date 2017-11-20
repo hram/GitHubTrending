@@ -15,6 +15,7 @@ apply from: '../config/quality/quality.gradle'
 apply plugin: 'android-soexcluder'
 apply plugin: 'spoon'
 apply plugin: 'com.github.triplet.play'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 repositories {
     maven { url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo' }
@@ -35,13 +36,13 @@ def getProps(String propName) {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.3'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.1'
 
     defaultConfig {
         applicationId "hram.githubtrending"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionName rootProject.versionName
         versionCode rootProject.versionCode
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -113,9 +114,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.0.1'
+    implementation 'com.android.support:recyclerview-v7:27.0.1'
+    implementation 'com.android.support:design:27.0.1'
     implementation 'com.squareup.okhttp3:okhttp:3.9.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
@@ -162,6 +163,8 @@ dependencies {
     annotationProcessor 'com.github.florent37:retrojsoup-compiler:1.0.4'
     implementation 'com.google.firebase:firebase-core:11.6.0'
     implementation 'com.google.firebase:firebase-database:11.6.0'
+
+    implementation 'com.android.support:leanback-v17:27.0.1'
 }
 
 soexcluder {

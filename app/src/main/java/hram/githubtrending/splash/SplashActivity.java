@@ -17,7 +17,7 @@ import hram.githubtrending.viewmodel.SplashViewModel;
 
 public class SplashActivity extends MvpAppCompatActivity implements SplashView {
 
-    private AcSplashBinding mBinding;
+    protected AcSplashBinding mBinding;
 
     @InjectPresenter
     SplashPresenter mPresenter;

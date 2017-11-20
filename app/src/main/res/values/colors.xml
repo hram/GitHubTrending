@@ -7,4 +7,5 @@
     <color name="background_color">#FFFFFF</color>
     <color name="alphabet_background_color">@color/background_color</color>
     <color name="alphabet_text_selected_color">@color/colorAccent</color>
+    <color name="fastlane_background">#0096a6</color>
 </resources>
