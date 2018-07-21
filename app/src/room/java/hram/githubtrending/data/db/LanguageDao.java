@@ -25,6 +25,11 @@ public abstract class LanguageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract List<Long> saveDb(@NotNull List<Language> languages);
 
+    @NotNull
+    @Query("SELECT * FROM " + Language.TABLE_NAME +
+            " WHERE mHref = :href")
+    protected abstract Language findById(String href);
+
     @NonNull
     @Query("SELECT * FROM " + Language.TABLE_NAME)
     public abstract Flowable<List<Language>> observableAll();
@@ -35,9 +40,8 @@ public abstract class LanguageDao {
 
     @NotNull
     @Transaction
-    public Flowable<List<Language>> updateLanguage(@NotNull List<Language> list) {
+    public void updateLanguage(@NotNull List<Language> list) {
         clear();
         saveDb(list);
-        return Flowable.just(list);
     }
 }
