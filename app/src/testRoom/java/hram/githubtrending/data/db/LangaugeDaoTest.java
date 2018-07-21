@@ -3,13 +3,11 @@ package hram.githubtrending.data.db;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import hram.githubtrending.data.model.Language;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.spy;
@@ -71,8 +69,9 @@ public class LangaugeDaoTest extends DaoTest {
     @Test
     public void findByIdTest() {
         //Arrange
-        Language language = prepareLanguage(1).get(0);
-        mLanguageDao.saveDb(Collections.singletonList(language));
+        List<Language> languages = prepareLanguage(1);
+        Language language = languages.get(0);
+        mLanguageDao.saveDb(languages);
 
         //Act
         Language db = mLanguageDao.findById(language.getHref());
@@ -117,7 +116,7 @@ public class LangaugeDaoTest extends DaoTest {
         try {
             dao.updateLanguage(update);
         } catch (RuntimeException ignore) {
-
+            //ignore
         }
 
         //Asserts
@@ -154,11 +153,6 @@ public class LangaugeDaoTest extends DaoTest {
     private void singleEquals(Language language) {
         Language db = mLanguageDao.findById(language.getHref());
         assertEquals(language.toString(), db.toString());
-    }
-
-    private void singleNotEquals(Language language) {
-        Language db = mLanguageDao.findById(language.getHref());
-        assertNotEquals(language.toString(), db.toString());
     }
 
 

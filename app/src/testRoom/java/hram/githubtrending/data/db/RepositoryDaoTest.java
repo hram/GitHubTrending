@@ -239,7 +239,7 @@ public class RepositoryDaoTest extends DaoTest {
         try {
             dao.updateRepositories(update, language, timeSapn);
         } catch (RuntimeException ignore) {
-
+            //ignore
         }
 
         //Asserts

@@ -22,10 +22,10 @@ public class TimeSpan {
     @JsoupHref("a")
     @PrimaryKey
     @NotNull
-    String mHref;
+    protected String mHref;
 
     @JsoupText(".select-menu-item-text")
-    String mName;
+    protected String mName;
 
     public TimeSpan() {
 

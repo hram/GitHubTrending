@@ -51,7 +51,6 @@ public abstract class RepositoryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     protected abstract List<Long> insertDb(@NotNull List<Repository> repositories);
 
-    @NonNull
     @Query("DELETE FROM " + Repository.TABLE_NAME)
     public abstract int clear();
 

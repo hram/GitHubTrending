@@ -73,7 +73,12 @@ public class RoomDatabaseHelper implements DatabaseHelper {
 
     @Override
     public Observable<List<TimeSpan>> saveTimeSpans(@NonNull List<TimeSpan> list) {
-        return mTimeSpanDao.updateTimeSpan(list).toObservable();
+        try {
+            mTimeSpanDao.updateTimeSpan(list);
+            return Observable.just(list);
+        } catch (Throwable throwable) {
+            return Observable.error(throwable);
+        }
     }
 
     @NonNull
