@@ -52,17 +52,17 @@ public class DataManager {
     @NonNull
     private SearchParams mParams;
 
+    private DataManager() {
+        App.getInstance().getAppComponent().inject(this);
+        mParams = mPreferencesHelper.getSearchParams();
+    }
+
     @NonNull
     public static DataManager getInstance() {
         if (sDataManager == null) {
             sDataManager = new DataManager();
         }
         return sDataManager;
-    }
-
-    private DataManager() {
-        App.getInstance().getAppComponent().inject(this);
-        mParams = mPreferencesHelper.getSearchParams();
     }
 
     public void clearAppData() {
@@ -178,7 +178,9 @@ public class DataManager {
     private Observable<List<LanguageViewModel>> mapLanguageToViewModel(@NonNull List<Language> list) {
         final List<LanguageViewModel> items = new ArrayList<>(list.size());
         for (Language model : list) {
-            items.add(LanguageViewModel.create(model, Uri.parse(model.getHref()).getLastPathSegment().equalsIgnoreCase(mParams.getLanguage())));
+            items.add(LanguageViewModel.create(model,
+                    Uri.parse(model.getHref()).getLastPathSegment()
+                            .equalsIgnoreCase(mParams.getLanguage())));
         }
         return Observable.just(items);
     }
@@ -187,7 +189,8 @@ public class DataManager {
     private Observable<List<TimeSpanViewModel>> mapTimeSpanToViewModel(@NonNull List<TimeSpan> list) {
         final List<TimeSpanViewModel> items = new ArrayList<>(list.size());
         for (TimeSpan model : list) {
-            items.add(TimeSpanViewModel.create(model, Uri.parse(model.getHref()).getQueryParameter("since").equalsIgnoreCase(mParams.getTimeSpan())));
+            items.add(TimeSpanViewModel.create(model,
+                    Uri.parse(model.getHref()).getQueryParameter("since").equalsIgnoreCase(mParams.getTimeSpan())));
         }
         return Observable.just(items);
     }
@@ -330,22 +333,31 @@ public class DataManager {
     }
 
     @NonNull
-    public Observable<FilterViewModel> getFilterViewModel(@NonNull LanguageViewModel.OnItemClickListener languageListener, @NonNull TimeSpanViewModel.OnItemClickListener timeSpanListener) {
-        return Observable.zip(DataManager.getInstance().getLanguages(), DataManager.getInstance().getTimeSpans(), this::mapToLanguagesAndTimeSpan)
-                .flatMap(languagesAndTimeSpan -> Observable.just(mapLanguagesAndTimeSpanToViewModel(languagesAndTimeSpan, languageListener, timeSpanListener)));
+    public Observable<FilterViewModel> getFilterViewModel(@NonNull LanguageViewModel.OnItemClickListener languageListener,
+                                                          @NonNull TimeSpanViewModel.OnItemClickListener timeSpanListener) {
+        return Observable.zip(DataManager.getInstance().getLanguages(),
+                DataManager.getInstance().getTimeSpans(), this::mapToLanguagesAndTimeSpan)
+                .flatMap(languagesAndTimeSpan ->
+                        Observable.just(mapLanguagesAndTimeSpanToViewModel(languagesAndTimeSpan,
+                                languageListener, timeSpanListener)));
     }
 
     @NonNull
-    private LanguagesAndTimeSpan mapToLanguagesAndTimeSpan(@NonNull List<LanguageViewModel> languages, @NonNull List<TimeSpanViewModel> timeSpans) {
+    private LanguagesAndTimeSpan mapToLanguagesAndTimeSpan(@NonNull List<LanguageViewModel> languages,
+                                                           @NonNull List<TimeSpanViewModel> timeSpans) {
         return new LanguagesAndTimeSpan(languages, timeSpans);
     }
 
     @NonNull
-    private FilterViewModel mapLanguagesAndTimeSpanToViewModel(@NonNull LanguagesAndTimeSpan languagesAndTimeSpan, @NonNull LanguageViewModel.OnItemClickListener languageListener, @NonNull TimeSpanViewModel.OnItemClickListener timeSpanListener) {
+    private FilterViewModel mapLanguagesAndTimeSpanToViewModel(@NonNull LanguagesAndTimeSpan languagesAndTimeSpan,
+                                                               @NonNull LanguageViewModel.OnItemClickListener languageListener,
+                                                               @NonNull TimeSpanViewModel.OnItemClickListener timeSpanListener) {
         final FilterViewModel viewModel = new FilterViewModel(languageListener, timeSpanListener);
         viewModel.languageItems.addAll(languagesAndTimeSpan.getLanguages());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            viewModel.setCheckedLanguage(languagesAndTimeSpan.getLanguages().stream().filter(LanguageViewModel::isChecked).findFirst().orElse(null));
+            viewModel.setCheckedLanguage(languagesAndTimeSpan.getLanguages()
+                    .stream().filter(LanguageViewModel::isChecked)
+                    .findFirst().orElse(null));
         } else {
             for (LanguageViewModel model : languagesAndTimeSpan.getLanguages()) {
                 if (model.isChecked()) {
@@ -357,7 +369,9 @@ public class DataManager {
 
         viewModel.timeSpanItems.addAll(languagesAndTimeSpan.getTimeSpans());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            viewModel.setCheckedTimeSpan(languagesAndTimeSpan.getTimeSpans().stream().filter(TimeSpanViewModel::isChecked).findFirst().orElse(null));
+            viewModel.setCheckedTimeSpan(languagesAndTimeSpan.getTimeSpans()
+                    .stream().filter(TimeSpanViewModel::isChecked)
+                    .findFirst().orElse(null));
         } else {
             for (TimeSpanViewModel model : languagesAndTimeSpan.getTimeSpans()) {
                 if (model.isChecked()) {
