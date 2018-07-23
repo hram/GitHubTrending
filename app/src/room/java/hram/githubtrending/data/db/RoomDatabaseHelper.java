@@ -34,7 +34,13 @@ public class RoomDatabaseHelper implements DatabaseHelper {
 
     @Override
     public Observable<List<Repository>> saveRepositories(@NonNull List<Repository> list, @NonNull String language, @NonNull String timeSpan) {
-        return mRepositoryDao.updateRepositories(list, language, timeSpan).toObservable();
+        try {
+            List<String> ids = mRepositoryDao.updateRepositories(list, language, timeSpan);
+            return mRepositoryDao.observableByIds(ids).toObservable();
+        } catch (Throwable ex) {
+            return Observable.error(ex);
+        }
+
     }
 
     @Override
@@ -51,7 +57,12 @@ public class RoomDatabaseHelper implements DatabaseHelper {
 
     @Override
     public Observable<List<Language>> saveLanguages(@NonNull List<Language> list) {
-        return mLanguageDao.updateLanguage(list).toObservable();
+        try {
+            mLanguageDao.updateLanguage(list);
+            return Observable.just(list);
+        } catch (Throwable ex) {
+            return Observable.error(ex);
+        }
     }
 
     @NonNull
@@ -62,7 +73,12 @@ public class RoomDatabaseHelper implements DatabaseHelper {
 
     @Override
     public Observable<List<TimeSpan>> saveTimeSpans(@NonNull List<TimeSpan> list) {
-        return mTimeSpanDao.updateTimeSpan(list).toObservable();
+        try {
+            mTimeSpanDao.updateTimeSpan(list);
+            return Observable.just(list);
+        } catch (Throwable throwable) {
+            return Observable.error(throwable);
+        }
     }
 
     @NonNull

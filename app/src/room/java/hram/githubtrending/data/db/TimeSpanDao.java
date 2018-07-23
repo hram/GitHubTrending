@@ -6,8 +6,8 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Transaction;
 import android.support.annotation.NonNull;
-
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.List;
 
@@ -21,7 +21,6 @@ import io.reactivex.Flowable;
 @Dao
 public abstract class TimeSpanDao {
 
-    @NonNull
     @Query("DELETE FROM " + TimeSpan.TABLE_NAME)
     public abstract int clear();
 
@@ -30,15 +29,19 @@ public abstract class TimeSpanDao {
     protected abstract List<Long> saveDb(List<TimeSpan> timeSpans);
 
     @Transaction
-    @NotNull
-    public Flowable<List<TimeSpan>> updateTimeSpan(List<TimeSpan> timeSpans) {
+    public void updateTimeSpan(List<TimeSpan> timeSpans) {
         clear();
         saveDb(timeSpans);
-        return Flowable.just(timeSpans);
     }
 
     @NonNull
     @Query("SELECT * FROM " + TimeSpan.TABLE_NAME)
     public abstract Flowable<List<TimeSpan>> observableAll();
+
+    @VisibleForTesting
+    @Nullable
+    @Query("SELECT * FROM " + TimeSpan.TABLE_NAME
+            + " WHERE mHref = :href")
+    protected abstract TimeSpan findById(String href);
 
 }

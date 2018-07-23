@@ -6,6 +6,8 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Transaction;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,19 +27,22 @@ public abstract class LanguageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract List<Long> saveDb(@NotNull List<Language> languages);
 
+    @Nullable
+    @VisibleForTesting
+    @Query("SELECT * FROM " + Language.TABLE_NAME +
+            " WHERE mHref = :href")
+    protected abstract Language findById(String href);
+
     @NonNull
     @Query("SELECT * FROM " + Language.TABLE_NAME)
     public abstract Flowable<List<Language>> observableAll();
 
-    @NonNull
     @Query("DELETE FROM " + Language.TABLE_NAME)
     public abstract int clear();
 
-    @NotNull
     @Transaction
-    public Flowable<List<Language>> updateLanguage(@NotNull List<Language> list) {
+    public void updateLanguage(@NotNull List<Language> list) {
         clear();
         saveDb(list);
-        return Flowable.just(list);
     }
 }
