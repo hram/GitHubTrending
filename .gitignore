@@ -44,3 +44,4 @@ trash
 /build
 /captures
 .externalNativeBuild
+/.idea
