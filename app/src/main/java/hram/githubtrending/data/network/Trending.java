@@ -15,7 +15,7 @@ public interface Trending {
     @Select(".col-12.d-block")
     Observable<Repository> getRepositories();
 
-    @Select("[data-filterable-for=text-filter-field]")
+    @Select("[data-filterable-for=text-filter-field] > .select-menu-item")
     Observable<Language> getLanguages();
 
     @Select(".select-menu.select-menu-modal-right")

@@ -10,7 +10,7 @@ import dagger.Module;
 import dagger.Provides;
 import hram.githubtrending.SharedPreferencesHelper;
 import hram.githubtrending.data.db.DatabaseHelper;
-import hram.githubtrending.data.db.RealtimeDatabaseHelper;
+//import hram.githubtrending.data.db.RealtimeDatabaseHelper;
 import hram.githubtrending.data.prefepences.PreferencesHelper;
 
 /**
@@ -29,7 +29,7 @@ public class TestDataModule extends DataModule {
     @Provides
     @Singleton
     DatabaseHelper provideDatabaseHelper() {
-        return new RealtimeDatabaseHelper(mDatabase);
+        return null; //new RealtimeDatabaseHelper(mDatabase);
     }
 
     @NonNull

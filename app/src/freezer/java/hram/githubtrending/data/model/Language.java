@@ -6,6 +6,7 @@ import com.github.florent37.retrojsoup.annotations.JsoupHref;
 import com.github.florent37.retrojsoup.annotations.JsoupText;
 
 import fr.xebia.android.freezer.annotations.Model;
+import hram.githubtrending.BuildConfig;
 
 /**
  * @author Evgeny Khramov
@@ -16,12 +17,12 @@ public class Language {
     @JsoupHref("a")
     String href;
 
-    @JsoupText(".select-menu-item-text")
+    @JsoupText("span")
     String mName;
 
     @NonNull
     public String getHref() {
-        return href;
+        return BuildConfig.URL_BASE + href.substring(0, href.indexOf("?"));
     }
 
     @NonNull

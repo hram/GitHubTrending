@@ -2,8 +2,9 @@
 
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'
@@ -12,14 +13,16 @@ buildscript {
         classpath 'com.jween.gradle:android-soexcluder:1.1'
         classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
         classpath 'com.github.triplet.gradle:play-publisher:1.2.0'
-        classpath 'com.google.gms:google-services:3.1.1'
+        classpath 'com.google.gms:google-services:4.2.0'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.1'
     }
 }
 
 allprojects {
     repositories {
+        google()
         jcenter()
+
     }
 }
 
@@ -31,6 +34,7 @@ ext {
     }
     versionCode = (int) (((new Date().getTime() / 1000) - 1451606400) / 10)
 }
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir

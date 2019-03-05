@@ -59,16 +59,16 @@ public class TrendingTest extends BaseTest {
 
         final List<Language> languages = getLanguages("https://github.com/trending");
 
-        assertThat(languages.size(), is(451));
+        assertThat(languages.size(), is(493));
 
         assertThat(languages.get(0).getHref(), is("https://github.com/trending/1c-enterprise"));
         assertThat(languages.get(0).getName(), is("1C Enterprise"));
 
-        assertThat(languages.get(100).getHref(), is("https://github.com/trending/ec"));
-        assertThat(languages.get(100).getName(), is("eC"));
+        assertThat(languages.get(100).getHref(), is("https://github.com/trending/dogescript"));
+        assertThat(languages.get(100).getName(), is("Dogescript"));
 
-        assertThat(languages.get(200).getHref(), is("https://github.com/trending/kotlin"));
-        assertThat(languages.get(200).getName(), is("Kotlin"));
+        assertThat(languages.get(200).getHref(), is("https://github.com/trending/jasmin"));
+        assertThat(languages.get(200).getName(), is("Jasmin"));
     }
 
     @Test
