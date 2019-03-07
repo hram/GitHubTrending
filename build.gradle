@@ -30,7 +30,7 @@ ext {
     if (rootProject.hasProperty('teamcity')) {
         versionName = teamcity["build.number"]
     } else {
-        versionName = "N/A"
+        versionName = "1.5"
     }
     versionCode = (int) (((new Date().getTime() / 1000) - 1451606400) / 10)
 }
