@@ -7,7 +7,7 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath 'com.android.tools.build:gradle:3.3.2'
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
         classpath "io.realm:realm-gradle-plugin:3.1.4"
         classpath 'com.jween.gradle:android-soexcluder:1.1'
