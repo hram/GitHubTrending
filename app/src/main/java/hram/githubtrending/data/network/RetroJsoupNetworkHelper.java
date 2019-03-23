@@ -93,9 +93,15 @@ public class RetroJsoupNetworkHelper implements NetworkHelper {
 
     @NonNull
     private Observable<Repository> setLanguageAndTimeSpan(@NonNull Repository item, @NonNull String language, @NonNull String timeSpan) {
+        int starsToday = 0;
+        try {
+            starsToday = Integer.parseInt(item.getStarsToday().split("\\s+")[0].replaceAll(",", ""));
+        } catch (Exception e) {
+            // do nothing
+        }
         item.setLanguage(language);
         item.setTimeSpan(timeSpan);
-        item.setOrder(Integer.parseInt(item.getStarsToday().split("\\s+")[0].replaceAll(",", "")));
+        item.setOrder(starsToday);
         return Observable.just(item);
     }
 }

@@ -3,6 +3,7 @@ package hram.githubtrending.viewmodel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import org.jetbrains.annotations.Contract;
 
@@ -81,6 +82,10 @@ public final class RepositoryViewModel extends BaseObservable {
     @NonNull
     public String getStarsToday() {
         return mStarsToday;
+    }
+
+    public int getStarsTodayVisibility() {
+        return "".equals(mStarsToday) ? View.GONE : View.VISIBLE;
     }
 
     @NonNull

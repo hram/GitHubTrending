@@ -99,6 +99,7 @@ public class TrendsPresenter extends MvpPresenter<TrendsView> implements Reposit
 
     private void handleError(@NonNull Throwable throwable) {
         getViewState().setRefreshing(false);
+        getViewState().showError(throwable);
     }
 
     private void handleHideResult(@NonNull RepositoryViewModel viewModel, int position, boolean hided, Boolean result) {

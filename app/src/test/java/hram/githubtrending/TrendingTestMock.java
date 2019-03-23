@@ -119,4 +119,12 @@ public class TrendingTestMock extends BaseMockTest {
         final List<Repository> repositories = getRepositories(mServer.url("/").toString());
         assertThat(repositories.size(), is(25));
     }
+
+    @Test
+    public void test_19_03_24() throws IOException {
+        mServer.enqueue(getResponse("kotlin_today_19_03_24.html"));
+
+        final List<Repository> repositories = getRepositories(mServer.url("/").toString());
+        assertThat(repositories.size(), is(25));
+    }
 }
