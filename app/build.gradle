@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def getProps(String propName) {
+    def propsFile = rootProject.file('local.properties')
+    if (propsFile.exists()) {
+        def props = new Properties()
+        props.load(new FileInputStream(propsFile))
+        return props[propName] != null ? props[propName] : "\"define config field: " + propName + "\""
+    } else {
+        return "\"define config file local.properties\"";
+    }
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "hram.githubtrending.bot"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "BOT_TOKEN", getProps("bot_token")
+        buildConfigField "String", "DATABASE_URL", getProps("database_url")
+        buildConfigField "String", "DATABASE_USER", getProps("database_user")
+        buildConfigField "String", "DATABASE_PASSWORD", getProps("database_password")
+        buildConfigField "Long", "GROUP_ID_GITHUB_TRENDS", getProps("group_id_github_trends")
+        buildConfigField "Long", "GROUP_ID_GOOGLE_PLAY_TRENDS", getProps("group_id_google_play_trends")
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:5.0.0'
+    testImplementation "com.squareup.retrofit2:retrofit:2.7.0"
+    testImplementation "com.squareup.retrofit2:converter-gson:2.7.0"
+    testImplementation "com.squareup.retrofit2:converter-scalars:2.7.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
+    testImplementation 'org.jsoup:jsoup:1.12.1'
+    testImplementation "me.liuwj.ktorm:ktorm-core:3.1.0"
+    testImplementation "mysql:mysql-connector-java:5.1.13"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
