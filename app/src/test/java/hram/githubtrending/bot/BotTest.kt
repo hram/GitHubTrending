@@ -80,7 +80,6 @@ class BotTest {
 
     @Test
     fun googlePlay() = runBlocking {
-
         val map = HashSet<String>()
         database
             .from(Resources)
