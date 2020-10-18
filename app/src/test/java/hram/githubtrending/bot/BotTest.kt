@@ -90,7 +90,7 @@ class BotTest {
         val response = JsoupProvider.getTrendingService("http://localhost:3000/").getGooglePlay("topselling_free", "ru", 200)
         response.body()!!.results.forEach { item ->
             if (!map.contains(item.appId)) {
-                val result = bot.sendMessage(groupIdGooglePlayTrends, "${item.playstoreUrl}\n\n\n${item.title}\nScore: ${item.scoreText}")
+                val result = bot.sendMessage(groupIdGooglePlayTrends, "${item.playstoreUrl}&hl=ru\n\n\n${item.title}\nScore: ${item.scoreText}")
                 if (result.first?.body()?.ok == true) {
                     database.insert(Resources) {
                         set(it.name, item.appId)
