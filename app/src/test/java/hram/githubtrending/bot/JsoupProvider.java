@@ -2,6 +2,8 @@ package hram.githubtrending.bot;
 
 import androidx.annotation.NonNull;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -19,6 +21,9 @@ public class JsoupProvider {
     private static OkHttpClient provideOkHttpClient() {
         if (okHttpClient == null) {
             OkHttpClient.Builder client = new OkHttpClient.Builder();
+            client.connectTimeout(60, TimeUnit.SECONDS);
+            client.readTimeout(60, TimeUnit.SECONDS);
+            client.writeTimeout(60, TimeUnit.SECONDS);
             //client.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
             okHttpClient = client.build();
         }
