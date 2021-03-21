@@ -1,5 +1,6 @@
 package hram.githubtrending.bot
 
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,4 +17,7 @@ interface ScrapService {
 
     @GET("api/apps/")
     suspend fun getGooglePlay(@Query("collection") collection: String, @Query("country") country: String, @Query("num") num: Int): Response<Apps>
+
+    @GET("web/search/offers")
+    suspend fun getEdadealMarket(@Query("locality") locality: String, @Query("retailer") retailer: List<String>, @Query("segment") segment: String? = null, @Query("sort") sort: String? = null, @Query("count") count: Int, @Query("page") page: Int): Response<ResponseBody>
 }
